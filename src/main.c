@@ -12,10 +12,9 @@
 
 #define I2C_NODE DT_NODELABEL(mysensor)
 #define DEVICE_ADDRESS 0x29
-#define DEVICE_ADDRESS_RW_1 0x51
 #define OPR_MODE_REG 0x3D
 #define ACC_ONLY_MODE 0x01
-#define first_dec 0x293D01
+#define DEVICE_ADDRESS_RW_1 0x51
 #define ACC_DATA_X_MSB 0x09
 #define ACC_DATA_X_LSB 0x08
 #define ACC_DATA_Y_MSB 0x0B
@@ -34,10 +33,10 @@ int main(void)
 	}
 	int ret;
 	/*Setting up ACC only mode*/
-	uint8_t write_buff[3] = {first_dec};
+	uint8_t write_buff[3] = {DEVICE_ADDRESS,OPR_MODE_REG,ACC_ONLY_MODE};
 	ret = i2c_write_dt(&dev_i2c, write_buff, sizeof(write_buff));
 	if(ret != 0){
-		printk("Failed to write first dec");
+		printk("Failed to write ACC only mode");
 		return -1;
 	}
 
