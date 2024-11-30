@@ -22,9 +22,12 @@ int main(void)
         while (true)
         {
                 sensor_sample_fetch(bno055);
-                sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_X, &accelx);
-                sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_Y, &accely);
-                sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_Z, &accelz);
+                bno055_channel_get(bno055, SENSOR_CHAN_ACCEL_X, &accelx);
+                bno055_channel_get(bno055, SENSOR_CHAN_ACCEL_Y, &accely);
+                bno055_channel_get(bno055, SENSOR_CHAN_ACCEL_Z, &accelz);
+                // sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_X, &accelx);
+                // sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_Y, &accely);
+                // sensor_channel_get(bno055, SENSOR_CHAN_ACCEL_Z, &accelz);
                 printk("accel x from sensor %f\n", sensor_value_to_double(&accelx));
                 printk("accel y from sensor %f\n", sensor_value_to_double(&accely));
                 printk("accel z from sensor %f\n", sensor_value_to_double(&accelz));

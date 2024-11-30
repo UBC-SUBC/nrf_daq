@@ -19269,23 +19269,45 @@ static int bno055_sample_fetch(const struct device *dev, enum sensor_channel cha
     return BNO055_SUCCESS;
 }
 
+// static int bno055_channel_get(const struct device *dev,
+//                               enum sensor_channel chan,
+//                               struct sensor_value *val)
+// {
+//     const struct bno055_data *data = dev->data;
+
+//     if (chan == SENSOR_CHAN_ACCEL_X)
+//     {
+//         sensor_value_from_double(val, data->d_accel_xyz.x);
+//     }
+//     if (chan == SENSOR_CHAN_ACCEL_Y)
+//     {
+//         sensor_value_from_double(val, data->d_accel_xyz.y);
+//     }
+//     if (chan == SENSOR_CHAN_ACCEL_Z)
+//     {
+//         sensor_value_from_double(val, data->d_accel_xyz.z);
+//     }
+
+//     return 0;
+// }
+
 static int bno055_channel_get(const struct device *dev,
                               enum sensor_channel chan,
                               struct sensor_value *val)
 {
     const struct bno055_data *data = dev->data;
 
-    if (chan == SENSOR_CHAN_ACCEL_X)
+    if (chan == SENSOR_CHAN_GYRO_X)
     {
-        sensor_value_from_double(val, data->d_accel_xyz.x);
+        sensor_value_from_double(val, data->d_gyro_xyz.x);
     }
-    if (chan == SENSOR_CHAN_ACCEL_Y)
+    if (chan == SENSOR_CHAN_GYRO_Y)
     {
-        sensor_value_from_double(val, data->d_accel_xyz.y);
+        sensor_value_from_double(val, data->d_gyro_xyz.y);
     }
-    if (chan == SENSOR_CHAN_ACCEL_Z)
+    if (chan == SENSOR_CHAN_GYRO_Z)
     {
-        sensor_value_from_double(val, data->d_accel_xyz.z);
+        sensor_value_from_double(val, data->d_gyro_xyz.z);
     }
 
     return 0;
