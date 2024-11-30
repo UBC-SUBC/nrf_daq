@@ -1,0 +1,1 @@
+add_subdirectory_ifdef(CONFIG_BNO055 bno055)

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stddef.h": "c",
+        "random": "c",
+        "array": "c"
+    }
+}
