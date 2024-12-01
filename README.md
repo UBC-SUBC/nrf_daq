@@ -24,8 +24,9 @@ This project demonstrates how to:
 - Connect and power a WS2812 LED strip.
 - Generate the necessary timing signals.
 - Create dynamic lighting patterns using the nRF52840.
-- 
+  
 <img src="images/example.gif" alt="Example GIF" width="200">
+
 ---
 
 ## Hardware Requirements
