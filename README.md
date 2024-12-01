@@ -27,6 +27,7 @@ This project demonstrates how to:
 
 ![Example GIF](images/example.gif)
 
+<img src="images/example.gif" alt="Example GIF" width="400">
 ---
 
 ## Hardware Requirements
