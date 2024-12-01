@@ -25,7 +25,7 @@ This project demonstrates how to:
 - Generate the necessary timing signals.
 - Create dynamic lighting patterns using the nRF52840.
   
-<img src="images/example.gif" alt="Example GIF" width="200">
+    <img src="images/example.gif" alt="Example GIF" width="200">
 
 ---
 
