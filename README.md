@@ -11,11 +11,8 @@ This guide walks you through setting up a WS2812 LED strip with the nRF52840 mic
 2. [Hardware Requirements](#hardware-requirements)
 3. [Software Requirements](#software-requirements)
 4. [Hardware Connections](#hardware-connections)
-5. [Software Setup](#software-setup)
-6. [Example Code](#example-code)
-7. [Usage](#usage)
-8. [Troubleshooting](#troubleshooting)
-9. [Acknowledgements](#acknowledgements)
+5. [Troubleshooting](#troubleshooting)
+6. [Acknowledgements](#acknowledgements)
 
 ---
 
