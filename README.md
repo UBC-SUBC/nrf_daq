@@ -79,4 +79,4 @@ This project demonstrates how to:
 - [Nordic Semiconductor](https://www.nordicsemi.com/) for the nRF52840 platform.
 - [Zephyr RTOS](https://zephyrproject.org/) for the real-time operating system.
 - [WS2812 LED Datasheet](https://cdn-shop.adafruit.com/datasheets/WS2812.pdf).
-- [ narvalotechmbolivar-nordic and mbolivar-nordic] (https://github.com/nrfconnect/sdk-zephyr/tree/v3.3.99-ncs1-1/samples/drivers/led_ws2812/boards)
+- [narvalotechmbolivar-nordic and mbolivar-nordic](https://github.com/nrfconnect/sdk-zephyr/tree/v3.3.99-ncs1-1/samples/drivers/led_ws2812/boards)
