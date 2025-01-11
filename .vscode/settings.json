@@ -2,6 +2,7 @@
     "files.associations": {
         "stddef.h": "c",
         "random": "c",
-        "array": "c"
+        "array": "c",
+        "sensor.h": "c"
     }
 }

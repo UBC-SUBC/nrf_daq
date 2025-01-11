@@ -1,53 +1,46 @@
 /**
- * Copyright (c) 2020 Bosch Sensortec GmbH. All rights reserved.
- *
- * BSD-3-Clause
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * @file bno055.h
- * @date 19/03/2024
- * @version  2.0.7
- *
- */
+* Copyright (c) 2020 Bosch Sensortec GmbH. All rights reserved.
+*
+* BSD-3-Clause
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are met:
+*
+* 1. Redistributions of source code must retain the above copyright
+*    notice, this list of conditions and the following disclaimer.
+*
+* 2. Redistributions in binary form must reproduce the above copyright
+*    notice, this list of conditions and the following disclaimer in the
+*    documentation and/or other materials provided with the distribution.
+*
+* 3. Neither the name of the copyright holder nor the names of its
+*    contributors may be used to endorse or promote products derived from
+*    this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+* COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+* STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+* IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+* POSSIBILITY OF SUCH DAMAGE.
+*
+* @file bno055.h
+* @date 10/01/2020
+* @version  2.0.6
+*
+*/
 
 /*! \file bno055.h
  * \brief BNO055 Sensor Driver Support Header File */
 
-#ifndef ZEPHYR_DRIVERS_SENSOR_ENS160_H_
-#define ZEPHYR_DRIVERS_SENSOR_ENS160_H_
-
 #ifndef __BNO055_H__
 #define __BNO055_H__
-
-#include <zephyr/drivers/sensor.h>
-#include <zephyr/drivers/i2c.h>
-#include <zephyr/device.h>
 
 /****************************************************************/
 /**\name    DATA TYPES INCLUDES     */
@@ -65,16 +58,16 @@
  * @brief For the Linux platform support
  * Please use the types.h for your data types definitions
  */
-#ifdef __KERNEL__
+#ifdef  __KERNEL__
 
 #include <linux/types.h>
 
 /* singed integer type*/
-typedef int8_t s8;     /**< used for signed 8bit */
-typedef int16_t s16;   /**< used for signed 16bit */
-typedef int32_t s32;   /**< used for signed 32bit */
-typedef int64_t s64;   /**< used for signed 64bit */
-typedef u_int8_t u8;   /**< used for unsigned 8bit */
+typedef int8_t s8; /**< used for signed 8bit */
+typedef int16_t s16; /**< used for signed 16bit */
+typedef int32_t s32; /**< used for signed 32bit */
+typedef int64_t s64; /**< used for signed 64bit */
+typedef u_int8_t u8; /**< used for unsigned 8bit */
 typedef u_int16_t u16; /**< used for unsigned 16bit */
 typedef u_int32_t u32; /**< used for unsigned 32bit */
 typedef u_int64_t u64; /**< used for unsigned 64bit */
@@ -85,11 +78,11 @@ typedef u_int64_t u64; /**< used for unsigned 64bit */
  * These definition uses for define the C
  * standard version data types
  ***********************************************************/
-#if !defined(__STDC_VERSION__)
+# if !defined(__STDC_VERSION__)
 
 /************************************************
- * compiler is C11 C standard
- ************************************************/
+* compiler is C11 C standard
+************************************************/
 #if (__STDC_VERSION__ == 201112L)
 
 /************************************************/
@@ -97,19 +90,19 @@ typedef u_int64_t u64; /**< used for unsigned 64bit */
 
 /************************************************/
 /*unsigned integer types*/
-typedef uint8_t u8;   /**< used for unsigned 8bit */
+typedef uint8_t u8; /**< used for unsigned 8bit */
 typedef uint16_t u16; /**< used for unsigned 16bit */
 typedef uint32_t u32; /**< used for unsigned 32bit */
 typedef uint64_t u64; /**< used for unsigned 64bit */
 /*signed integer types*/
-typedef int8_t s8;   /**< used for signed 8bit */
+typedef int8_t s8; /**< used for signed 8bit */
 typedef int16_t s16; /**< used for signed 16bit */
 typedef int32_t s32; /**< used for signed 32bit */
 typedef int64_t s64; /**< used for signed 64bit */
 
 /************************************************
- * compiler is C99 C standard
- ************************************************/
+* compiler is C99 C standard
+************************************************/
 
 #elif (__STDC_VERSION__ == 199901L)
 
@@ -121,19 +114,19 @@ typedef int64_t s64; /**< used for signed 64bit */
 
 /************************************************/
 /*unsigned integer types*/
-typedef uint8_t u8;   /**< used for unsigned 8bit */
+typedef uint8_t u8; /**< used for unsigned 8bit */
 typedef uint16_t u16; /**< used for unsigned 16bit */
 typedef uint32_t u32; /**< used for unsigned 32bit */
 typedef uint64_t u64; /**< used for unsigned 64bit */
 /*signed integer types*/
-typedef int8_t s8;   /**< used for signed 8bit */
+typedef int8_t s8; /**< used for signed 8bit */
 typedef int16_t s16; /**< used for signed 16bit */
 typedef int32_t s32; /**< used for signed 32bit */
 typedef int64_t s64; /**< used for signed 64bit */
 
 /************************************************
- * compiler is C89 or other C standard
- ************************************************/
+* compiler is C89 or other C standard
+************************************************/
 
 #else /*  !defined(__STDC_VERSION__) */
 
@@ -142,7 +135,7 @@ typedef int64_t s64; /**< used for signed 64bit */
  *  define your data types based on your
  *  machine/compiler/controller configuration
  */
-#define MACHINE_32_BIT
+#define  MACHINE_32_BIT
 
 /*! @brief
  *  If your machine support 16 bit
@@ -152,15 +145,15 @@ typedef int64_t s64; /**< used for signed 64bit */
 #include <limits.h>
 
 /*signed integer types*/
-typedef signed char s8;       /**< used for signed 8bit */
+typedef signed char s8; /**< used for signed 8bit */
 typedef signed short int s16; /**< used for signed 16bit */
-typedef signed long int s32;  /**< used for signed 32bit */
+typedef signed long int s32; /**< used for signed 32bit */
 
 #if defined(LONG_MAX) && LONG_MAX == 0x7fffffffffffffffL
-typedef long int s64;          /**< used for signed 64bit */
+typedef long int s64; /**< used for signed 64bit */
 typedef unsigned long int u64; /**< used for unsigned 64bit */
 #elif defined(LLONG_MAX) && (LLONG_MAX == 0x7fffffffffffffffLL)
-typedef long long int s64;          /**< used for signed 64bit */
+typedef long long int s64; /**< used for signed 64bit */
 typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #else
 #warning Either the correct data type for signed 64 bit integer \
@@ -170,23 +163,23 @@ typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #endif
 
 /*unsigned integer types*/
-typedef unsigned char u8;       /**< used for unsigned 8bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
 typedef unsigned short int u16; /**< used for unsigned 16bit */
-typedef unsigned long int u32;  /**< used for unsigned 32bit */
+typedef unsigned long int u32; /**< used for unsigned 32bit */
 
 /* If your machine support 32 bit
  * define the MACHINE_32_BIT*/
 #elif defined MACHINE_32_BIT
 
 /*signed integer types*/
-typedef signed char s8;           /**< used for signed 8bit */
-typedef signed short int s16;     /**< used for signed 16bit */
-typedef signed int s32;           /**< used for signed 32bit */
+typedef signed char s8; /**< used for signed 8bit */
+typedef signed short int s16; /**< used for signed 16bit */
+typedef signed int s32; /**< used for signed 32bit */
 typedef signed long long int s64; /**< used for signed 64bit */
 /*unsigned integer types*/
-typedef unsigned char u8;           /**< used for unsigned 8bit */
-typedef unsigned short int u16;     /**< used for unsigned 16bit */
-typedef unsigned int u32;           /**< used for unsigned 32bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
+typedef unsigned short int u16; /**< used for unsigned 16bit */
+typedef unsigned int u32; /**< used for unsigned 32bit */
 typedef unsigned long long int u64; /**< used for unsigned 64bit */
 
 /* If your machine support 64 bit
@@ -194,15 +187,15 @@ typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #elif defined MACHINE_64_BIT
 
 /*signed integer types*/
-typedef signed char s8;       /**< used for signed 8bit */
+typedef signed char s8; /**< used for signed 8bit */
 typedef signed short int s16; /**< used for signed 16bit */
-typedef signed int s32;       /**< used for signed 32bit */
-typedef signed long int s64;  /**< used for signed 64bit */
+typedef signed int s32; /**< used for signed 32bit */
+typedef signed long int s64; /**< used for signed 64bit */
 /*unsigned integer types*/
-typedef unsigned char u8;       /**< used for unsigned 8bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
 typedef unsigned short int u16; /**< used for unsigned 16bit */
-typedef unsigned int u32;       /**< used for unsigned 32bit */
-typedef unsigned long int u64;  /**< used for unsigned 64bit */
+typedef unsigned int u32; /**< used for unsigned 32bit */
+typedef unsigned long int u64; /**< used for unsigned 64bit */
 
 #else
 #warning The data types defined above which not supported \
@@ -220,7 +213,7 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
  *  define your data types based on your
  *  machine/compiler/controller configuration
  */
-#define MACHINE_32_BIT
+#define  MACHINE_32_BIT
 
 /* If your machine support 16 bit
  * define the MACHINE_16_BIT*/
@@ -228,15 +221,15 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
 #include <limits.h>
 
 /*signed integer types*/
-typedef signed char s8;       /**< used for signed 8bit */
+typedef signed char s8; /**< used for signed 8bit */
 typedef signed short int s16; /**< used for signed 16bit */
-typedef signed long int s32;  /**< used for signed 32bit */
+typedef signed long int s32; /**< used for signed 32bit */
 
 #if defined(LONG_MAX) && LONG_MAX == 0x7fffffffffffffffL
-typedef long int s64;          /**< used for signed 64bit */
+typedef long int s64; /**< used for signed 64bit */
 typedef unsigned long int u64; /**< used for unsigned 64bit */
 #elif defined(LLONG_MAX) && (LLONG_MAX == 0x7fffffffffffffffLL)
-typedef long long int s64;          /**< used for signed 64bit */
+typedef long long int s64; /**< used for signed 64bit */
 typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #else
 #warning Either the correct data type for signed 64 bit integer \
@@ -246,23 +239,23 @@ typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #endif
 
 /*unsigned integer types*/
-typedef unsigned char u8;       /**< used for unsigned 8bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
 typedef unsigned short int u16; /**< used for unsigned 16bit */
-typedef unsigned long int u32;  /**< used for unsigned 32bit */
+typedef unsigned long int u32; /**< used for unsigned 32bit */
 
 /*! @brief If your machine support 32 bit
  * define the MACHINE_32_BIT*/
 #elif defined MACHINE_32_BIT
 
 /*signed integer types*/
-typedef signed char s8;           /**< used for signed 8bit */
-typedef signed short int s16;     /**< used for signed 16bit */
-typedef signed int s32;           /**< used for signed 32bit */
+typedef signed char s8; /**< used for signed 8bit */
+typedef signed short int s16; /**< used for signed 16bit */
+typedef signed int s32; /**< used for signed 32bit */
 typedef signed long long int s64; /**< used for signed 64bit */
 /*unsigned integer types*/
-typedef unsigned char u8;           /**< used for unsigned 8bit */
-typedef unsigned short int u16;     /**< used for unsigned 16bit */
-typedef unsigned int u32;           /**< used for unsigned 32bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
+typedef unsigned short int u16; /**< used for unsigned 16bit */
+typedef unsigned int u32; /**< used for unsigned 32bit */
 typedef unsigned long long int u64; /**< used for unsigned 64bit */
 
 /* If your machine support 64 bit
@@ -270,15 +263,15 @@ typedef unsigned long long int u64; /**< used for unsigned 64bit */
 #elif defined MACHINE_64_BIT
 
 /*signed integer types*/
-typedef signed char s8;       /**< used for signed 8bit */
+typedef signed char s8; /**< used for signed 8bit */
 typedef signed short int s16; /**< used for signed 16bit */
-typedef signed int s32;       /**< used for signed 32bit */
-typedef signed long int s64;  /**< used for signed 64bit */
+typedef signed int s32; /**< used for signed 32bit */
+typedef signed long int s64; /**< used for signed 64bit */
 /*unsigned integer types*/
-typedef unsigned char u8;       /**< used for unsigned 8bit */
+typedef unsigned char u8; /**< used for unsigned 8bit */
 typedef unsigned short int u16; /**< used for unsigned 16bit */
-typedef unsigned int u32;       /**< used for unsigned 32bit */
-typedef unsigned long int u64;  /**< used for unsigned 64bit */
+typedef unsigned int u32; /**< used for unsigned 32bit */
+typedef unsigned long int u64; /**< used for unsigned 64bit */
 
 #else
 #warning The data types defined above which not supported \
@@ -290,12 +283,14 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
 /***************************************************************/
 /**\name    BUS READ AND WRITE FUNCTIONS           */
 /***************************************************************/
-#define BNO055_WR_FUNC_PTR s8 (*bus_write)(const struct i2c_dt_spec *, u8, u8 *, u8)
+#define BNO055_WR_FUNC_PTR       s8 (*bus_write) \
+        (u8, u8, u8 *, u8)
 
 #define BNO055_BUS_WRITE_FUNC(dev_addr, reg_addr, reg_data, wr_len) \
     bus_write(dev_addr, reg_addr, reg_data, wr_len)
 
-#define BNO055_RD_FUNC_PTR s8 (*bus_read)(const struct i2c_dt_spec *, u8, u8 *, u8)
+#define BNO055_RD_FUNC_PTR       s8 \
+    (*bus_read)(u8, u8, u8 *, u8)
 
 #define BNO055_BUS_READ_FUNC(dev_addr, reg_addr, reg_data, r_len) \
     bus_read(dev_addr, reg_addr, reg_data, r_len)
@@ -318,60 +313,60 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
 /**\name    REGISTER ADDRESS DEFINITION  */
 /***************************************************/
 /* Page id register definition*/
-#define BNO055_PAGE_ID_ADDR (0X07)
+#define BNO055_PAGE_ID_ADDR                 (0X07)
 
 /* PAGE0 REGISTER DEFINITION START*/
-#define BNO055_CHIP_ID_ADDR (0x00)
-#define BNO055_ACCEL_REV_ID_ADDR (0x01)
-#define BNO055_MAG_REV_ID_ADDR (0x02)
-#define BNO055_GYRO_REV_ID_ADDR (0x03)
-#define BNO055_SW_REV_ID_LSB_ADDR (0x04)
-#define BNO055_SW_REV_ID_MSB_ADDR (0x05)
-#define BNO055_BL_REV_ID_ADDR (0X06)
+#define BNO055_CHIP_ID_ADDR                 (0x00)
+#define BNO055_ACCEL_REV_ID_ADDR            (0x01)
+#define BNO055_MAG_REV_ID_ADDR              (0x02)
+#define BNO055_GYRO_REV_ID_ADDR             (0x03)
+#define BNO055_SW_REV_ID_LSB_ADDR           (0x04)
+#define BNO055_SW_REV_ID_MSB_ADDR           (0x05)
+#define BNO055_BL_REV_ID_ADDR               (0X06)
 
 /* Accel data register*/
-#define BNO055_ACCEL_DATA_X_LSB_ADDR (0X08)
-#define BNO055_ACCEL_DATA_X_MSB_ADDR (0X09)
-#define BNO055_ACCEL_DATA_Y_LSB_ADDR (0X0A)
-#define BNO055_ACCEL_DATA_Y_MSB_ADDR (0X0B)
-#define BNO055_ACCEL_DATA_Z_LSB_ADDR (0X0C)
-#define BNO055_ACCEL_DATA_Z_MSB_ADDR (0X0D)
+#define BNO055_ACCEL_DATA_X_LSB_ADDR        (0X08)
+#define BNO055_ACCEL_DATA_X_MSB_ADDR        (0X09)
+#define BNO055_ACCEL_DATA_Y_LSB_ADDR        (0X0A)
+#define BNO055_ACCEL_DATA_Y_MSB_ADDR        (0X0B)
+#define BNO055_ACCEL_DATA_Z_LSB_ADDR        (0X0C)
+#define BNO055_ACCEL_DATA_Z_MSB_ADDR        (0X0D)
 
 /*Mag data register*/
-#define BNO055_MAG_DATA_X_LSB_ADDR (0X0E)
-#define BNO055_MAG_DATA_X_MSB_ADDR (0X0F)
-#define BNO055_MAG_DATA_Y_LSB_ADDR (0X10)
-#define BNO055_MAG_DATA_Y_MSB_ADDR (0X11)
-#define BNO055_MAG_DATA_Z_LSB_ADDR (0X12)
-#define BNO055_MAG_DATA_Z_MSB_ADDR (0X13)
+#define BNO055_MAG_DATA_X_LSB_ADDR          (0X0E)
+#define BNO055_MAG_DATA_X_MSB_ADDR          (0X0F)
+#define BNO055_MAG_DATA_Y_LSB_ADDR          (0X10)
+#define BNO055_MAG_DATA_Y_MSB_ADDR          (0X11)
+#define BNO055_MAG_DATA_Z_LSB_ADDR          (0X12)
+#define BNO055_MAG_DATA_Z_MSB_ADDR          (0X13)
 
 /*Gyro data registers*/
-#define BNO055_GYRO_DATA_X_LSB_ADDR (0X14)
-#define BNO055_GYRO_DATA_X_MSB_ADDR (0X15)
-#define BNO055_GYRO_DATA_Y_LSB_ADDR (0X16)
-#define BNO055_GYRO_DATA_Y_MSB_ADDR (0X17)
-#define BNO055_GYRO_DATA_Z_LSB_ADDR (0X18)
-#define BNO055_GYRO_DATA_Z_MSB_ADDR (0X19)
+#define BNO055_GYRO_DATA_X_LSB_ADDR         (0X14)
+#define BNO055_GYRO_DATA_X_MSB_ADDR         (0X15)
+#define BNO055_GYRO_DATA_Y_LSB_ADDR         (0X16)
+#define BNO055_GYRO_DATA_Y_MSB_ADDR         (0X17)
+#define BNO055_GYRO_DATA_Z_LSB_ADDR         (0X18)
+#define BNO055_GYRO_DATA_Z_MSB_ADDR         (0X19)
 
 /*Euler data registers*/
-#define BNO055_EULER_H_LSB_ADDR (0X1A)
-#define BNO055_EULER_H_MSB_ADDR (0X1B)
+#define BNO055_EULER_H_LSB_ADDR             (0X1A)
+#define BNO055_EULER_H_MSB_ADDR             (0X1B)
 
-#define BNO055_EULER_R_LSB_ADDR (0X1C)
-#define BNO055_EULER_R_MSB_ADDR (0X1D)
+#define BNO055_EULER_R_LSB_ADDR             (0X1C)
+#define BNO055_EULER_R_MSB_ADDR             (0X1D)
 
-#define BNO055_EULER_P_LSB_ADDR (0X1E)
-#define BNO055_EULER_P_MSB_ADDR (0X1F)
+#define BNO055_EULER_P_LSB_ADDR             (0X1E)
+#define BNO055_EULER_P_MSB_ADDR             (0X1F)
 
 /*Quaternion data registers*/
-#define BNO055_QUATERNION_DATA_W_LSB_ADDR (0X20)
-#define BNO055_QUATERNION_DATA_W_MSB_ADDR (0X21)
-#define BNO055_QUATERNION_DATA_X_LSB_ADDR (0X22)
-#define BNO055_QUATERNION_DATA_X_MSB_ADDR (0X23)
-#define BNO055_QUATERNION_DATA_Y_LSB_ADDR (0X24)
-#define BNO055_QUATERNION_DATA_Y_MSB_ADDR (0X25)
-#define BNO055_QUATERNION_DATA_Z_LSB_ADDR (0X26)
-#define BNO055_QUATERNION_DATA_Z_MSB_ADDR (0X27)
+#define BNO055_QUATERNION_DATA_W_LSB_ADDR   (0X20)
+#define BNO055_QUATERNION_DATA_W_MSB_ADDR   (0X21)
+#define BNO055_QUATERNION_DATA_X_LSB_ADDR   (0X22)
+#define BNO055_QUATERNION_DATA_X_MSB_ADDR   (0X23)
+#define BNO055_QUATERNION_DATA_Y_LSB_ADDR   (0X24)
+#define BNO055_QUATERNION_DATA_Y_MSB_ADDR   (0X25)
+#define BNO055_QUATERNION_DATA_Z_LSB_ADDR   (0X26)
+#define BNO055_QUATERNION_DATA_Z_MSB_ADDR   (0X27)
 
 /* Linear acceleration data registers*/
 #define BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR (0X28)
@@ -382,132 +377,129 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
 #define BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR (0X2D)
 
 /*Gravity data registers*/
-#define BNO055_GRAVITY_DATA_X_LSB_ADDR (0X2E)
-#define BNO055_GRAVITY_DATA_X_MSB_ADDR (0X2F)
-#define BNO055_GRAVITY_DATA_Y_LSB_ADDR (0X30)
-#define BNO055_GRAVITY_DATA_Y_MSB_ADDR (0X31)
-#define BNO055_GRAVITY_DATA_Z_LSB_ADDR (0X32)
-#define BNO055_GRAVITY_DATA_Z_MSB_ADDR (0X33)
+#define BNO055_GRAVITY_DATA_X_LSB_ADDR      (0X2E)
+#define BNO055_GRAVITY_DATA_X_MSB_ADDR      (0X2F)
+#define BNO055_GRAVITY_DATA_Y_LSB_ADDR      (0X30)
+#define BNO055_GRAVITY_DATA_Y_MSB_ADDR      (0X31)
+#define BNO055_GRAVITY_DATA_Z_LSB_ADDR      (0X32)
+#define BNO055_GRAVITY_DATA_Z_MSB_ADDR      (0X33)
 
 /* Temperature data register*/
-#define BNO055_TEMP_ADDR (0X34)
+#define BNO055_TEMP_ADDR                    (0X34)
 
 /* Status registers*/
-#define BNO055_CALIB_STAT_ADDR (0X35)
-#define BNO055_SELFTEST_RESULT_ADDR (0X36)
-#define BNO055_INTR_STAT_ADDR (0X37)
-#define BNO055_SYS_CLK_STAT_ADDR (0X38)
-#define BNO055_SYS_STAT_ADDR (0X39)
-#define BNO055_SYS_ERR_ADDR (0X3A)
+#define BNO055_CALIB_STAT_ADDR              (0X35)
+#define BNO055_SELFTEST_RESULT_ADDR         (0X36)
+#define BNO055_INTR_STAT_ADDR               (0X37)
+#define BNO055_SYS_CLK_STAT_ADDR            (0X38)
+#define BNO055_SYS_STAT_ADDR                (0X39)
+#define BNO055_SYS_ERR_ADDR                 (0X3A)
 
 /* Unit selection register*/
-#define BNO055_UNIT_SEL_ADDR (0X3B)
-#define BNO055_DATA_SELECT_ADDR (0X3C)
+#define BNO055_UNIT_SEL_ADDR                (0X3B)
+#define BNO055_DATA_SELECT_ADDR             (0X3C)
 
 /* Mode registers*/
-#define BNO055_OPR_MODE_ADDR (0X3D)
-#define BNO055_PWR_MODE_ADDR (0X3E)
+#define BNO055_OPR_MODE_ADDR                (0X3D)
+#define BNO055_PWR_MODE_ADDR                (0X3E)
 
-#define BNO055_SYS_TRIGGER_ADDR (0X3F)
-#define BNO055_TEMP_SOURCE_ADDR (0X40)
+#define BNO055_SYS_TRIGGER_ADDR             (0X3F)
+#define BNO055_TEMP_SOURCE_ADDR             (0X40)
 
 /* Axis remap registers*/
-#define BNO055_AXIS_MAP_CONFIG_ADDR (0X41)
-#define BNO055_AXIS_MAP_SIGN_ADDR (0X42)
+#define BNO055_AXIS_MAP_CONFIG_ADDR         (0X41)
+#define BNO055_AXIS_MAP_SIGN_ADDR           (0X42)
 
 /* SIC registers*/
-#define BNO055_SIC_MATRIX_0_LSB_ADDR (0X43)
-#define BNO055_SIC_MATRIX_0_MSB_ADDR (0X44)
-#define BNO055_SIC_MATRIX_1_LSB_ADDR (0X45)
-#define BNO055_SIC_MATRIX_1_MSB_ADDR (0X46)
-#define BNO055_SIC_MATRIX_2_LSB_ADDR (0X47)
-#define BNO055_SIC_MATRIX_2_MSB_ADDR (0X48)
-#define BNO055_SIC_MATRIX_3_LSB_ADDR (0X49)
-#define BNO055_SIC_MATRIX_3_MSB_ADDR (0X4A)
-#define BNO055_SIC_MATRIX_4_LSB_ADDR (0X4B)
-#define BNO055_SIC_MATRIX_4_MSB_ADDR (0X4C)
-#define BNO055_SIC_MATRIX_5_LSB_ADDR (0X4D)
-#define BNO055_SIC_MATRIX_5_MSB_ADDR (0X4E)
-#define BNO055_SIC_MATRIX_6_LSB_ADDR (0X4F)
-#define BNO055_SIC_MATRIX_6_MSB_ADDR (0X50)
-#define BNO055_SIC_MATRIX_7_LSB_ADDR (0X51)
-#define BNO055_SIC_MATRIX_7_MSB_ADDR (0X52)
-#define BNO055_SIC_MATRIX_8_LSB_ADDR (0X53)
-#define BNO055_SIC_MATRIX_8_MSB_ADDR (0X54)
+#define BNO055_SIC_MATRIX_0_LSB_ADDR        (0X43)
+#define BNO055_SIC_MATRIX_0_MSB_ADDR        (0X44)
+#define BNO055_SIC_MATRIX_1_LSB_ADDR        (0X45)
+#define BNO055_SIC_MATRIX_1_MSB_ADDR        (0X46)
+#define BNO055_SIC_MATRIX_2_LSB_ADDR        (0X47)
+#define BNO055_SIC_MATRIX_2_MSB_ADDR        (0X48)
+#define BNO055_SIC_MATRIX_3_LSB_ADDR        (0X49)
+#define BNO055_SIC_MATRIX_3_MSB_ADDR        (0X4A)
+#define BNO055_SIC_MATRIX_4_LSB_ADDR        (0X4B)
+#define BNO055_SIC_MATRIX_4_MSB_ADDR        (0X4C)
+#define BNO055_SIC_MATRIX_5_LSB_ADDR        (0X4D)
+#define BNO055_SIC_MATRIX_5_MSB_ADDR        (0X4E)
+#define BNO055_SIC_MATRIX_6_LSB_ADDR        (0X4F)
+#define BNO055_SIC_MATRIX_6_MSB_ADDR        (0X50)
+#define BNO055_SIC_MATRIX_7_LSB_ADDR        (0X51)
+#define BNO055_SIC_MATRIX_7_MSB_ADDR        (0X52)
+#define BNO055_SIC_MATRIX_8_LSB_ADDR        (0X53)
+#define BNO055_SIC_MATRIX_8_MSB_ADDR        (0X54)
 
 /* Accelerometer Offset registers*/
-#define BNO055_ACCEL_OFFSET_X_LSB_ADDR (0X55)
-#define BNO055_ACCEL_OFFSET_X_MSB_ADDR (0X56)
-#define BNO055_ACCEL_OFFSET_Y_LSB_ADDR (0X57)
-#define BNO055_ACCEL_OFFSET_Y_MSB_ADDR (0X58)
-#define BNO055_ACCEL_OFFSET_Z_LSB_ADDR (0X59)
-#define BNO055_ACCEL_OFFSET_Z_MSB_ADDR (0X5A)
+#define BNO055_ACCEL_OFFSET_X_LSB_ADDR      (0X55)
+#define BNO055_ACCEL_OFFSET_X_MSB_ADDR      (0X56)
+#define BNO055_ACCEL_OFFSET_Y_LSB_ADDR      (0X57)
+#define BNO055_ACCEL_OFFSET_Y_MSB_ADDR      (0X58)
+#define BNO055_ACCEL_OFFSET_Z_LSB_ADDR      (0X59)
+#define BNO055_ACCEL_OFFSET_Z_MSB_ADDR      (0X5A)
 
 /* Magnetometer Offset registers*/
-#define BNO055_MAG_OFFSET_X_LSB_ADDR (0X5B)
-#define BNO055_MAG_OFFSET_X_MSB_ADDR (0X5C)
-#define BNO055_MAG_OFFSET_Y_LSB_ADDR (0X5D)
-#define BNO055_MAG_OFFSET_Y_MSB_ADDR (0X5E)
-#define BNO055_MAG_OFFSET_Z_LSB_ADDR (0X5F)
-#define BNO055_MAG_OFFSET_Z_MSB_ADDR (0X60)
+#define BNO055_MAG_OFFSET_X_LSB_ADDR        (0X5B)
+#define BNO055_MAG_OFFSET_X_MSB_ADDR        (0X5C)
+#define BNO055_MAG_OFFSET_Y_LSB_ADDR        (0X5D)
+#define BNO055_MAG_OFFSET_Y_MSB_ADDR        (0X5E)
+#define BNO055_MAG_OFFSET_Z_LSB_ADDR        (0X5F)
+#define BNO055_MAG_OFFSET_Z_MSB_ADDR        (0X60)
 
 /* Gyroscope Offset registers*/
-#define BNO055_GYRO_OFFSET_X_LSB_ADDR (0X61)
-#define BNO055_GYRO_OFFSET_X_MSB_ADDR (0X62)
-#define BNO055_GYRO_OFFSET_Y_LSB_ADDR (0X63)
-#define BNO055_GYRO_OFFSET_Y_MSB_ADDR (0X64)
-#define BNO055_GYRO_OFFSET_Z_LSB_ADDR (0X65)
-#define BNO055_GYRO_OFFSET_Z_MSB_ADDR (0X66)
+#define BNO055_GYRO_OFFSET_X_LSB_ADDR       (0X61)
+#define BNO055_GYRO_OFFSET_X_MSB_ADDR       (0X62)
+#define BNO055_GYRO_OFFSET_Y_LSB_ADDR       (0X63)
+#define BNO055_GYRO_OFFSET_Y_MSB_ADDR       (0X64)
+#define BNO055_GYRO_OFFSET_Z_LSB_ADDR       (0X65)
+#define BNO055_GYRO_OFFSET_Z_MSB_ADDR       (0X66)
 
 /* Radius registers*/
-#define BNO055_ACCEL_RADIUS_LSB_ADDR (0X67)
-#define BNO055_ACCEL_RADIUS_MSB_ADDR (0X68)
-#define BNO055_MAG_RADIUS_LSB_ADDR (0X69)
-#define BNO055_MAG_RADIUS_MSB_ADDR (0X6A)
+#define BNO055_ACCEL_RADIUS_LSB_ADDR        (0X67)
+#define BNO055_ACCEL_RADIUS_MSB_ADDR        (0X68)
+#define BNO055_MAG_RADIUS_LSB_ADDR          (0X69)
+#define BNO055_MAG_RADIUS_MSB_ADDR          (0X6A)
 
 /* PAGE0 REGISTERS DEFINITION END*/
 /* PAGE1 REGISTERS DEFINITION START*/
 /* Configuration registers*/
-#define BNO055_ACCEL_CONFIG_ADDR (0X08)
-#define BNO055_MAG_CONFIG_ADDR (0X09)
-#define BNO055_GYRO_CONFIG_ADDR (0X0A)
-#define BNO055_GYRO_MODE_CONFIG_ADDR (0X0B)
-#define BNO055_ACCEL_SLEEP_CONFIG_ADDR (0X0C)
-#define BNO055_GYRO_SLEEP_CONFIG_ADDR (0X0D)
-#define BNO055_MAG_SLEEP_CONFIG_ADDR (0x0E)
+#define BNO055_ACCEL_CONFIG_ADDR            (0X08)
+#define BNO055_MAG_CONFIG_ADDR              (0X09)
+#define BNO055_GYRO_CONFIG_ADDR             (0X0A)
+#define BNO055_GYRO_MODE_CONFIG_ADDR        (0X0B)
+#define BNO055_ACCEL_SLEEP_CONFIG_ADDR      (0X0C)
+#define BNO055_GYRO_SLEEP_CONFIG_ADDR       (0X0D)
+#define BNO055_MAG_SLEEP_CONFIG_ADDR        (0x0E)
 
 /* Interrupt registers*/
-#define BNO055_INT_MASK_ADDR (0X0F)
-#define BNO055_INT_ADDR (0X10)
-#define BNO055_ACCEL_ANY_MOTION_THRES_ADDR (0X11)
-#define BNO055_ACCEL_INTR_SETTINGS_ADDR (0X12)
-#define BNO055_ACCEL_HIGH_G_DURN_ADDR (0X13)
-#define BNO055_ACCEL_HIGH_G_THRES_ADDR (0X14)
-#define BNO055_ACCEL_NO_MOTION_THRES_ADDR (0X15)
-#define BNO055_ACCEL_NO_MOTION_SET_ADDR (0X16)
-#define BNO055_GYRO_INTR_SETING_ADDR (0X17)
-#define BNO055_GYRO_HIGHRATE_X_SET_ADDR (0X18)
-#define BNO055_GYRO_DURN_X_ADDR (0X19)
-#define BNO055_GYRO_HIGHRATE_Y_SET_ADDR (0X1A)
-#define BNO055_GYRO_DURN_Y_ADDR (0X1B)
-#define BNO055_GYRO_HIGHRATE_Z_SET_ADDR (0X1C)
-#define BNO055_GYRO_DURN_Z_ADDR (0X1D)
-#define BNO055_GYRO_ANY_MOTION_THRES_ADDR (0X1E)
-#define BNO055_GYRO_ANY_MOTION_SET_ADDR (0X1F)
+#define BNO055_INT_MASK_ADDR                (0X0F)
+#define BNO055_INT_ADDR                     (0X10)
+#define BNO055_ACCEL_ANY_MOTION_THRES_ADDR  (0X11)
+#define BNO055_ACCEL_INTR_SETTINGS_ADDR     (0X12)
+#define BNO055_ACCEL_HIGH_G_DURN_ADDR       (0X13)
+#define BNO055_ACCEL_HIGH_G_THRES_ADDR      (0X14)
+#define BNO055_ACCEL_NO_MOTION_THRES_ADDR   (0X15)
+#define BNO055_ACCEL_NO_MOTION_SET_ADDR     (0X16)
+#define BNO055_GYRO_INTR_SETING_ADDR        (0X17)
+#define BNO055_GYRO_HIGHRATE_X_SET_ADDR     (0X18)
+#define BNO055_GYRO_DURN_X_ADDR             (0X19)
+#define BNO055_GYRO_HIGHRATE_Y_SET_ADDR     (0X1A)
+#define BNO055_GYRO_DURN_Y_ADDR             (0X1B)
+#define BNO055_GYRO_HIGHRATE_Z_SET_ADDR     (0X1C)
+#define BNO055_GYRO_DURN_Z_ADDR             (0X1D)
+#define BNO055_GYRO_ANY_MOTION_THRES_ADDR   (0X1E)
+#define BNO055_GYRO_ANY_MOTION_SET_ADDR     (0X1F)
 
 /* PAGE1 REGISTERS DEFINITION END*/
 
-#define BNO055_MDELAY_DATA_TYPE u32
+#define BNO055_MDELAY_DATA_TYPE             u32
 
 /*< This refers BNO055 return type as s8 */
-#define BNO055_RETURN_FUNCTION_TYPE s8
+#define BNO055_RETURN_FUNCTION_TYPE         s8
 
 /* Compile switch definition for Float and double*/
 #define BNO055_FLOAT_ENABLE
 #define BNO055_DOUBLE_ENABLE
-
-#define I2C_BUFFER_LEN 8
-#define BNO055_I2C_BUS_WRITE_ARRAY_INDEX ((u8)1)
 
 /**************************************************************/
 /**\name    STRUCTURE DEFINITIONS                         */
@@ -518,15 +510,16 @@ typedef unsigned long int u64;  /**< used for unsigned 64bit */
  */
 struct bno055_t
 {
-    u8 chip_id;                                  /**< chip_id of bno055 */
-    u16 sw_rev_id;                               /**< software revision id of bno055 */
-    u8 page_id;                                  /**< page_id of bno055 */
-    u8 accel_rev_id;                             /**< accel revision id of bno055 */
-    u8 mag_rev_id;                               /**< mag revision id of bno055 */
-    u8 gyro_rev_id;                              /**< gyro revision id of bno055 */
-    u8 bl_rev_id;                                /**< boot loader revision id of bno055 */
-    BNO055_WR_FUNC_PTR;                          /**< bus write function pointer */
-    BNO055_RD_FUNC_PTR;                          /**<bus read function pointer */
+    u8 chip_id; /**< chip_id of bno055 */
+    u16 sw_rev_id; /**< software revision id of bno055 */
+    u8 page_id; /**< page_id of bno055 */
+    u8 accel_rev_id; /**< accel revision id of bno055 */
+    u8 mag_rev_id; /**< mag revision id of bno055 */
+    u8 gyro_rev_id; /**< gyro revision id of bno055 */
+    u8 bl_rev_id; /**< boot loader revision id of bno055 */
+    u8 dev_addr; /**< i2c device address of bno055 */
+    BNO055_WR_FUNC_PTR; /**< bus write function pointer */
+    BNO055_RD_FUNC_PTR; /**<bus read function pointer */
     void (*delay_msec)(BNO055_MDELAY_DATA_TYPE); /**< delay function pointer */
 };
 
@@ -600,7 +593,7 @@ struct bno055_gravity_t
     s16 y; /**< Gravity y data */
     s16 z; /**< Gravity z data */
 };
-#ifdef BNO055_DOUBLE_ENABLE
+#ifdef  BNO055_DOUBLE_ENABLE
 
 /*!
  * @brief struct for Accel-output data of precision double
@@ -662,7 +655,7 @@ struct bno055_gravity_double_t
     double z; /**< Gravity z double data */
 };
 #endif
-#ifdef BNO055_FLOAT_ENABLE
+#ifdef  BNO055_FLOAT_ENABLE
 
 /*!
  * @brief struct for Accel-output data of precision float
@@ -776,626 +769,626 @@ struct bno055_sic_matrix_t
 /***************************************************/
 /**\name    CONSTANT DEFINITIONS                   */
 /***************************************************/
-#define BNO055_INIT_VALUE ((u8)0)
-#define BNO055_GEN_READ_WRITE_LENGTH ((u8)1)
-#define BNO055_LSB_MSB_READ_LENGTH ((u8)2)
-#define BNO055_MAG_POWER_MODE_RANGE ((u8)4)
-#define BNO055_MAG_OPR_MODE_RANGE ((u8)5)
-#define BNO055_ACCEL_POWER_MODE_RANGE ((u8)6)
-#define BNO055_ACCEL_SLEEP_DURATION_RANGE ((u8)16)
-#define BNO055_GYRO_AUTO_SLEEP_DURATION_RANGE ((u8)8)
-#define BNO055_ACCEL_GYRO_BW_RANGE ((u8)8)
-#define BNO055_MAG_OUTPUT_RANGE ((u8)8)
-#define BNO055_ACCEL_RANGE ((u8)5)
-#define BNO055_SHIFT_EIGHT_BITS ((u8)8)
-#define BNO055_GYRO_RANGE ((u8)5)
-#define BNO055_ACCEL_SLEEP_MODE_RANGE ((u8)2)
+#define  BNO055_INIT_VALUE                         ((u8)0)
+#define  BNO055_GEN_READ_WRITE_LENGTH              ((u8)1)
+#define  BNO055_LSB_MSB_READ_LENGTH                ((u8)2)
+#define  BNO055_MAG_POWER_MODE_RANGE               ((u8)4)
+#define  BNO055_MAG_OPR_MODE_RANGE                 ((u8)5)
+#define  BNO055_ACCEL_POWER_MODE_RANGE             ((u8)6)
+#define  BNO055_ACCEL_SLEEP_DURATION_RANGE         ((u8)16)
+#define  BNO055_GYRO_AUTO_SLEEP_DURATION_RANGE     ((u8)8)
+#define  BNO055_ACCEL_GYRO_BW_RANGE                ((u8)8)
+#define  BNO055_MAG_OUTPUT_RANGE                   ((u8)8)
+#define  BNO055_ACCEL_RANGE                        ((u8)5)
+#define  BNO055_SHIFT_EIGHT_BITS                   ((u8)8)
+#define  BNO055_GYRO_RANGE                         ((u8)5)
+#define  BNO055_ACCEL_SLEEP_MODE_RANGE             ((u8)2)
 
 /*  BNO055 API BNO055_ERROR codes */
-#define BNO055_E_NULL_PTR ((s8)-127)
-#define BNO055_OUT_OF_RANGE ((s8)-2)
-#define BNO055_SUCCESS ((u8)0)
-#define BNO055_ERROR ((s8)-1)
+#define BNO055_E_NULL_PTR                          ((s8) - 127)
+#define BNO055_OUT_OF_RANGE                        ((s8) - 2)
+#define BNO055_SUCCESS                             ((u8)0)
+#define BNO055_ERROR                               ((s8) - 1)
 
 /* Selection for bit enable and disable */
-#define BNO055_BIT_ENABLE (0x01)
-#define BNO055_BIT_DISABLE (0x00)
+#define BNO055_BIT_ENABLE                          (0x01)
+#define BNO055_BIT_DISABLE                         (0x00)
 
 /* Page ID */
-#define BNO055_PAGE_ZERO (0X00)
-#define BNO055_PAGE_ONE (0X01)
+#define BNO055_PAGE_ZERO                           (0X00)
+#define BNO055_PAGE_ONE                            (0X01)
 
 /* Enable the temperature source */
-#define BNO055_ACCEL_TEMP_EN (0x00)
-#define BNO055_GYRO_TEMP_EN (0x01)
-#define BNO055_MCU_TEMP_EN (0x03)
+#define BNO055_ACCEL_TEMP_EN                       (0x00)
+#define BNO055_GYRO_TEMP_EN                        (0x01)
+#define BNO055_MCU_TEMP_EN                         (0x03)
 
 /*Accel unit*/
-#define BNO055_ACCEL_UNIT_MSQ (0x00)
-#define BNO055_ACCEL_UNIT_MG (0x01)
+#define BNO055_ACCEL_UNIT_MSQ                      (0x00)
+#define BNO055_ACCEL_UNIT_MG                       (0x01)
 
 /*Gyro unit*/
-#define BNO055_GYRO_UNIT_DPS (0x00)
-#define BNO055_GYRO_UNIT_RPS (0x01)
+#define BNO055_GYRO_UNIT_DPS                       (0x00)
+#define BNO055_GYRO_UNIT_RPS                       (0x01)
 
 /* Euler unit*/
-#define BNO055_EULER_UNIT_DEG (0x00)
-#define BNO055_EULER_UNIT_RAD (0x01)
+#define BNO055_EULER_UNIT_DEG                      (0x00)
+#define BNO055_EULER_UNIT_RAD                      (0x01)
 
 /*Temperature unit*/
-#define BNO055_TEMP_UNIT_CELSIUS (0x00)
-#define BNO055_TEMP_UNIT_FAHRENHEIT (0x01)
+#define BNO055_TEMP_UNIT_CELSIUS                   (0x00)
+#define BNO055_TEMP_UNIT_FAHRENHEIT                (0x01)
 
 /*Accel division factor*/
-#define BNO055_ACCEL_DIV_MSQ (100.0)
-#define BNO055_ACCEL_DIV_MG (1.0)
+#define BNO055_ACCEL_DIV_MSQ                       (100.0)
+#define BNO055_ACCEL_DIV_MG                        (1.0)
 
 /*Mag division factor*/
-#define BNO055_MAG_DIV_UT (16.0)
+#define BNO055_MAG_DIV_UT                          (16.0)
 
 /*Gyro division factor*/
-#define BNO055_GYRO_DIV_DPS (16.0)
-#define BNO055_GYRO_DIV_RPS (900.0)
+#define BNO055_GYRO_DIV_DPS                        (16.0)
+#define BNO055_GYRO_DIV_RPS                        (900.0)
 
 /*Euler division factor*/
-#define BNO055_EULER_DIV_DEG (16.0)
-#define BNO055_EULER_DIV_RAD (900.0)
+#define BNO055_EULER_DIV_DEG                       (16.0)
+#define BNO055_EULER_DIV_RAD                       (900.0)
 
 /*Linear accel division factor*/
-#define BNO055_LINEAR_ACCEL_DIV_MSQ (100.0)
+#define BNO055_LINEAR_ACCEL_DIV_MSQ                (100.0)
 
 /*Gravity accel division factor*/
-#define BNO055_GRAVITY_DIV_MSQ (100.0)
+#define BNO055_GRAVITY_DIV_MSQ                     (100.0)
 
 /* Temperature division factor*/
-#define BNO055_TEMP_DIV_FAHRENHEIT (0.5)
-#define BNO055_TEMP_DIV_CELSIUS (1.0)
+#define BNO055_TEMP_DIV_FAHRENHEIT                 (0.5)
+#define BNO055_TEMP_DIV_CELSIUS                    (1.0)
 
-#define BNO055_MODE_SWITCHING_DELAY (600)
-#define BNO055_CONFIG_MODE_SWITCHING_DELAY ((u8)20)
+#define BNO055_MODE_SWITCHING_DELAY                (600)
+#define BNO055_CONFIG_MODE_SWITCHING_DELAY         ((u8)20)
 
 /* Operation mode settings*/
-#define BNO055_OPERATION_MODE_CONFIG (0X00)
-#define BNO055_OPERATION_MODE_ACCONLY (0X01)
-#define BNO055_OPERATION_MODE_MAGONLY (0X02)
-#define BNO055_OPERATION_MODE_GYRONLY (0X03)
-#define BNO055_OPERATION_MODE_ACCMAG (0X04)
-#define BNO055_OPERATION_MODE_ACCGYRO (0X05)
-#define BNO055_OPERATION_MODE_MAGGYRO (0X06)
-#define BNO055_OPERATION_MODE_AMG (0X07)
-#define BNO055_OPERATION_MODE_IMUPLUS (0X08)
-#define BNO055_OPERATION_MODE_COMPASS (0X09)
-#define BNO055_OPERATION_MODE_M4G (0X0A)
-#define BNO055_OPERATION_MODE_NDOF_FMC_OFF (0X0B)
-#define BNO055_OPERATION_MODE_NDOF (0X0C)
+#define BNO055_OPERATION_MODE_CONFIG               (0X00)
+#define BNO055_OPERATION_MODE_ACCONLY              (0X01)
+#define BNO055_OPERATION_MODE_MAGONLY              (0X02)
+#define BNO055_OPERATION_MODE_GYRONLY              (0X03)
+#define BNO055_OPERATION_MODE_ACCMAG               (0X04)
+#define BNO055_OPERATION_MODE_ACCGYRO              (0X05)
+#define BNO055_OPERATION_MODE_MAGGYRO              (0X06)
+#define BNO055_OPERATION_MODE_AMG                  (0X07)
+#define BNO055_OPERATION_MODE_IMUPLUS              (0X08)
+#define BNO055_OPERATION_MODE_COMPASS              (0X09)
+#define BNO055_OPERATION_MODE_M4G                  (0X0A)
+#define BNO055_OPERATION_MODE_NDOF_FMC_OFF         (0X0B)
+#define BNO055_OPERATION_MODE_NDOF                 (0X0C)
 
 /* Power mode*/
-#define BNO055_POWER_MODE_NORMAL (0X00)
-#define BNO055_POWER_MODE_LOWPOWER (0X01)
-#define BNO055_POWER_MODE_SUSPEND (0X02)
+#define BNO055_POWER_MODE_NORMAL                   (0X00)
+#define BNO055_POWER_MODE_LOWPOWER                 (0X01)
+#define BNO055_POWER_MODE_SUSPEND                  (0X02)
 
 /* PAGE-1 definitions*/
 /* Accel Range */
 
-#define BNO055_ACCEL_RANGE_2G (0X00)
-#define BNO055_ACCEL_RANGE_4G (0X01)
-#define BNO055_ACCEL_RANGE_8G (0X02)
-#define BNO055_ACCEL_RANGE_16G (0X03)
+#define BNO055_ACCEL_RANGE_2G                      (0X00)
+#define BNO055_ACCEL_RANGE_4G                      (0X01)
+#define BNO055_ACCEL_RANGE_8G                      (0X02)
+#define BNO055_ACCEL_RANGE_16G                     (0X03)
 
 /* Accel Bandwidth*/
-#define BNO055_ACCEL_BW_7_81HZ (0x00)
-#define BNO055_ACCEL_BW_15_63HZ (0x01)
-#define BNO055_ACCEL_BW_31_25HZ (0x02)
-#define BNO055_ACCEL_BW_62_5HZ (0X03)
-#define BNO055_ACCEL_BW_125HZ (0X04)
-#define BNO055_ACCEL_BW_250HZ (0X05)
-#define BNO055_ACCEL_BW_500HZ (0X06)
-#define BNO055_ACCEL_BW_1000HZ (0X07)
+#define BNO055_ACCEL_BW_7_81HZ                     (0x00)
+#define BNO055_ACCEL_BW_15_63HZ                    (0x01)
+#define BNO055_ACCEL_BW_31_25HZ                    (0x02)
+#define BNO055_ACCEL_BW_62_5HZ                     (0X03)
+#define BNO055_ACCEL_BW_125HZ                      (0X04)
+#define BNO055_ACCEL_BW_250HZ                      (0X05)
+#define BNO055_ACCEL_BW_500HZ                      (0X06)
+#define BNO055_ACCEL_BW_1000HZ                     (0X07)
 
 /* Accel Power mode*/
-#define BNO055_ACCEL_NORMAL (0X00)
-#define BNO055_ACCEL_SUSPEND (0X01)
-#define BNO055_ACCEL_LOWPOWER_1 (0X02)
-#define BNO055_ACCEL_STANDBY (0X03)
-#define BNO055_ACCEL_LOWPOWER_2 (0X04)
-#define BNO055_ACCEL_DEEPSUSPEND (0X05)
+#define BNO055_ACCEL_NORMAL                        (0X00)
+#define BNO055_ACCEL_SUSPEND                       (0X01)
+#define BNO055_ACCEL_LOWPOWER_1                    (0X02)
+#define BNO055_ACCEL_STANDBY                       (0X03)
+#define BNO055_ACCEL_LOWPOWER_2                    (0X04)
+#define BNO055_ACCEL_DEEPSUSPEND                   (0X05)
 
 /* Mag data output rate*/
-#define BNO055_MAG_DATA_OUTRATE_2HZ (0X00)
-#define BNO055_MAG_DATA_OUTRATE_6HZ (0X01)
-#define BNO055_MAG_DATA_OUTRATE_8HZ (0X02)
-#define BNO055_MAG_DATA_OUTRATE_10HZ (0X03)
-#define BNO055_MAG_DATA_OUTRATE_15HZ (0X04)
-#define BNO055_MAG_DATA_OUTRATE_20HZ (0X05)
-#define BNO055_MAG_DATA_OUTRATE_25HZ (0X06)
-#define BNO055_MAG_DATA_OUTRATE_30HZ (0X07)
+#define BNO055_MAG_DATA_OUTRATE_2HZ                (0X00)
+#define BNO055_MAG_DATA_OUTRATE_6HZ                (0X01)
+#define BNO055_MAG_DATA_OUTRATE_8HZ                (0X02)
+#define BNO055_MAG_DATA_OUTRATE_10HZ               (0X03)
+#define BNO055_MAG_DATA_OUTRATE_15HZ               (0X04)
+#define BNO055_MAG_DATA_OUTRATE_20HZ               (0X05)
+#define BNO055_MAG_DATA_OUTRATE_25HZ               (0X06)
+#define BNO055_MAG_DATA_OUTRATE_30HZ               (0X07)
 
 /* Mag Operation mode*/
-#define BNO055_MAG_OPERATION_MODE_LOWPOWER (0X00)
-#define BNO055_MAG_OPERATION_MODE_REGULAR (0X01)
+#define BNO055_MAG_OPERATION_MODE_LOWPOWER         (0X00)
+#define BNO055_MAG_OPERATION_MODE_REGULAR          (0X01)
 #define BNO055_MAG_OPERATION_MODE_ENHANCED_REGULAR (0X02)
-#define BNO055_MAG_OPERATION_MODE_HIGH_ACCURACY (0X03)
+#define BNO055_MAG_OPERATION_MODE_HIGH_ACCURACY    (0X03)
 
 /* Mag power mode*/
-#define BNO055_MAG_POWER_MODE_NORMAL (0X00)
-#define BNO055_MAG_POWER_MODE_SLEEP (0X01)
-#define BNO055_MAG_POWER_MODE_SUSPEND (0X02)
-#define BNO055_MAG_POWER_MODE_FORCE_MODE (0X03)
+#define BNO055_MAG_POWER_MODE_NORMAL               (0X00)
+#define BNO055_MAG_POWER_MODE_SLEEP                (0X01)
+#define BNO055_MAG_POWER_MODE_SUSPEND              (0X02)
+#define BNO055_MAG_POWER_MODE_FORCE_MODE           (0X03)
 
 /* Gyro range*/
-#define BNO055_GYRO_RANGE_2000DPS (0x00)
-#define BNO055_GYRO_RANGE_1000DPS (0x01)
-#define BNO055_GYRO_RANGE_500DPS (0x02)
-#define BNO055_GYRO_RANGE_250DPS (0x03)
-#define BNO055_GYRO_RANGE_125DPS (0x04)
+#define BNO055_GYRO_RANGE_2000DPS                  (0x00)
+#define BNO055_GYRO_RANGE_1000DPS                  (0x01)
+#define BNO055_GYRO_RANGE_500DPS                   (0x02)
+#define BNO055_GYRO_RANGE_250DPS                   (0x03)
+#define BNO055_GYRO_RANGE_125DPS                   (0x04)
 
 /* Gyro Bandwidth*/
-#define BNO055_GYRO_BW_523HZ (0x00)
-#define BNO055_GYRO_BW_230HZ (0x01)
-#define BNO055_GYRO_BW_116HZ (0x02)
-#define BNO055_GYRO_BW_47HZ (0x03)
-#define BNO055_GYRO_BW_23HZ (0x04)
-#define BNO055_GYRO_BW_12HZ (0x05)
-#define BNO055_GYRO_BW_64HZ (0x06)
-#define BNO055_GYRO_BW_32HZ (0x07)
+#define BNO055_GYRO_BW_523HZ                       (0x00)
+#define BNO055_GYRO_BW_230HZ                       (0x01)
+#define BNO055_GYRO_BW_116HZ                       (0x02)
+#define BNO055_GYRO_BW_47HZ                        (0x03)
+#define BNO055_GYRO_BW_23HZ                        (0x04)
+#define BNO055_GYRO_BW_12HZ                        (0x05)
+#define BNO055_GYRO_BW_64HZ                        (0x06)
+#define BNO055_GYRO_BW_32HZ                        (0x07)
 
 /* Gyro power mode*/
-#define BNO055_GYRO_POWER_MODE_NORMAL (0X00)
-#define BNO055_GYRO_POWER_MODE_FASTPOWERUP (0X01)
-#define BNO055_GYRO_POWER_MODE_DEEPSUSPEND (0X02)
-#define BNO055_GYRO_POWER_MODE_SUSPEND (0X03)
-#define BNO055_GYRO_POWER_MODE_ADVANCE_POWERSAVE (0X04)
+#define BNO055_GYRO_POWER_MODE_NORMAL              (0X00)
+#define BNO055_GYRO_POWER_MODE_FASTPOWERUP         (0X01)
+#define BNO055_GYRO_POWER_MODE_DEEPSUSPEND         (0X02)
+#define BNO055_GYRO_POWER_MODE_SUSPEND             (0X03)
+#define BNO055_GYRO_POWER_MODE_ADVANCE_POWERSAVE   (0X04)
 
 /* Accel Sleep Duration */
-#define BNO055_ACCEL_SLEEP_DURN_0_5MS (0x05)
+#define BNO055_ACCEL_SLEEP_DURN_0_5MS              (0x05)
 
 /* sets sleep duration to 0.5 ms  */
-#define BNO055_ACCEL_SLEEP_DURN_1MS (0x06)
+#define BNO055_ACCEL_SLEEP_DURN_1MS                (0x06)
 
 /* sets sleep duration to 1 ms */
-#define BNO055_ACCEL_SLEEP_DURN_2MS (0x07)
+#define BNO055_ACCEL_SLEEP_DURN_2MS                (0x07)
 
 /* sets sleep duration to 2 ms */
-#define BNO055_ACCEL_SLEEP_DURN_4MS (0x08)
+#define BNO055_ACCEL_SLEEP_DURN_4MS                (0x08)
 
 /* sets sleep duration to 4 ms */
-#define BNO055_ACCEL_SLEEP_DURN_6MS (0x09)
+#define BNO055_ACCEL_SLEEP_DURN_6MS                (0x09)
 
 /* sets sleep duration to 6 ms*/
-#define BNO055_ACCEL_SLEEP_DURN_10MS (0x0A)
+#define BNO055_ACCEL_SLEEP_DURN_10MS               (0x0A)
 
 /* sets sleep duration to 10 ms */
-#define BNO055_ACCEL_SLEEP_DURN_25MS (0x0B)
+#define BNO055_ACCEL_SLEEP_DURN_25MS               (0x0B)
 
 /* sets sleep duration to 25 ms */
-#define BNO055_ACCEL_SLEEP_DURN_50MS (0x0C)
+#define BNO055_ACCEL_SLEEP_DURN_50MS               (0x0C)
 
 /* sets sleep duration to 50 ms */
-#define BNO055_ACCEL_SLEEP_DURN_100MS (0x0D)
+#define BNO055_ACCEL_SLEEP_DURN_100MS              (0x0D)
 
 /* sets sleep duration to 100 ms */
-#define BNO055_ACCEL_SLEEP_DURN_500MS (0x0E)
+#define BNO055_ACCEL_SLEEP_DURN_500MS              (0x0E)
 
 /* sets sleep duration to 500 ms */
-#define BNO055_ACCEL_SLEEP_DURN_1S (0x0F)
+#define BNO055_ACCEL_SLEEP_DURN_1S                 (0x0F)
 
 /* sets sleep duration to 1 s */
 /* Gyro Auto sleep duration*/
-#define BNO055_GYRO_No_AUTOSLPDUR (0x00)
-#define BNO055_GYRO_4MS_AUTOSLPDUR (0x01)
-#define BNO055_GYRO_5MS_AUTOSLPDUR (0x02)
-#define BNO055_GYRO_8MS_AUTOSLPDUR (0x03)
-#define BNO055_GYRO_10MS_AUTOSLPDUR (0x04)
-#define BNO055_GYRO_15MS_AUTOSLPDUR (0x05)
-#define BNO055_GYRO_20MS_AUTOSLPDUR (0x06)
-#define BNO055_GYRO_40MS_AUTOSLPDUR (0x07)
+#define BNO055_GYRO_No_AUTOSLPDUR                  (0x00)
+#define BNO055_GYRO_4MS_AUTOSLPDUR                 (0x01)
+#define BNO055_GYRO_5MS_AUTOSLPDUR                 (0x02)
+#define BNO055_GYRO_8MS_AUTOSLPDUR                 (0x03)
+#define BNO055_GYRO_10MS_AUTOSLPDUR                (0x04)
+#define BNO055_GYRO_15MS_AUTOSLPDUR                (0x05)
+#define BNO055_GYRO_20MS_AUTOSLPDUR                (0x06)
+#define BNO055_GYRO_40MS_AUTOSLPDUR                (0x07)
 
 /* Accel Any/No motion axis selection*/
-#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_X_AXIS (0)
-#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_Y_AXIS (1)
-#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_Z_AXIS (2)
+#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_X_AXIS   (0)
+#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_Y_AXIS   (1)
+#define BNO055_ACCEL_ANY_MOTION_NO_MOTION_Z_AXIS   (2)
 
 /* Accel High g axis selection*/
-#define BNO055_ACCEL_HIGH_G_X_AXIS (0)
-#define BNO055_ACCEL_HIGH_G_Y_AXIS (1)
-#define BNO055_ACCEL_HIGH_G_Z_AXIS (2)
+#define BNO055_ACCEL_HIGH_G_X_AXIS                 (0)
+#define BNO055_ACCEL_HIGH_G_Y_AXIS                 (1)
+#define BNO055_ACCEL_HIGH_G_Z_AXIS                 (2)
 
 /* Gyro Any motion axis selection*/
-#define BNO055_GYRO_ANY_MOTION_X_AXIS (0)
-#define BNO055_GYRO_ANY_MOTION_Y_AXIS (1)
-#define BNO055_GYRO_ANY_MOTION_Z_AXIS (2)
+#define BNO055_GYRO_ANY_MOTION_X_AXIS              (0)
+#define BNO055_GYRO_ANY_MOTION_Y_AXIS              (1)
+#define BNO055_GYRO_ANY_MOTION_Z_AXIS              (2)
 
 /* Gyro High rate axis selection*/
-#define BNO055_GYRO_HIGHRATE_X_AXIS (0)
-#define BNO055_GYRO_HIGHRATE_Y_AXIS (1)
-#define BNO055_GYRO_HIGHRATE_Z_AXIS (2)
+#define BNO055_GYRO_HIGHRATE_X_AXIS                (0)
+#define BNO055_GYRO_HIGHRATE_Y_AXIS                (1)
+#define BNO055_GYRO_HIGHRATE_Z_AXIS                (2)
 
 /* Axis remap values*/
-#define BNO055_REMAP_X_Y (0X21)
-#define BNO055_REMAP_Y_Z (0X18)
-#define BNO055_REMAP_Z_X (0X06)
-#define BNO055_REMAP_X_Y_Z_TYPE0 (0X12)
-#define BNO055_REMAP_X_Y_Z_TYPE1 (0X09)
-#define BNO055_DEFAULT_AXIS (0X24)
+#define BNO055_REMAP_X_Y                           (0X21)
+#define BNO055_REMAP_Y_Z                           (0X18)
+#define BNO055_REMAP_Z_X                           (0X06)
+#define BNO055_REMAP_X_Y_Z_TYPE0                   (0X12)
+#define BNO055_REMAP_X_Y_Z_TYPE1                   (0X09)
+#define BNO055_DEFAULT_AXIS                        (0X24)
 
 /* Axis remap sign */
-#define BNO055_REMAP_AXIS_POSITIVE (0X00)
-#define BNO055_REMAP_AXIS_NEGATIVE (0X01)
+#define BNO055_REMAP_AXIS_POSITIVE                 (0X00)
+#define BNO055_REMAP_AXIS_NEGATIVE                 (0X01)
 
 /* Gyro anymotion and high rate filter configuration */
-#define BNO055_GYRO_FILTERED_CONFIG (0x00)
-#define BNO055_GYRO_UNFILTERED_CONFIG (0x01)
+#define BNO055_GYRO_FILTERED_CONFIG                (0x00)
+#define BNO055_GYRO_UNFILTERED_CONFIG              (0x01)
 
 /* mask definitions*/
-#define BNO055_SIC_HEX_0_0_F_F_DATA (0x00FF)
+#define BNO055_SIC_HEX_0_0_F_F_DATA                (0x00FF)
 
 /****************************************************/
 /**\name    ARRAY SIZE DEFINITIONS      */
 /***************************************************/
-#define BNO055_REV_ID_SIZE (2)
-#define BNO055_ACCEL_DATA_SIZE (2)
-#define BNO055_ACCEL_XYZ_DATA_SIZE (6)
-#define BNO055_MAG_DATA_SIZE (2)
-#define BNO055_MAG_XYZ_DATA_SIZE (6)
-#define BNO055_GYRO_DATA_SIZE (2)
-#define BNO055_GYRO_XYZ_DATA_SIZE (6)
-#define BNO055_EULER_DATA_SIZE (2)
-#define BNO055_EULER_HRP_DATA_SIZE (6)
-#define BNO055_QUATERNION_DATA_SIZE (2)
-#define BNO055_QUATERNION_WXYZ_DATA_SIZE (8)
-#define BNO055_GRAVITY_DATA_SIZE (2)
-#define BNO055_GRAVITY_XYZ_DATA_SIZE (6)
-#define BNO055_ACCEL_OFFSET_ARRAY (6)
-#define BNO055_MAG_OFFSET_ARRAY (6)
-#define BNO055_GYRO_OFFSET_ARRAY (6)
-#define BNO055_SOFT_IRON_CALIBRATION_MATRIX_SIZE (18)
+#define BNO055_REV_ID_SIZE                         (2)
+#define BNO055_ACCEL_DATA_SIZE                     (2)
+#define BNO055_ACCEL_XYZ_DATA_SIZE                 (6)
+#define BNO055_MAG_DATA_SIZE                       (2)
+#define BNO055_MAG_XYZ_DATA_SIZE                   (6)
+#define BNO055_GYRO_DATA_SIZE                      (2)
+#define BNO055_GYRO_XYZ_DATA_SIZE                  (6)
+#define BNO055_EULER_DATA_SIZE                     (2)
+#define BNO055_EULER_HRP_DATA_SIZE                 (6)
+#define BNO055_QUATERNION_DATA_SIZE                (2)
+#define BNO055_QUATERNION_WXYZ_DATA_SIZE           (8)
+#define BNO055_GRAVITY_DATA_SIZE                   (2)
+#define BNO055_GRAVITY_XYZ_DATA_SIZE               (6)
+#define BNO055_ACCEL_OFFSET_ARRAY                  (6)
+#define BNO055_MAG_OFFSET_ARRAY                    (6)
+#define BNO055_GYRO_OFFSET_ARRAY                   (6)
+#define BNO055_SOFT_IRON_CALIBRATION_MATRIX_SIZE   (18)
 
 /*ARRAY INDEX DEFINITIONS*/
-#define BNO055_SW_ID_LSB (0)
-#define BNO055_SW_ID_MSB (1)
-#define BNO055_SENSOR_DATA_LSB (0)
-#define BNO055_SENSOR_DATA_MSB (1)
-#define BNO055_SENSOR_DATA_EULER_LSB (0)
-#define BNO055_SENSOR_DATA_EULER_MSB (1)
-#define BNO055_SENSOR_DATA_QUATERNION_LSB (0)
-#define BNO055_SENSOR_DATA_QUATERNION_MSB (1)
+#define BNO055_SW_ID_LSB                           (0)
+#define BNO055_SW_ID_MSB                           (1)
+#define BNO055_SENSOR_DATA_LSB                     (0)
+#define BNO055_SENSOR_DATA_MSB                     (1)
+#define BNO055_SENSOR_DATA_EULER_LSB               (0)
+#define BNO055_SENSOR_DATA_EULER_MSB               (1)
+#define BNO055_SENSOR_DATA_QUATERNION_LSB          (0)
+#define BNO055_SENSOR_DATA_QUATERNION_MSB          (1)
 
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_W_LSB (0)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_W_MSB (1)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_X_LSB (2)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_X_MSB (3)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Y_LSB (4)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Y_MSB (5)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Z_LSB (6)
-#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Z_MSB (7)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_W_LSB   (0)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_W_MSB   (1)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_X_LSB   (2)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_X_MSB   (3)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Y_LSB   (4)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Y_MSB   (5)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Z_LSB   (6)
+#define BNO055_SENSOR_DATA_QUATERNION_WXYZ_Z_MSB   (7)
 
-#define BNO055_SENSOR_DATA_XYZ_X_LSB (0)
-#define BNO055_SENSOR_DATA_XYZ_X_MSB (1)
-#define BNO055_SENSOR_DATA_XYZ_Y_LSB (2)
-#define BNO055_SENSOR_DATA_XYZ_Y_MSB (3)
-#define BNO055_SENSOR_DATA_XYZ_Z_LSB (4)
-#define BNO055_SENSOR_DATA_XYZ_Z_MSB (5)
+#define BNO055_SENSOR_DATA_XYZ_X_LSB               (0)
+#define BNO055_SENSOR_DATA_XYZ_X_MSB               (1)
+#define BNO055_SENSOR_DATA_XYZ_Y_LSB               (2)
+#define BNO055_SENSOR_DATA_XYZ_Y_MSB               (3)
+#define BNO055_SENSOR_DATA_XYZ_Z_LSB               (4)
+#define BNO055_SENSOR_DATA_XYZ_Z_MSB               (5)
 
-#define BNO055_SENSOR_DATA_EULER_HRP_H_LSB (0)
-#define BNO055_SENSOR_DATA_EULER_HRP_H_MSB (1)
-#define BNO055_SENSOR_DATA_EULER_HRP_R_LSB (2)
-#define BNO055_SENSOR_DATA_EULER_HRP_R_MSB (3)
-#define BNO055_SENSOR_DATA_EULER_HRP_P_LSB (4)
-#define BNO055_SENSOR_DATA_EULER_HRP_P_MSB (5)
+#define BNO055_SENSOR_DATA_EULER_HRP_H_LSB         (0)
+#define BNO055_SENSOR_DATA_EULER_HRP_H_MSB         (1)
+#define BNO055_SENSOR_DATA_EULER_HRP_R_LSB         (2)
+#define BNO055_SENSOR_DATA_EULER_HRP_R_MSB         (3)
+#define BNO055_SENSOR_DATA_EULER_HRP_P_LSB         (4)
+#define BNO055_SENSOR_DATA_EULER_HRP_P_MSB         (5)
 
-#define BNO055_SOFT_IRON_CALIB_0_LSB (0)
-#define BNO055_SOFT_IRON_CALIB_0_MSB (1)
-#define BNO055_SOFT_IRON_CALIB_1_LSB (2)
-#define BNO055_SOFT_IRON_CALIB_1_MSB (3)
-#define BNO055_SOFT_IRON_CALIB_2_LSB (4)
-#define BNO055_SOFT_IRON_CALIB_2_MSB (5)
-#define BNO055_SOFT_IRON_CALIB_3_LSB (6)
-#define BNO055_SOFT_IRON_CALIB_3_MSB (7)
-#define BNO055_SOFT_IRON_CALIB_4_LSB (8)
-#define BNO055_SOFT_IRON_CALIB_4_MSB (9)
-#define BNO055_SOFT_IRON_CALIB_5_LSB (10)
-#define BNO055_SOFT_IRON_CALIB_5_MSB (11)
-#define BNO055_SOFT_IRON_CALIB_6_LSB (12)
-#define BNO055_SOFT_IRON_CALIB_6_MSB (13)
-#define BNO055_SOFT_IRON_CALIB_7_LSB (14)
-#define BNO055_SOFT_IRON_CALIB_7_MSB (15)
-#define BNO055_SOFT_IRON_CALIB_8_LSB (16)
-#define BNO055_SOFT_IRON_CALIB_8_MSB (17)
+#define BNO055_SOFT_IRON_CALIB_0_LSB               (0)
+#define BNO055_SOFT_IRON_CALIB_0_MSB               (1)
+#define BNO055_SOFT_IRON_CALIB_1_LSB               (2)
+#define BNO055_SOFT_IRON_CALIB_1_MSB               (3)
+#define BNO055_SOFT_IRON_CALIB_2_LSB               (4)
+#define BNO055_SOFT_IRON_CALIB_2_MSB               (5)
+#define BNO055_SOFT_IRON_CALIB_3_LSB               (6)
+#define BNO055_SOFT_IRON_CALIB_3_MSB               (7)
+#define BNO055_SOFT_IRON_CALIB_4_LSB               (8)
+#define BNO055_SOFT_IRON_CALIB_4_MSB               (9)
+#define BNO055_SOFT_IRON_CALIB_5_LSB               (10)
+#define BNO055_SOFT_IRON_CALIB_5_MSB               (11)
+#define BNO055_SOFT_IRON_CALIB_6_LSB               (12)
+#define BNO055_SOFT_IRON_CALIB_6_MSB               (13)
+#define BNO055_SOFT_IRON_CALIB_7_LSB               (14)
+#define BNO055_SOFT_IRON_CALIB_7_MSB               (15)
+#define BNO055_SOFT_IRON_CALIB_8_LSB               (16)
+#define BNO055_SOFT_IRON_CALIB_8_MSB               (17)
 
-#define BNO055_SENSOR_OFFSET_DATA_X_LSB (0)
-#define BNO055_SENSOR_OFFSET_DATA_X_MSB (1)
-#define BNO055_SENSOR_OFFSET_DATA_Y_LSB (2)
-#define BNO055_SENSOR_OFFSET_DATA_Y_MSB (3)
-#define BNO055_SENSOR_OFFSET_DATA_Z_LSB (4)
-#define BNO055_SENSOR_OFFSET_DATA_Z_MSB (5)
+#define BNO055_SENSOR_OFFSET_DATA_X_LSB            (0)
+#define BNO055_SENSOR_OFFSET_DATA_X_MSB            (1)
+#define BNO055_SENSOR_OFFSET_DATA_Y_LSB            (2)
+#define BNO055_SENSOR_OFFSET_DATA_Y_MSB            (3)
+#define BNO055_SENSOR_OFFSET_DATA_Z_LSB            (4)
+#define BNO055_SENSOR_OFFSET_DATA_Z_MSB            (5)
 
-#define BNO055_OFFSET_RADIUS_LSB (0)
-#define BNO055_OFFSET_RADIUS_MSB (1)
+#define BNO055_OFFSET_RADIUS_LSB                   (0)
+#define BNO055_OFFSET_RADIUS_MSB                   (1)
 
 /*********************************************************/
 /**\name PAGE0 DATA REGISTERS DEFINITION */
 /*********************************************************/
 /* Chip ID */
-#define BNO055_CHIP_ID_POS (0)
-#define BNO055_CHIP_ID_MSK (0xFF)
-#define BNO055_CHIP_ID_LEN (8)
-#define BNO055_CHIP_ID_REG BNO055_CHIP_ID_ADDR
+#define BNO055_CHIP_ID_POS                        (0)
+#define BNO055_CHIP_ID_MSK                        (0xFF)
+#define BNO055_CHIP_ID_LEN                        (8)
+#define BNO055_CHIP_ID_REG                        BNO055_CHIP_ID_ADDR
 
 /* Accel revision id*/
-#define BNO055_ACCEL_REV_ID_POS (0)
-#define BNO055_ACCEL_REV_ID_MSK (0xFF)
-#define BNO055_ACCEL_REV_ID_LEN (8)
-#define BNO055_ACCEL_REV_ID_REG BNO055_ACCEL_REV_ID_ADDR
+#define BNO055_ACCEL_REV_ID_POS                   (0)
+#define BNO055_ACCEL_REV_ID_MSK                   (0xFF)
+#define BNO055_ACCEL_REV_ID_LEN                   (8)
+#define BNO055_ACCEL_REV_ID_REG                   BNO055_ACCEL_REV_ID_ADDR
 
 /* Mag revision id*/
-#define BNO055_MAG_REV_ID_POS (0)
-#define BNO055_MAG_REV_ID_MSK (0xFF)
-#define BNO055_MAG_REV_ID_LEN (8)
-#define BNO055_MAG_REV_ID_REG BNO055_MAG_REV_ID_ADDR
+#define BNO055_MAG_REV_ID_POS                     (0)
+#define BNO055_MAG_REV_ID_MSK                     (0xFF)
+#define BNO055_MAG_REV_ID_LEN                     (8)
+#define BNO055_MAG_REV_ID_REG                     BNO055_MAG_REV_ID_ADDR
 
 /* Gyro revision id*/
-#define BNO055_GYRO_REV_ID_POS (0)
-#define BNO055_GYRO_REV_ID_MSK (0xFF)
-#define BNO055_GYRO_REV_ID_LEN (8)
-#define BNO055_GYRO_REV_ID_REG BNO055_GYRO_REV_ID_ADDR
+#define BNO055_GYRO_REV_ID_POS                    (0)
+#define BNO055_GYRO_REV_ID_MSK                    (0xFF)
+#define BNO055_GYRO_REV_ID_LEN                    (8)
+#define BNO055_GYRO_REV_ID_REG                    BNO055_GYRO_REV_ID_ADDR
 
 /*Software revision id LSB*/
-#define BNO055_SW_REV_ID_LSB_POS (0)
-#define BNO055_SW_REV_ID_LSB_MSK (0xFF)
-#define BNO055_SW_REV_ID_LSB_LEN (8)
-#define BNO055_SW_REV_ID_LSB_REG BNO055_SW_REV_ID_LSB_ADDR
+#define BNO055_SW_REV_ID_LSB_POS                  (0)
+#define BNO055_SW_REV_ID_LSB_MSK                  (0xFF)
+#define BNO055_SW_REV_ID_LSB_LEN                  (8)
+#define BNO055_SW_REV_ID_LSB_REG                  BNO055_SW_REV_ID_LSB_ADDR
 
 /*Software revision id MSB*/
-#define BNO055_SW_REV_ID_MSB_POS (0)
-#define BNO055_SW_REV_ID_MSB_MSK (0xFF)
-#define BNO055_SW_REV_ID_MSB_LEN (8)
-#define BNO055_SW_REV_ID_MSB_REG BNO055_SW_REV_ID_MSB_ADDR
+#define BNO055_SW_REV_ID_MSB_POS                  (0)
+#define BNO055_SW_REV_ID_MSB_MSK                  (0xFF)
+#define BNO055_SW_REV_ID_MSB_LEN                  (8)
+#define BNO055_SW_REV_ID_MSB_REG                  BNO055_SW_REV_ID_MSB_ADDR
 
 /* BOOTLODER revision id*/
-#define BNO055_BL_REV_ID_POS (0)
-#define BNO055_BL_REV_ID_MSK (0xFF)
-#define BNO055_BL_REV_ID_LEN (8)
-#define BNO055_BL_REV_ID_REG BNO055_BL_REV_ID_ADDR
+#define BNO055_BL_REV_ID_POS                      (0)
+#define BNO055_BL_REV_ID_MSK                      (0xFF)
+#define BNO055_BL_REV_ID_LEN                      (8)
+#define BNO055_BL_REV_ID_REG                      BNO055_BL_REV_ID_ADDR
 
 /*Page id*/
-#define BNO055_PAGE_ID_POS (0)
-#define BNO055_PAGE_ID_MSK (0xFF)
-#define BNO055_PAGE_ID_LEN (8)
-#define BNO055_PAGE_ID_REG BNO055_PAGE_ID_ADDR
+#define BNO055_PAGE_ID_POS                        (0)
+#define BNO055_PAGE_ID_MSK                        (0xFF)
+#define BNO055_PAGE_ID_LEN                        (8)
+#define BNO055_PAGE_ID_REG                        BNO055_PAGE_ID_ADDR
 
 /* Accel data X-LSB register*/
-#define BNO055_ACCEL_DATA_X_LSB_VALUEX_POS (0)
-#define BNO055_ACCEL_DATA_X_LSB_VALUEX_MSK (0xFF)
-#define BNO055_ACCEL_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_ACCEL_DATA_X_LSB_VALUEX_REG \
+#define BNO055_ACCEL_DATA_X_LSB_VALUEX_POS        (0)
+#define BNO055_ACCEL_DATA_X_LSB_VALUEX_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_X_LSB_VALUEX_LEN        (8)
+#define BNO055_ACCEL_DATA_X_LSB_VALUEX_REG             \
     BNO055_ACCEL_DATA_X_LSB_ADDR
 
 /* Accel data X-MSB register*/
-#define BNO055_ACCEL_DATA_X_MSB_VALUEX_POS (0)
-#define BNO055_ACCEL_DATA_X_MSB_VALUEX_MSK (0xFF)
-#define BNO055_ACCEL_DATA_X_MSB_VALUEX_LEN (8)
-#define BNO055_ACCEL_DATA_X_MSB_VALUEX_REG \
+#define BNO055_ACCEL_DATA_X_MSB_VALUEX_POS        (0)
+#define BNO055_ACCEL_DATA_X_MSB_VALUEX_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_X_MSB_VALUEX_LEN        (8)
+#define BNO055_ACCEL_DATA_X_MSB_VALUEX_REG             \
     BNO055_ACCEL_DATA_X_MSB_ADDR
 
 /* Accel data Y-LSB register*/
-#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_POS (0)
-#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_MSK (0xFF)
-#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_LEN (8)
-#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_REG \
+#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_POS        (0)
+#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_LEN        (8)
+#define BNO055_ACCEL_DATA_Y_LSB_VALUEY_REG             \
     BNO055_ACCEL_DATA_Y_LSB_ADDR
 
 /* Accel data Y-MSB register*/
-#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_POS (0)
-#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_MSK (0xFF)
-#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_REG \
+#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_POS        (0)
+#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_LEN        (8)
+#define BNO055_ACCEL_DATA_Y_MSB_VALUEY_REG             \
     BNO055_ACCEL_DATA_Y_MSB_ADDR
 
 /* Accel data Z-LSB register*/
-#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_POS (0)
-#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_MSK (0xFF)
-#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_LEN (8)
-#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_REG \
+#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_POS        (0)
+#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_LEN        (8)
+#define BNO055_ACCEL_DATA_Z_LSB_VALUEZ_REG     \
     BNO055_ACCEL_DATA_Z_LSB_ADDR
 
 /* Accel data Z-MSB register*/
-#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_POS (0)
-#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_MSK (0xFF)
-#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_REG \
+#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_POS        (0)
+#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_MSK        (0xFF)
+#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_LEN        (8)
+#define BNO055_ACCEL_DATA_Z_MSB_VALUEZ_REG     \
     BNO055_ACCEL_DATA_Z_MSB_ADDR
 
 /* Mag data X-LSB register*/
-#define BNO055_MAG_DATA_X_LSB_VALUEX_POS (0)
-#define BNO055_MAG_DATA_X_LSB_VALUEX_MSK (0xFF)
-#define BNO055_MAG_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_MAG_DATA_X_LSB_VALUEX_REG \
+#define BNO055_MAG_DATA_X_LSB_VALUEX_POS          (0)
+#define BNO055_MAG_DATA_X_LSB_VALUEX_MSK          (0xFF)
+#define BNO055_MAG_DATA_X_LSB_VALUEX_LEN          (8)
+#define BNO055_MAG_DATA_X_LSB_VALUEX_REG             \
     BNO055_MAG_DATA_X_LSB_ADDR
 
 /* Mag data X-MSB register*/
-#define BNO055_MAG_DATA_X_MSB_VALUEX_POS (0)
-#define BNO055_MAG_DATA_X_MSB_VALUEX_MSK (0xFF)
-#define BNO055_MAG_DATA_X_MSB_VALUEX_LEN (8)
-#define BNO055_MAG_DATA_X_MSB_VALUEX_REG BNO055_MAG_DATA_X_MSB_ADDR
+#define BNO055_MAG_DATA_X_MSB_VALUEX_POS          (0)
+#define BNO055_MAG_DATA_X_MSB_VALUEX_MSK          (0xFF)
+#define BNO055_MAG_DATA_X_MSB_VALUEX_LEN          (8)
+#define BNO055_MAG_DATA_X_MSB_VALUEX_REG          BNO055_MAG_DATA_X_MSB_ADDR
 
 /* Mag data Y-LSB register*/
-#define BNO055_MAG_DATA_Y_LSB_VALUEY_POS (0)
-#define BNO055_MAG_DATA_Y_LSB_VALUEY_MSK (0xFF)
-#define BNO055_MAG_DATA_Y_LSB_VALUEY_LEN (8)
-#define BNO055_MAG_DATA_Y_LSB_VALUEY_REG BNO055_MAG_DATA_Y_LSB_ADDR
+#define BNO055_MAG_DATA_Y_LSB_VALUEY_POS          (0)
+#define BNO055_MAG_DATA_Y_LSB_VALUEY_MSK          (0xFF)
+#define BNO055_MAG_DATA_Y_LSB_VALUEY_LEN          (8)
+#define BNO055_MAG_DATA_Y_LSB_VALUEY_REG          BNO055_MAG_DATA_Y_LSB_ADDR
 
 /* Mag data Y-MSB register*/
-#define BNO055_MAG_DATA_Y_MSB_VALUEY_POS (0)
-#define BNO055_MAG_DATA_Y_MSB_VALUEY_MSK (0xFF)
-#define BNO055_MAG_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_MAG_DATA_Y_MSB_VALUEY_REG BNO055_MAG_DATA_Y_MSB_ADDR
+#define BNO055_MAG_DATA_Y_MSB_VALUEY_POS          (0)
+#define BNO055_MAG_DATA_Y_MSB_VALUEY_MSK          (0xFF)
+#define BNO055_MAG_DATA_Y_MSB_VALUEY_LEN          (8)
+#define BNO055_MAG_DATA_Y_MSB_VALUEY_REG          BNO055_MAG_DATA_Y_MSB_ADDR
 
 /* Mag data Z-LSB register*/
-#define BNO055_MAG_DATA_Z_LSB_VALUEZ_POS (0)
-#define BNO055_MAG_DATA_Z_LSB_VALUEZ_MSK (0xFF)
-#define BNO055_MAG_DATA_Z_LSB_VALUEZ_LEN (8)
-#define BNO055_MAG_DATA_Z_LSB_VALUEZ_REG BNO055_MAG_DATA_Z_LSB_ADDR
+#define BNO055_MAG_DATA_Z_LSB_VALUEZ_POS          (0)
+#define BNO055_MAG_DATA_Z_LSB_VALUEZ_MSK          (0xFF)
+#define BNO055_MAG_DATA_Z_LSB_VALUEZ_LEN          (8)
+#define BNO055_MAG_DATA_Z_LSB_VALUEZ_REG          BNO055_MAG_DATA_Z_LSB_ADDR
 
 /* Mag data Z-MSB register*/
-#define BNO055_MAG_DATA_Z_MSB_VALUEZ_POS (0)
-#define BNO055_MAG_DATA_Z_MSB_VALUEZ_MSK (0xFF)
-#define BNO055_MAG_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_MAG_DATA_Z_MSB_VALUEZ_REG BNO055_MAG_DATA_Z_MSB_ADDR
+#define BNO055_MAG_DATA_Z_MSB_VALUEZ_POS          (0)
+#define BNO055_MAG_DATA_Z_MSB_VALUEZ_MSK          (0xFF)
+#define BNO055_MAG_DATA_Z_MSB_VALUEZ_LEN          (8)
+#define BNO055_MAG_DATA_Z_MSB_VALUEZ_REG          BNO055_MAG_DATA_Z_MSB_ADDR
 
 /* Gyro data X-LSB register*/
-#define BNO055_GYRO_DATA_X_LSB_VALUEX_POS (0)
-#define BNO055_GYRO_DATA_X_LSB_VALUEX_MSK (0xFF)
-#define BNO055_GYRO_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_GYRO_DATA_X_LSB_VALUEX_REG BNO055_GYRO_DATA_X_LSB_ADDR
+#define BNO055_GYRO_DATA_X_LSB_VALUEX_POS         (0)
+#define BNO055_GYRO_DATA_X_LSB_VALUEX_MSK         (0xFF)
+#define BNO055_GYRO_DATA_X_LSB_VALUEX_LEN         (8)
+#define BNO055_GYRO_DATA_X_LSB_VALUEX_REG         BNO055_GYRO_DATA_X_LSB_ADDR
 
 /* Gyro data X-MSB register*/
-#define BNO055_GYRO_DATA_X_MSB_VALUEX_POS (0)
-#define BNO055_GYRO_DATA_X_MSB_VALUEX_MSK (0xFF)
-#define BNO055_GYRO_DATA_X_MSB_VALUEX_LEN (8)
-#define BNO055_GYRO_DATA_X_MSB_VALUEX_REG BNO055_GYRO_DATA_X_MSB_ADDR
+#define BNO055_GYRO_DATA_X_MSB_VALUEX_POS         (0)
+#define BNO055_GYRO_DATA_X_MSB_VALUEX_MSK         (0xFF)
+#define BNO055_GYRO_DATA_X_MSB_VALUEX_LEN         (8)
+#define BNO055_GYRO_DATA_X_MSB_VALUEX_REG         BNO055_GYRO_DATA_X_MSB_ADDR
 
 /* Gyro data Y-LSB register*/
-#define BNO055_GYRO_DATA_Y_LSB_VALUEY_POS (0)
-#define BNO055_GYRO_DATA_Y_LSB_VALUEY_MSK (0xFF)
-#define BNO055_GYRO_DATA_Y_LSB_VALUEY_LEN (8)
-#define BNO055_GYRO_DATA_Y_LSB_VALUEY_REG BNO055_GYRO_DATA_Y_LSB_ADDR
+#define BNO055_GYRO_DATA_Y_LSB_VALUEY_POS         (0)
+#define BNO055_GYRO_DATA_Y_LSB_VALUEY_MSK         (0xFF)
+#define BNO055_GYRO_DATA_Y_LSB_VALUEY_LEN         (8)
+#define BNO055_GYRO_DATA_Y_LSB_VALUEY_REG         BNO055_GYRO_DATA_Y_LSB_ADDR
 
 /* Gyro data Y-MSB register*/
-#define BNO055_GYRO_DATA_Y_MSB_VALUEY_POS (0)
-#define BNO055_GYRO_DATA_Y_MSB_VALUEY_MSK (0xFF)
-#define BNO055_GYRO_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_GYRO_DATA_Y_MSB_VALUEY_REG BNO055_GYRO_DATA_Y_MSB_ADDR
+#define BNO055_GYRO_DATA_Y_MSB_VALUEY_POS         (0)
+#define BNO055_GYRO_DATA_Y_MSB_VALUEY_MSK         (0xFF)
+#define BNO055_GYRO_DATA_Y_MSB_VALUEY_LEN         (8)
+#define BNO055_GYRO_DATA_Y_MSB_VALUEY_REG         BNO055_GYRO_DATA_Y_MSB_ADDR
 
 /* Gyro data Z-LSB register*/
-#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_POS (0)
-#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_MSK (0xFF)
-#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_LEN (8)
-#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_REG BNO055_GYRO_DATA_Z_LSB_ADDR
+#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_POS         (0)
+#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_MSK         (0xFF)
+#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_LEN         (8)
+#define BNO055_GYRO_DATA_Z_LSB_VALUEZ_REG         BNO055_GYRO_DATA_Z_LSB_ADDR
 
 /* Gyro data Z-MSB register*/
-#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_POS (0)
-#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_MSK (0xFF)
-#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_REG BNO055_GYRO_DATA_Z_MSB_ADDR
+#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_POS         (0)
+#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_MSK         (0xFF)
+#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_LEN         (8)
+#define BNO055_GYRO_DATA_Z_MSB_VALUEZ_REG         BNO055_GYRO_DATA_Z_MSB_ADDR
 
 /* Euler data HEADING-LSB register*/
-#define BNO055_EULER_H_LSB_VALUEH_POS (0)
-#define BNO055_EULER_H_LSB_VALUEH_MSK (0xFF)
-#define BNO055_EULER_H_LSB_VALUEH_LEN (8)
-#define BNO055_EULER_H_LSB_VALUEH_REG BNO055_EULER_H_LSB_ADDR
+#define BNO055_EULER_H_LSB_VALUEH_POS             (0)
+#define BNO055_EULER_H_LSB_VALUEH_MSK             (0xFF)
+#define BNO055_EULER_H_LSB_VALUEH_LEN             (8)
+#define BNO055_EULER_H_LSB_VALUEH_REG             BNO055_EULER_H_LSB_ADDR
 
 /* Euler data HEADING-MSB register*/
-#define BNO055_EULER_H_MSB_VALUEH_POS (0)
-#define BNO055_EULER_H_MSB_VALUEH_MSK (0xFF)
-#define BNO055_EULER_H_MSB_VALUEH_LEN (8)
-#define BNO055_EULER_H_MSB_VALUEH_REG BNO055_EULER_H_MSB_ADDR
+#define BNO055_EULER_H_MSB_VALUEH_POS             (0)
+#define BNO055_EULER_H_MSB_VALUEH_MSK             (0xFF)
+#define BNO055_EULER_H_MSB_VALUEH_LEN             (8)
+#define BNO055_EULER_H_MSB_VALUEH_REG             BNO055_EULER_H_MSB_ADDR
 
 /* Euler data ROLL-LSB register*/
-#define BNO055_EULER_R_LSB_VALUER_POS (0)
-#define BNO055_EULER_R_LSB_VALUER_MSK (0xFF)
-#define BNO055_EULER_R_LSB_VALUER_LEN (8)
-#define BNO055_EULER_R_LSB_VALUER_REG BNO055_EULER_R_LSB_ADDR
+#define BNO055_EULER_R_LSB_VALUER_POS             (0)
+#define BNO055_EULER_R_LSB_VALUER_MSK             (0xFF)
+#define BNO055_EULER_R_LSB_VALUER_LEN             (8)
+#define BNO055_EULER_R_LSB_VALUER_REG             BNO055_EULER_R_LSB_ADDR
 
 /* Euler data ROLL-MSB register*/
-#define BNO055_EULER_R_MSB_VALUER_POS (0)
-#define BNO055_EULER_R_MSB_VALUER_MSK (0xFF)
-#define BNO055_EULER_R_MSB_VALUER_LEN (8)
-#define BNO055_EULER_R_MSB_VALUER_REG BNO055_EULER_R_MSB_ADDR
+#define BNO055_EULER_R_MSB_VALUER_POS             (0)
+#define BNO055_EULER_R_MSB_VALUER_MSK             (0xFF)
+#define BNO055_EULER_R_MSB_VALUER_LEN             (8)
+#define BNO055_EULER_R_MSB_VALUER_REG             BNO055_EULER_R_MSB_ADDR
 
 /* Euler data PITCH-LSB register*/
-#define BNO055_EULER_P_LSB_VALUEP_POS (0)
-#define BNO055_EULER_P_LSB_VALUEP_MSK (0xFF)
-#define BNO055_EULER_P_LSB_VALUEP_LEN (8)
-#define BNO055_EULER_P_LSB_VALUEP_REG BNO055_EULER_P_LSB_ADDR
+#define BNO055_EULER_P_LSB_VALUEP_POS             (0)
+#define BNO055_EULER_P_LSB_VALUEP_MSK             (0xFF)
+#define BNO055_EULER_P_LSB_VALUEP_LEN             (8)
+#define BNO055_EULER_P_LSB_VALUEP_REG             BNO055_EULER_P_LSB_ADDR
 
 /* Euler data HEADING-MSB register*/
-#define BNO055_EULER_P_MSB_VALUEP_POS (0)
-#define BNO055_EULER_P_MSB_VALUEP_MSK (0xFF)
-#define BNO055_EULER_P_MSB_VALUEP_LEN (8)
-#define BNO055_EULER_P_MSB_VALUEP_REG BNO055_EULER_P_MSB_ADDR
+#define BNO055_EULER_P_MSB_VALUEP_POS             (0)
+#define BNO055_EULER_P_MSB_VALUEP_MSK             (0xFF)
+#define BNO055_EULER_P_MSB_VALUEP_LEN             (8)
+#define BNO055_EULER_P_MSB_VALUEP_REG             BNO055_EULER_P_MSB_ADDR
 
 /* Quaternion data W-LSB register*/
-#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_POS (0)
-#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_LEN (8)
-#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_REG \
+#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_POS   (0)
+#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_LEN   (8)
+#define BNO055_QUATERNION_DATA_W_LSB_VALUEW_REG  \
     BNO055_QUATERNION_DATA_W_LSB_ADDR
 
 /* Quaternion data W-MSB register*/
-#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_POS (0)
-#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_LEN (8)
-#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_REG \
+#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_POS   (0)
+#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_LEN   (8)
+#define BNO055_QUATERNION_DATA_W_MSB_VALUEW_REG  \
     BNO055_QUATERNION_DATA_W_MSB_ADDR
 
 /* Quaternion data X-LSB register*/
-#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_POS (0)
-#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_REG \
+#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_POS   (0)
+#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_LEN   (8)
+#define BNO055_QUATERNION_DATA_X_LSB_VALUEX_REG  \
     BNO055_QUATERNION_DATA_X_LSB_ADDR
 
 /* Quaternion data X-MSB register*/
-#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_POS (0)
-#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_LEN (8)
+#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_POS   (0)
+#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_X_MSB_VALUEX_LEN   (8)
 #define BNO055_QUATERNION_DATA_X_MSB_VALUEX_REG \
     BNO055_QUATERNION_DATA_X_MSB_ADDR
 
 /* Quaternion data Y-LSB register*/
-#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_POS (0)
-#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_LEN (8)
+#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_POS   (0)
+#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_LEN   (8)
 #define BNO055_QUATERNION_DATA_Y_LSB_VALUEY_REG \
     BNO055_QUATERNION_DATA_Y_LSB_ADDR
 
 /* Quaternion data Y-MSB register*/
-#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_POS (0)
-#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_REG \
+#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_POS   (0)
+#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_LEN   (8)
+#define BNO055_QUATERNION_DATA_Y_MSB_VALUEY_REG  \
     BNO055_QUATERNION_DATA_Y_MSB_ADDR
 
 /* Quaternion data Z-LSB register*/
-#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_POS (0)
-#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_LEN (8)
+#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_POS   (0)
+#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_LEN   (8)
 #define BNO055_QUATERNION_DATA_Z_LSB_VALUEZ_REG \
     BNO055_QUATERNION_DATA_Z_LSB_ADDR
 
 /* Quaternion data Z-MSB register*/
-#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_POS (0)
-#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_MSK (0xFF)
-#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_REG \
+#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_POS   (0)
+#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_MSK   (0xFF)
+#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_LEN   (8)
+#define BNO055_QUATERNION_DATA_Z_MSB_VALUEZ_REG  \
     BNO055_QUATERNION_DATA_Z_MSB_ADDR
 
 /* Linear acceleration data X-LSB register*/
 #define BNO055_LINEAR_ACCEL_DATA_X_LSB_VALUEX_POS (0)
 #define BNO055_LINEAR_ACCEL_DATA_X_LSB_VALUEX_MSK (0xFF)
 #define BNO055_LINEAR_ACCEL_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_LINEAR_ACCEL_DATA_X_LSB_VALUEX_REG \
+#define BNO055_LINEAR_ACCEL_DATA_X_LSB_VALUEX_REG  \
     BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR
 
 /* Linear acceleration data X-MSB register*/
 #define BNO055_LINEAR_ACCEL_DATA_X_MSB_VALUEX_POS (0)
 #define BNO055_LINEAR_ACCEL_DATA_X_MSB_VALUEX_MSK (0xFF)
 #define BNO055_LINEAR_ACCEL_DATA_X_MSB_VALUEX_LEN (8)
-#define BNO055_LINEAR_ACCEL_DATA_X_MSB_VALUEX_REG \
+#define BNO055_LINEAR_ACCEL_DATA_X_MSB_VALUEX_REG  \
     BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR
 
 /* Linear acceleration data Y-LSB register*/
 #define BNO055_LINEAR_ACCEL_DATA_Y_LSB_VALUEY_POS (0)
 #define BNO055_LINEAR_ACCEL_DATA_Y_LSB_VALUEY_MSK (0xFF)
 #define BNO055_LINEAR_ACCEL_DATA_Y_LSB_VALUEY_LEN (8)
-#define BNO055_LINEAR_ACCEL_DATA_Y_LSB_VALUEY_REG \
+#define BNO055_LINEAR_ACCEL_DATA_Y_LSB_VALUEY_REG  \
     BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR
 
 /* Linear acceleration data Y-MSB register*/
 #define BNO055_LINEAR_ACCEL_DATA_Y_MSB_VALUEY_POS (0)
 #define BNO055_LINEAR_ACCEL_DATA_Y_MSB_VALUEY_MSK (0xFF)
 #define BNO055_LINEAR_ACCEL_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_LINEAR_ACCEL_DATA_Y_MSB_VALUEY_REG \
+#define BNO055_LINEAR_ACCEL_DATA_Y_MSB_VALUEY_REG  \
     BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR
 
 /* Linear acceleration data Z-LSB register*/
@@ -1409,452 +1402,452 @@ struct bno055_sic_matrix_t
 #define BNO055_LINEAR_ACCEL_DATA_Z_MSB_VALUEZ_POS (0)
 #define BNO055_LINEAR_ACCEL_DATA_Z_MSB_VALUEZ_MSK (0xFF)
 #define BNO055_LINEAR_ACCEL_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_LINEAR_ACCEL_DATA_Z_MSB_VALUEZ_REG \
+#define BNO055_LINEAR_ACCEL_DATA_Z_MSB_VALUEZ_REG  \
     BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR
 
 /* Gravity data X-LSB register*/
-#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_POS (0)
-#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_LEN (8)
-#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_REG \
+#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_POS      (0)
+#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_LEN      (8)
+#define BNO055_GRAVITY_DATA_X_LSB_VALUEX_REG  \
     BNO055_GRAVITY_DATA_X_LSB_ADDR
 
 /* Gravity data X-MSB register*/
-#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_POS (0)
-#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_LEN (8)
-#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_REG \
+#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_POS      (0)
+#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_LEN      (8)
+#define BNO055_GRAVITY_DATA_X_MSB_VALUEX_REG  \
     BNO055_GRAVITY_DATA_X_MSB_ADDR
 
 /* Gravity data Y-LSB register*/
-#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_POS (0)
-#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_LEN (8)
-#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_REG \
+#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_POS      (0)
+#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_LEN      (8)
+#define BNO055_GRAVITY_DATA_Y_LSB_VALUEY_REG  \
     BNO055_GRAVITY_DATA_Y_LSB_ADDR
 
 /* Gravity data Y-MSB register*/
-#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_POS (0)
-#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_LEN (8)
-#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_REG \
+#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_POS      (0)
+#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_LEN      (8)
+#define BNO055_GRAVITY_DATA_Y_MSB_VALUEY_REG  \
     BNO055_GRAVITY_DATA_Y_MSB_ADDR
 
 /* Gravity data Z-LSB register*/
-#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_POS (0)
-#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_LEN (8)
-#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_REG \
+#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_POS      (0)
+#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_LEN      (8)
+#define BNO055_GRAVITY_DATA_Z_LSB_VALUEZ_REG  \
     BNO055_GRAVITY_DATA_Z_LSB_ADDR
 
 /* Gravity data Z-MSB register*/
-#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_POS (0)
-#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_MSK (0xFF)
-#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_LEN (8)
-#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_REG \
+#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_POS      (0)
+#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_MSK      (0xFF)
+#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_LEN      (8)
+#define BNO055_GRAVITY_DATA_Z_MSB_VALUEZ_REG  \
     BNO055_GRAVITY_DATA_Z_MSB_ADDR
 
 /* Temperature register*/
-#define BNO055_TEMP_POS (0)
-#define BNO055_TEMP_MSK (0xFF)
-#define BNO055_TEMP_LEN (8)
-#define BNO055_TEMP_REG BNO055_TEMP_ADDR
+#define BNO055_TEMP_POS                           (0)
+#define BNO055_TEMP_MSK                           (0xFF)
+#define BNO055_TEMP_LEN                           (8)
+#define BNO055_TEMP_REG                           BNO055_TEMP_ADDR
 
 /*Mag_Calib status register*/
-#define BNO055_MAG_CALIB_STAT_POS (0)
-#define BNO055_MAG_CALIB_STAT_MSK (0X03)
-#define BNO055_MAG_CALIB_STAT_LEN (2)
-#define BNO055_MAG_CALIB_STAT_REG BNO055_CALIB_STAT_ADDR
+#define BNO055_MAG_CALIB_STAT_POS                 (0)
+#define BNO055_MAG_CALIB_STAT_MSK                 (0X03)
+#define BNO055_MAG_CALIB_STAT_LEN                 (2)
+#define BNO055_MAG_CALIB_STAT_REG                 BNO055_CALIB_STAT_ADDR
 
 /*Acc_Calib status register*/
-#define BNO055_ACCEL_CALIB_STAT_POS (2)
-#define BNO055_ACCEL_CALIB_STAT_MSK (0X0C)
-#define BNO055_ACCEL_CALIB_STAT_LEN (2)
-#define BNO055_ACCEL_CALIB_STAT_REG BNO055_CALIB_STAT_ADDR
+#define BNO055_ACCEL_CALIB_STAT_POS               (2)
+#define BNO055_ACCEL_CALIB_STAT_MSK               (0X0C)
+#define BNO055_ACCEL_CALIB_STAT_LEN               (2)
+#define BNO055_ACCEL_CALIB_STAT_REG               BNO055_CALIB_STAT_ADDR
 
 /*Gyro_Calib status register*/
-#define BNO055_GYRO_CALIB_STAT_POS (4)
-#define BNO055_GYRO_CALIB_STAT_MSK (0X30)
-#define BNO055_GYRO_CALIB_STAT_LEN (2)
-#define BNO055_GYRO_CALIB_STAT_REG BNO055_CALIB_STAT_ADDR
+#define BNO055_GYRO_CALIB_STAT_POS                (4)
+#define BNO055_GYRO_CALIB_STAT_MSK                (0X30)
+#define BNO055_GYRO_CALIB_STAT_LEN                (2)
+#define BNO055_GYRO_CALIB_STAT_REG                BNO055_CALIB_STAT_ADDR
 
 /*Sys_Calib status register*/
-#define BNO055_SYS_CALIB_STAT_POS (6)
-#define BNO055_SYS_CALIB_STAT_MSK (0XC0)
-#define BNO055_SYS_CALIB_STAT_LEN (2)
-#define BNO055_SYS_CALIB_STAT_REG BNO055_CALIB_STAT_ADDR
+#define BNO055_SYS_CALIB_STAT_POS                 (6)
+#define BNO055_SYS_CALIB_STAT_MSK                 (0XC0)
+#define BNO055_SYS_CALIB_STAT_LEN                 (2)
+#define BNO055_SYS_CALIB_STAT_REG                 BNO055_CALIB_STAT_ADDR
 
 /*ST_ACCEL register*/
-#define BNO055_SELFTEST_ACCEL_POS (0)
-#define BNO055_SELFTEST_ACCEL_MSK (0X01)
-#define BNO055_SELFTEST_ACCEL_LEN (1)
-#define BNO055_SELFTEST_ACCEL_REG BNO055_SELFTEST_RESULT_ADDR
+#define BNO055_SELFTEST_ACCEL_POS                 (0)
+#define BNO055_SELFTEST_ACCEL_MSK                 (0X01)
+#define BNO055_SELFTEST_ACCEL_LEN                 (1)
+#define BNO055_SELFTEST_ACCEL_REG                 BNO055_SELFTEST_RESULT_ADDR
 
 /*ST_MAG register*/
-#define BNO055_SELFTEST_MAG_POS (1)
-#define BNO055_SELFTEST_MAG_MSK (0X02)
-#define BNO055_SELFTEST_MAG_LEN (1)
-#define BNO055_SELFTEST_MAG_REG BNO055_SELFTEST_RESULT_ADDR
+#define BNO055_SELFTEST_MAG_POS                   (1)
+#define BNO055_SELFTEST_MAG_MSK                   (0X02)
+#define BNO055_SELFTEST_MAG_LEN                   (1)
+#define BNO055_SELFTEST_MAG_REG                   BNO055_SELFTEST_RESULT_ADDR
 
 /*ST_GYRO register*/
-#define BNO055_SELFTEST_GYRO_POS (2)
-#define BNO055_SELFTEST_GYRO_MSK (0X04)
-#define BNO055_SELFTEST_GYRO_LEN (1)
-#define BNO055_SELFTEST_GYRO_REG BNO055_SELFTEST_RESULT_ADDR
+#define BNO055_SELFTEST_GYRO_POS                  (2)
+#define BNO055_SELFTEST_GYRO_MSK                  (0X04)
+#define BNO055_SELFTEST_GYRO_LEN                  (1)
+#define BNO055_SELFTEST_GYRO_REG                  BNO055_SELFTEST_RESULT_ADDR
 
 /*ST_MCU register*/
-#define BNO055_SELFTEST_MCU_POS (3)
-#define BNO055_SELFTEST_MCU_MSK (0X08)
-#define BNO055_SELFTEST_MCU_LEN (1)
-#define BNO055_SELFTEST_MCU_REG BNO055_SELFTEST_RESULT_ADDR
+#define BNO055_SELFTEST_MCU_POS                   (3)
+#define BNO055_SELFTEST_MCU_MSK                   (0X08)
+#define BNO055_SELFTEST_MCU_LEN                   (1)
+#define BNO055_SELFTEST_MCU_REG                   BNO055_SELFTEST_RESULT_ADDR
 
 /*Interrupt status registers*/
-#define BNO055_INTR_STAT_GYRO_ANY_MOTION_POS (2)
-#define BNO055_INTR_STAT_GYRO_ANY_MOTION_MSK (0X04)
-#define BNO055_INTR_STAT_GYRO_ANY_MOTION_LEN (1)
-#define BNO055_INTR_STAT_GYRO_ANY_MOTION_REG BNO055_INTR_STAT_ADDR
+#define BNO055_INTR_STAT_GYRO_ANY_MOTION_POS      (2)
+#define BNO055_INTR_STAT_GYRO_ANY_MOTION_MSK      (0X04)
+#define BNO055_INTR_STAT_GYRO_ANY_MOTION_LEN      (1)
+#define BNO055_INTR_STAT_GYRO_ANY_MOTION_REG      BNO055_INTR_STAT_ADDR
 
-#define BNO055_INTR_STAT_GYRO_HIGHRATE_POS (3)
-#define BNO055_INTR_STAT_GYRO_HIGHRATE_MSK (0X08)
-#define BNO055_INTR_STAT_GYRO_HIGHRATE_LEN (1)
-#define BNO055_INTR_STAT_GYRO_HIGHRATE_REG BNO055_INTR_STAT_ADDR
+#define BNO055_INTR_STAT_GYRO_HIGHRATE_POS        (3)
+#define BNO055_INTR_STAT_GYRO_HIGHRATE_MSK        (0X08)
+#define BNO055_INTR_STAT_GYRO_HIGHRATE_LEN        (1)
+#define BNO055_INTR_STAT_GYRO_HIGHRATE_REG        BNO055_INTR_STAT_ADDR
 
-#define BNO055_INTR_STAT_ACCEL_HIGH_G_POS (5)
-#define BNO055_INTR_STAT_ACCEL_HIGH_G_MSK (0X20)
-#define BNO055_INTR_STAT_ACCEL_HIGH_G_LEN (1)
-#define BNO055_INTR_STAT_ACCEL_HIGH_G_REG BNO055_INTR_STAT_ADDR
+#define BNO055_INTR_STAT_ACCEL_HIGH_G_POS         (5)
+#define BNO055_INTR_STAT_ACCEL_HIGH_G_MSK         (0X20)
+#define BNO055_INTR_STAT_ACCEL_HIGH_G_LEN         (1)
+#define BNO055_INTR_STAT_ACCEL_HIGH_G_REG         BNO055_INTR_STAT_ADDR
 
-#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_POS (6)
-#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_MSK (0X40)
-#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_LEN (1)
-#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_REG BNO055_INTR_STAT_ADDR
+#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_POS     (6)
+#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_MSK     (0X40)
+#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_LEN     (1)
+#define BNO055_INTR_STAT_ACCEL_ANY_MOTION_REG     BNO055_INTR_STAT_ADDR
 
-#define BNO055_INTR_STAT_ACCEL_NO_MOTION_POS (7)
-#define BNO055_INTR_STAT_ACCEL_NO_MOTION_MSK (0X80)
-#define BNO055_INTR_STAT_ACCEL_NO_MOTION_LEN (1)
-#define BNO055_INTR_STAT_ACCEL_NO_MOTION_REG BNO055_INTR_STAT_ADDR
+#define BNO055_INTR_STAT_ACCEL_NO_MOTION_POS      (7)
+#define BNO055_INTR_STAT_ACCEL_NO_MOTION_MSK      (0X80)
+#define BNO055_INTR_STAT_ACCEL_NO_MOTION_LEN      (1)
+#define BNO055_INTR_STAT_ACCEL_NO_MOTION_REG      BNO055_INTR_STAT_ADDR
 
 /* system clock status register*/
-#define BNO055_SYS_MAIN_CLK_POS (0)
-#define BNO055_SYS_MAIN_CLK_MSK (0X10)
-#define BNO055_SYS_MAIN_CLK_LEN (1)
-#define BNO055_SYS_MAIN_CLK_REG BNO055_SYS_CLK_STAT_ADDR
+#define BNO055_SYS_MAIN_CLK_POS                   (0)
+#define BNO055_SYS_MAIN_CLK_MSK                   (0X10)
+#define BNO055_SYS_MAIN_CLK_LEN                   (1)
+#define BNO055_SYS_MAIN_CLK_REG                   BNO055_SYS_CLK_STAT_ADDR
 
 /* System registers*/
-#define BNO055_SYS_STAT_CODE_POS (0)
-#define BNO055_SYS_STAT_CODE_MSK (0XFF)
-#define BNO055_SYS_STAT_CODE_LEN (8)
-#define BNO055_SYS_STAT_CODE_REG BNO055_SYS_STAT_ADDR
+#define BNO055_SYS_STAT_CODE_POS                  (0)
+#define BNO055_SYS_STAT_CODE_MSK                  (0XFF)
+#define BNO055_SYS_STAT_CODE_LEN                  (8)
+#define BNO055_SYS_STAT_CODE_REG                  BNO055_SYS_STAT_ADDR
 
-#define BNO055_SYS_ERROR_CODE_POS (0)
-#define BNO055_SYS_ERROR_CODE_MSK (0XFF)
-#define BNO055_SYS_ERROR_CODE_LEN (8)
-#define BNO055_SYS_ERROR_CODE_REG BNO055_SYS_ERR_ADDR
+#define BNO055_SYS_ERROR_CODE_POS                 (0)
+#define BNO055_SYS_ERROR_CODE_MSK                 (0XFF)
+#define BNO055_SYS_ERROR_CODE_LEN                 (8)
+#define BNO055_SYS_ERROR_CODE_REG                 BNO055_SYS_ERR_ADDR
 
 /* Accel_Unit register*/
-#define BNO055_ACCEL_UNIT_POS (0)
-#define BNO055_ACCEL_UNIT_MSK (0X01)
-#define BNO055_ACCEL_UNIT_LEN (1)
-#define BNO055_ACCEL_UNIT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_ACCEL_UNIT_POS                     (0)
+#define BNO055_ACCEL_UNIT_MSK                     (0X01)
+#define BNO055_ACCEL_UNIT_LEN                     (1)
+#define BNO055_ACCEL_UNIT_REG                     BNO055_UNIT_SEL_ADDR
 
 /* Gyro_Unit register*/
-#define BNO055_GYRO_UNIT_POS (1)
-#define BNO055_GYRO_UNIT_MSK (0X02)
-#define BNO055_GYRO_UNIT_LEN (1)
-#define BNO055_GYRO_UNIT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_GYRO_UNIT_POS                      (1)
+#define BNO055_GYRO_UNIT_MSK                      (0X02)
+#define BNO055_GYRO_UNIT_LEN                      (1)
+#define BNO055_GYRO_UNIT_REG                      BNO055_UNIT_SEL_ADDR
 
 /* Euler_Unit register*/
-#define BNO055_EULER_UNIT_POS (2)
-#define BNO055_EULER_UNIT_MSK (0X04)
-#define BNO055_EULER_UNIT_LEN (1)
-#define BNO055_EULER_UNIT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_EULER_UNIT_POS                     (2)
+#define BNO055_EULER_UNIT_MSK                     (0X04)
+#define BNO055_EULER_UNIT_LEN                     (1)
+#define BNO055_EULER_UNIT_REG                     BNO055_UNIT_SEL_ADDR
 
 /* Tilt_Unit register*/
-#define BNO055_TILT_UNIT_POS (3)
-#define BNO055_TILT_UNIT_MSK (0X08)
-#define BNO055_TILT_UNIT_LEN (1)
-#define BNO055_TILT_UNIT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_TILT_UNIT_POS                      (3)
+#define BNO055_TILT_UNIT_MSK                      (0X08)
+#define BNO055_TILT_UNIT_LEN                      (1)
+#define BNO055_TILT_UNIT_REG                      BNO055_UNIT_SEL_ADDR
 
 /* Temperature_Unit register*/
-#define BNO055_TEMP_UNIT_POS (4)
-#define BNO055_TEMP_UNIT_MSK (0X10)
-#define BNO055_TEMP_UNIT_LEN (1)
-#define BNO055_TEMP_UNIT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_TEMP_UNIT_POS                      (4)
+#define BNO055_TEMP_UNIT_MSK                      (0X10)
+#define BNO055_TEMP_UNIT_LEN                      (1)
+#define BNO055_TEMP_UNIT_REG                      BNO055_UNIT_SEL_ADDR
 
 /* ORI android-windows register*/
-#define BNO055_DATA_OUTPUT_FORMAT_POS (7)
-#define BNO055_DATA_OUTPUT_FORMAT_MSK (0X80)
-#define BNO055_DATA_OUTPUT_FORMAT_LEN (1)
-#define BNO055_DATA_OUTPUT_FORMAT_REG BNO055_UNIT_SEL_ADDR
+#define BNO055_DATA_OUTPUT_FORMAT_POS             (7)
+#define BNO055_DATA_OUTPUT_FORMAT_MSK             (0X80)
+#define BNO055_DATA_OUTPUT_FORMAT_LEN             (1)
+#define BNO055_DATA_OUTPUT_FORMAT_REG             BNO055_UNIT_SEL_ADDR
 
 /*Operation Mode data register*/
-#define BNO055_OPERATION_MODE_POS (0)
-#define BNO055_OPERATION_MODE_MSK (0X0F)
-#define BNO055_OPERATION_MODE_LEN (4)
-#define BNO055_OPERATION_MODE_REG BNO055_OPR_MODE_ADDR
+#define BNO055_OPERATION_MODE_POS                 (0)
+#define BNO055_OPERATION_MODE_MSK                 (0X0F)
+#define BNO055_OPERATION_MODE_LEN                 (4)
+#define BNO055_OPERATION_MODE_REG                 BNO055_OPR_MODE_ADDR
 
 /* Power Mode register*/
-#define BNO055_POWER_MODE_POS (0)
-#define BNO055_POWER_MODE_MSK (0X03)
-#define BNO055_POWER_MODE_LEN (2)
-#define BNO055_POWER_MODE_REG BNO055_PWR_MODE_ADDR
+#define BNO055_POWER_MODE_POS                     (0)
+#define BNO055_POWER_MODE_MSK                     (0X03)
+#define BNO055_POWER_MODE_LEN                     (2)
+#define BNO055_POWER_MODE_REG                     BNO055_PWR_MODE_ADDR
 
 /*Self Test register*/
-#define BNO055_SELFTEST_POS (0)
-#define BNO055_SELFTEST_MSK (0X01)
-#define BNO055_SELFTEST_LEN (1)
-#define BNO055_SELFTEST_REG BNO055_SYS_TRIGGER_ADDR
+#define BNO055_SELFTEST_POS                       (0)
+#define BNO055_SELFTEST_MSK                       (0X01)
+#define BNO055_SELFTEST_LEN                       (1)
+#define BNO055_SELFTEST_REG                       BNO055_SYS_TRIGGER_ADDR
 
 /* RST_SYS register*/
-#define BNO055_SYS_RST_POS (5)
-#define BNO055_SYS_RST_MSK (0X20)
-#define BNO055_SYS_RST_LEN (1)
-#define BNO055_SYS_RST_REG BNO055_SYS_TRIGGER_ADDR
+#define BNO055_SYS_RST_POS                        (5)
+#define BNO055_SYS_RST_MSK                        (0X20)
+#define BNO055_SYS_RST_LEN                        (1)
+#define BNO055_SYS_RST_REG                        BNO055_SYS_TRIGGER_ADDR
 
 /* RST_INT register*/
-#define BNO055_INTR_RST_POS (6)
-#define BNO055_INTR_RST_MSK (0X40)
-#define BNO055_INTR_RST_LEN (1)
-#define BNO055_INTR_RST_REG BNO055_SYS_TRIGGER_ADDR
+#define BNO055_INTR_RST_POS                       (6)
+#define BNO055_INTR_RST_MSK                       (0X40)
+#define BNO055_INTR_RST_LEN                       (1)
+#define BNO055_INTR_RST_REG                       BNO055_SYS_TRIGGER_ADDR
 
 /* CLK_SRC register*/
-#define BNO055_CLK_SRC_POS (7)
-#define BNO055_CLK_SRC_MSK (0X80)
-#define BNO055_CLK_SRC_LEN (1)
-#define BNO055_CLK_SRC_REG BNO055_SYS_TRIGGER_ADDR
+#define BNO055_CLK_SRC_POS                        (7)
+#define BNO055_CLK_SRC_MSK                        (0X80)
+#define BNO055_CLK_SRC_LEN                        (1)
+#define BNO055_CLK_SRC_REG                        BNO055_SYS_TRIGGER_ADDR
 
 /* Temp source register*/
-#define BNO055_TEMP_SOURCE_POS (0)
-#define BNO055_TEMP_SOURCE_MSK (0X03)
-#define BNO055_TEMP_SOURCE_LEN (2)
-#define BNO055_TEMP_SOURCE_REG BNO055_TEMP_SOURCE_ADDR
+#define BNO055_TEMP_SOURCE_POS                    (0)
+#define BNO055_TEMP_SOURCE_MSK                    (0X03)
+#define BNO055_TEMP_SOURCE_LEN                    (2)
+#define BNO055_TEMP_SOURCE_REG                    BNO055_TEMP_SOURCE_ADDR
 
 /* Axis remap value register*/
-#define BNO055_REMAP_AXIS_VALUE_POS (0)
-#define BNO055_REMAP_AXIS_VALUE_MSK (0X3F)
-#define BNO055_REMAP_AXIS_VALUE_LEN (6)
-#define BNO055_REMAP_AXIS_VALUE_REG BNO055_AXIS_MAP_CONFIG_ADDR
+#define BNO055_REMAP_AXIS_VALUE_POS               (0)
+#define BNO055_REMAP_AXIS_VALUE_MSK               (0X3F)
+#define BNO055_REMAP_AXIS_VALUE_LEN               (6)
+#define BNO055_REMAP_AXIS_VALUE_REG               BNO055_AXIS_MAP_CONFIG_ADDR
 
 /* Axis sign value register*/
-#define BNO055_REMAP_Z_SIGN_POS (0)
-#define BNO055_REMAP_Z_SIGN_MSK (0X01)
-#define BNO055_REMAP_Z_SIGN_LEN (1)
-#define BNO055_REMAP_Z_SIGN_REG BNO055_AXIS_MAP_SIGN_ADDR
+#define BNO055_REMAP_Z_SIGN_POS                   (0)
+#define BNO055_REMAP_Z_SIGN_MSK                   (0X01)
+#define BNO055_REMAP_Z_SIGN_LEN                   (1)
+#define BNO055_REMAP_Z_SIGN_REG                   BNO055_AXIS_MAP_SIGN_ADDR
 
-#define BNO055_REMAP_Y_SIGN_POS (1)
-#define BNO055_REMAP_Y_SIGN_MSK (0X02)
-#define BNO055_REMAP_Y_SIGN_LEN (1)
-#define BNO055_REMAP_Y_SIGN_REG BNO055_AXIS_MAP_SIGN_ADDR
+#define BNO055_REMAP_Y_SIGN_POS                   (1)
+#define BNO055_REMAP_Y_SIGN_MSK                   (0X02)
+#define BNO055_REMAP_Y_SIGN_LEN                   (1)
+#define BNO055_REMAP_Y_SIGN_REG                   BNO055_AXIS_MAP_SIGN_ADDR
 
-#define BNO055_REMAP_X_SIGN_POS (2)
-#define BNO055_REMAP_X_SIGN_MSK (0X04)
-#define BNO055_REMAP_X_SIGN_LEN (1)
-#define BNO055_REMAP_X_SIGN_REG BNO055_AXIS_MAP_SIGN_ADDR
+#define BNO055_REMAP_X_SIGN_POS                   (2)
+#define BNO055_REMAP_X_SIGN_MSK                   (0X04)
+#define BNO055_REMAP_X_SIGN_LEN                   (1)
+#define BNO055_REMAP_X_SIGN_REG                   BNO055_AXIS_MAP_SIGN_ADDR
 
 /* Soft Iron Calibration matrix register*/
-#define BNO055_SIC_MATRIX_0_LSB_POS (0)
-#define BNO055_SIC_MATRIX_0_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_0_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_0_LSB_REG BNO055_SIC_MATRIX_0_LSB_ADDR
+#define BNO055_SIC_MATRIX_0_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_0_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_0_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_0_LSB_REG               BNO055_SIC_MATRIX_0_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_0_MSB_POS (0)
-#define BNO055_SIC_MATRIX_0_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_0_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_0_MSB_REG BNO055_SIC_MATRIX_0_MSB_ADDR
+#define BNO055_SIC_MATRIX_0_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_0_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_0_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_0_MSB_REG               BNO055_SIC_MATRIX_0_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_1_LSB_POS (0)
-#define BNO055_SIC_MATRIX_1_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_1_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_1_LSB_REG BNO055_SIC_MATRIX_1_LSB_ADDR
+#define BNO055_SIC_MATRIX_1_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_1_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_1_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_1_LSB_REG               BNO055_SIC_MATRIX_1_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_1_MSB_POS (0)
-#define BNO055_SIC_MATRIX_1_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_1_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_1_MSB_REG BNO055_SIC_MATRIX_1_MSB_ADDR
+#define BNO055_SIC_MATRIX_1_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_1_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_1_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_1_MSB_REG               BNO055_SIC_MATRIX_1_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_2_LSB_POS (0)
-#define BNO055_SIC_MATRIX_2_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_2_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_2_LSB_REG BNO055_SIC_MATRIX_2_LSB_ADDR
+#define BNO055_SIC_MATRIX_2_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_2_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_2_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_2_LSB_REG               BNO055_SIC_MATRIX_2_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_2_MSB_POS (0)
-#define BNO055_SIC_MATRIX_2_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_2_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_2_MSB_REG BNO055_SIC_MATRIX_2_MSB_ADDR
+#define BNO055_SIC_MATRIX_2_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_2_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_2_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_2_MSB_REG               BNO055_SIC_MATRIX_2_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_3_LSB_POS (0)
-#define BNO055_SIC_MATRIX_3_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_3_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_3_LSB_REG BNO055_SIC_MATRIX_3_LSB_ADDR
+#define BNO055_SIC_MATRIX_3_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_3_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_3_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_3_LSB_REG               BNO055_SIC_MATRIX_3_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_3_MSB_POS (0)
-#define BNO055_SIC_MATRIX_3_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_3_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_3_MSB_REG BNO055_SIC_MATRIX_3_MSB_ADDR
+#define BNO055_SIC_MATRIX_3_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_3_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_3_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_3_MSB_REG               BNO055_SIC_MATRIX_3_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_4_LSB_POS (0)
-#define BNO055_SIC_MATRIX_4_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_4_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_4_LSB_REG BNO055_SIC_MATRIX_4_LSB_ADDR
+#define BNO055_SIC_MATRIX_4_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_4_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_4_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_4_LSB_REG               BNO055_SIC_MATRIX_4_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_4_MSB_POS (0)
-#define BNO055_SIC_MATRIX_4_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_4_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_4_MSB_REG BNO055_SIC_MATRIX_4_MSB_ADDR
+#define BNO055_SIC_MATRIX_4_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_4_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_4_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_4_MSB_REG               BNO055_SIC_MATRIX_4_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_5_LSB_POS (0)
-#define BNO055_SIC_MATRIX_5_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_5_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_5_LSB_REG BNO055_SIC_MATRIX_5_LSB_ADDR
+#define BNO055_SIC_MATRIX_5_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_5_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_5_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_5_LSB_REG               BNO055_SIC_MATRIX_5_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_5_MSB_POS (0)
-#define BNO055_SIC_MATRIX_5_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_5_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_5_MSB_REG BNO055_SIC_MATRIX_5_MSB_ADDR
+#define BNO055_SIC_MATRIX_5_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_5_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_5_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_5_MSB_REG               BNO055_SIC_MATRIX_5_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_6_LSB_POS (0)
-#define BNO055_SIC_MATRIX_6_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_6_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_6_LSB_REG BNO055_SIC_MATRIX_6_LSB_ADDR
+#define BNO055_SIC_MATRIX_6_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_6_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_6_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_6_LSB_REG               BNO055_SIC_MATRIX_6_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_6_MSB_POS (0)
-#define BNO055_SIC_MATRIX_6_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_6_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_6_MSB_REG BNO055_SIC_MATRIX_6_MSB_ADDR
+#define BNO055_SIC_MATRIX_6_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_6_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_6_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_6_MSB_REG               BNO055_SIC_MATRIX_6_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_7_LSB_POS (0)
-#define BNO055_SIC_MATRIX_7_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_7_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_7_LSB_REG BNO055_SIC_MATRIX_7_LSB_ADDR
+#define BNO055_SIC_MATRIX_7_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_7_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_7_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_7_LSB_REG               BNO055_SIC_MATRIX_7_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_7_MSB_POS (0)
-#define BNO055_SIC_MATRIX_7_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_7_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_7_MSB_REG BNO055_SIC_MATRIX_7_MSB_ADDR
+#define BNO055_SIC_MATRIX_7_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_7_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_7_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_7_MSB_REG               BNO055_SIC_MATRIX_7_MSB_ADDR
 
-#define BNO055_SIC_MATRIX_8_LSB_POS (0)
-#define BNO055_SIC_MATRIX_8_LSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_8_LSB_LEN (8)
-#define BNO055_SIC_MATRIX_8_LSB_REG BNO055_SIC_MATRIX_8_LSB_ADDR
+#define BNO055_SIC_MATRIX_8_LSB_POS               (0)
+#define BNO055_SIC_MATRIX_8_LSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_8_LSB_LEN               (8)
+#define BNO055_SIC_MATRIX_8_LSB_REG               BNO055_SIC_MATRIX_8_LSB_ADDR
 
-#define BNO055_SIC_MATRIX_8_MSB_POS (0)
-#define BNO055_SIC_MATRIX_8_MSB_MSK (0XFF)
-#define BNO055_SIC_MATRIX_8_MSB_LEN (8)
-#define BNO055_SIC_MATRIX_8_MSB_REG BNO055_SIC_MATRIX_8_MSB_ADDR
+#define BNO055_SIC_MATRIX_8_MSB_POS               (0)
+#define BNO055_SIC_MATRIX_8_MSB_MSK               (0XFF)
+#define BNO055_SIC_MATRIX_8_MSB_LEN               (8)
+#define BNO055_SIC_MATRIX_8_MSB_REG               BNO055_SIC_MATRIX_8_MSB_ADDR
 
 /*Accel Offset registers*/
-#define BNO055_ACCEL_OFFSET_X_LSB_POS (0)
-#define BNO055_ACCEL_OFFSET_X_LSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_X_LSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_X_LSB_REG BNO055_ACCEL_OFFSET_X_LSB_ADDR
+#define BNO055_ACCEL_OFFSET_X_LSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_X_LSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_X_LSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_X_LSB_REG             BNO055_ACCEL_OFFSET_X_LSB_ADDR
 
-#define BNO055_ACCEL_OFFSET_X_MSB_POS (0)
-#define BNO055_ACCEL_OFFSET_X_MSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_X_MSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_X_MSB_REG BNO055_ACCEL_OFFSET_X_MSB_ADDR
+#define BNO055_ACCEL_OFFSET_X_MSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_X_MSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_X_MSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_X_MSB_REG             BNO055_ACCEL_OFFSET_X_MSB_ADDR
 
-#define BNO055_ACCEL_OFFSET_Y_LSB_POS (0)
-#define BNO055_ACCEL_OFFSET_Y_LSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_Y_LSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_Y_LSB_REG BNO055_ACCEL_OFFSET_Y_LSB_ADDR
+#define BNO055_ACCEL_OFFSET_Y_LSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_Y_LSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_Y_LSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_Y_LSB_REG             BNO055_ACCEL_OFFSET_Y_LSB_ADDR
 
-#define BNO055_ACCEL_OFFSET_Y_MSB_POS (0)
-#define BNO055_ACCEL_OFFSET_Y_MSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_Y_MSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_Y_MSB_REG BNO055_ACCEL_OFFSET_Y_MSB_ADDR
+#define BNO055_ACCEL_OFFSET_Y_MSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_Y_MSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_Y_MSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_Y_MSB_REG             BNO055_ACCEL_OFFSET_Y_MSB_ADDR
 
-#define BNO055_ACCEL_OFFSET_Z_LSB_POS (0)
-#define BNO055_ACCEL_OFFSET_Z_LSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_Z_LSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_Z_LSB_REG BNO055_ACCEL_OFFSET_Z_LSB_ADDR
+#define BNO055_ACCEL_OFFSET_Z_LSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_Z_LSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_Z_LSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_Z_LSB_REG             BNO055_ACCEL_OFFSET_Z_LSB_ADDR
 
-#define BNO055_ACCEL_OFFSET_Z_MSB_POS (0)
-#define BNO055_ACCEL_OFFSET_Z_MSB_MSK (0XFF)
-#define BNO055_ACCEL_OFFSET_Z_MSB_LEN (8)
-#define BNO055_ACCEL_OFFSET_Z_MSB_REG BNO055_ACCEL_OFFSET_Z_MSB_ADDR
+#define BNO055_ACCEL_OFFSET_Z_MSB_POS             (0)
+#define BNO055_ACCEL_OFFSET_Z_MSB_MSK             (0XFF)
+#define BNO055_ACCEL_OFFSET_Z_MSB_LEN             (8)
+#define BNO055_ACCEL_OFFSET_Z_MSB_REG             BNO055_ACCEL_OFFSET_Z_MSB_ADDR
 
 /*Mag Offset registers*/
-#define BNO055_MAG_OFFSET_X_LSB_POS (0)
-#define BNO055_MAG_OFFSET_X_LSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_X_LSB_LEN (8)
-#define BNO055_MAG_OFFSET_X_LSB_REG BNO055_MAG_OFFSET_X_LSB_ADDR
+#define BNO055_MAG_OFFSET_X_LSB_POS               (0)
+#define BNO055_MAG_OFFSET_X_LSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_X_LSB_LEN               (8)
+#define BNO055_MAG_OFFSET_X_LSB_REG               BNO055_MAG_OFFSET_X_LSB_ADDR
 
-#define BNO055_MAG_OFFSET_X_MSB_POS (0)
-#define BNO055_MAG_OFFSET_X_MSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_X_MSB_LEN (8)
-#define BNO055_MAG_OFFSET_X_MSB_REG BNO055_MAG_OFFSET_X_MSB_ADDR
+#define BNO055_MAG_OFFSET_X_MSB_POS               (0)
+#define BNO055_MAG_OFFSET_X_MSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_X_MSB_LEN               (8)
+#define BNO055_MAG_OFFSET_X_MSB_REG               BNO055_MAG_OFFSET_X_MSB_ADDR
 
-#define BNO055_MAG_OFFSET_Y_LSB_POS (0)
-#define BNO055_MAG_OFFSET_Y_LSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_Y_LSB_LEN (8)
-#define BNO055_MAG_OFFSET_Y_LSB_REG BNO055_MAG_OFFSET_Y_LSB_ADDR
+#define BNO055_MAG_OFFSET_Y_LSB_POS               (0)
+#define BNO055_MAG_OFFSET_Y_LSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_Y_LSB_LEN               (8)
+#define BNO055_MAG_OFFSET_Y_LSB_REG               BNO055_MAG_OFFSET_Y_LSB_ADDR
 
-#define BNO055_MAG_OFFSET_Y_MSB_POS (0)
-#define BNO055_MAG_OFFSET_Y_MSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_Y_MSB_LEN (8)
-#define BNO055_MAG_OFFSET_Y_MSB_REG BNO055_MAG_OFFSET_Y_MSB_ADDR
+#define BNO055_MAG_OFFSET_Y_MSB_POS               (0)
+#define BNO055_MAG_OFFSET_Y_MSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_Y_MSB_LEN               (8)
+#define BNO055_MAG_OFFSET_Y_MSB_REG               BNO055_MAG_OFFSET_Y_MSB_ADDR
 
-#define BNO055_MAG_OFFSET_Z_LSB_POS (0)
-#define BNO055_MAG_OFFSET_Z_LSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_Z_LSB_LEN (8)
-#define BNO055_MAG_OFFSET_Z_LSB_REG BNO055_MAG_OFFSET_Z_LSB_ADDR
+#define BNO055_MAG_OFFSET_Z_LSB_POS               (0)
+#define BNO055_MAG_OFFSET_Z_LSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_Z_LSB_LEN               (8)
+#define BNO055_MAG_OFFSET_Z_LSB_REG               BNO055_MAG_OFFSET_Z_LSB_ADDR
 
-#define BNO055_MAG_OFFSET_Z_MSB_POS (0)
-#define BNO055_MAG_OFFSET_Z_MSB_MSK (0XFF)
-#define BNO055_MAG_OFFSET_Z_MSB_LEN (8)
-#define BNO055_MAG_OFFSET_Z_MSB_REG BNO055_MAG_OFFSET_Z_MSB_ADDR
+#define BNO055_MAG_OFFSET_Z_MSB_POS               (0)
+#define BNO055_MAG_OFFSET_Z_MSB_MSK               (0XFF)
+#define BNO055_MAG_OFFSET_Z_MSB_LEN               (8)
+#define BNO055_MAG_OFFSET_Z_MSB_REG               BNO055_MAG_OFFSET_Z_MSB_ADDR
 
 /* Gyro Offset registers*/
-#define BNO055_GYRO_OFFSET_X_LSB_POS (0)
-#define BNO055_GYRO_OFFSET_X_LSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_X_LSB_LEN (8)
-#define BNO055_GYRO_OFFSET_X_LSB_REG BNO055_GYRO_OFFSET_X_LSB_ADDR
+#define BNO055_GYRO_OFFSET_X_LSB_POS              (0)
+#define BNO055_GYRO_OFFSET_X_LSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_X_LSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_X_LSB_REG              BNO055_GYRO_OFFSET_X_LSB_ADDR
 
-#define BNO055_GYRO_OFFSET_X_MSB_POS (0)
-#define BNO055_GYRO_OFFSET_X_MSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_X_MSB_LEN (8)
-#define BNO055_GYRO_OFFSET_X_MSB_REG BNO055_GYRO_OFFSET_X_MSB_ADDR
+#define BNO055_GYRO_OFFSET_X_MSB_POS              (0)
+#define BNO055_GYRO_OFFSET_X_MSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_X_MSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_X_MSB_REG              BNO055_GYRO_OFFSET_X_MSB_ADDR
 
-#define BNO055_GYRO_OFFSET_Y_LSB_POS (0)
-#define BNO055_GYRO_OFFSET_Y_LSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_Y_LSB_LEN (8)
-#define BNO055_GYRO_OFFSET_Y_LSB_REG BNO055_GYRO_OFFSET_Y_LSB_ADDR
+#define BNO055_GYRO_OFFSET_Y_LSB_POS              (0)
+#define BNO055_GYRO_OFFSET_Y_LSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_Y_LSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_Y_LSB_REG              BNO055_GYRO_OFFSET_Y_LSB_ADDR
 
-#define BNO055_GYRO_OFFSET_Y_MSB_POS (0)
-#define BNO055_GYRO_OFFSET_Y_MSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_Y_MSB_LEN (8)
-#define BNO055_GYRO_OFFSET_Y_MSB_REG BNO055_GYRO_OFFSET_Y_MSB_ADDR
+#define BNO055_GYRO_OFFSET_Y_MSB_POS              (0)
+#define BNO055_GYRO_OFFSET_Y_MSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_Y_MSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_Y_MSB_REG              BNO055_GYRO_OFFSET_Y_MSB_ADDR
 
-#define BNO055_GYRO_OFFSET_Z_LSB_POS (0)
-#define BNO055_GYRO_OFFSET_Z_LSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_Z_LSB_LEN (8)
-#define BNO055_GYRO_OFFSET_Z_LSB_REG BNO055_GYRO_OFFSET_Z_LSB_ADDR
+#define BNO055_GYRO_OFFSET_Z_LSB_POS              (0)
+#define BNO055_GYRO_OFFSET_Z_LSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_Z_LSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_Z_LSB_REG              BNO055_GYRO_OFFSET_Z_LSB_ADDR
 
-#define BNO055_GYRO_OFFSET_Z_MSB_POS (0)
-#define BNO055_GYRO_OFFSET_Z_MSB_MSK (0XFF)
-#define BNO055_GYRO_OFFSET_Z_MSB_LEN (8)
-#define BNO055_GYRO_OFFSET_Z_MSB_REG BNO055_GYRO_OFFSET_Z_MSB_ADDR
+#define BNO055_GYRO_OFFSET_Z_MSB_POS              (0)
+#define BNO055_GYRO_OFFSET_Z_MSB_MSK              (0XFF)
+#define BNO055_GYRO_OFFSET_Z_MSB_LEN              (8)
+#define BNO055_GYRO_OFFSET_Z_MSB_REG              BNO055_GYRO_OFFSET_Z_MSB_ADDR
 
 /* Radius register definition*/
-#define BNO055_ACCEL_RADIUS_LSB_POS (0)
-#define BNO055_ACCEL_RADIUS_LSB_MSK (0XFF)
-#define BNO055_ACCEL_RADIUS_LSB_LEN (8)
-#define BNO055_ACCEL_RADIUS_LSB_REG BNO055_ACCEL_RADIUS_LSB_ADDR
+#define BNO055_ACCEL_RADIUS_LSB_POS               (0)
+#define BNO055_ACCEL_RADIUS_LSB_MSK               (0XFF)
+#define BNO055_ACCEL_RADIUS_LSB_LEN               (8)
+#define BNO055_ACCEL_RADIUS_LSB_REG               BNO055_ACCEL_RADIUS_LSB_ADDR
 
-#define BNO055_ACCEL_RADIUS_MSB_POS (0)
-#define BNO055_ACCEL_RADIUS_MSB_MSK (0XFF)
-#define BNO055_ACCEL_RADIUS_MSB_LEN (8)
-#define BNO055_ACCEL_RADIUS_MSB_REG BNO055_ACCEL_RADIUS_MSB_ADDR
+#define BNO055_ACCEL_RADIUS_MSB_POS               (0)
+#define BNO055_ACCEL_RADIUS_MSB_MSK               (0XFF)
+#define BNO055_ACCEL_RADIUS_MSB_LEN               (8)
+#define BNO055_ACCEL_RADIUS_MSB_REG               BNO055_ACCEL_RADIUS_MSB_ADDR
 
-#define BNO055_MAG_RADIUS_LSB_POS (0)
-#define BNO055_MAG_RADIUS_LSB_MSK (0XFF)
-#define BNO055_MAG_RADIUS_LSB_LEN (8)
-#define BNO055_MAG_RADIUS_LSB_REG BNO055_MAG_RADIUS_LSB_ADDR
+#define BNO055_MAG_RADIUS_LSB_POS                 (0)
+#define BNO055_MAG_RADIUS_LSB_MSK                 (0XFF)
+#define BNO055_MAG_RADIUS_LSB_LEN                 (8)
+#define BNO055_MAG_RADIUS_LSB_REG                 BNO055_MAG_RADIUS_LSB_ADDR
 
-#define BNO055_MAG_RADIUS_MSB_POS (0)
-#define BNO055_MAG_RADIUS_MSB_MSK (0XFF)
-#define BNO055_MAG_RADIUS_MSB_LEN (8)
-#define BNO055_MAG_RADIUS_MSB_REG BNO055_MAG_RADIUS_MSB_ADDR
+#define BNO055_MAG_RADIUS_MSB_POS                 (0)
+#define BNO055_MAG_RADIUS_MSB_MSK                 (0XFF)
+#define BNO055_MAG_RADIUS_MSB_LEN                 (8)
+#define BNO055_MAG_RADIUS_MSB_REG                 BNO055_MAG_RADIUS_MSB_ADDR
 
 /* PAGE0 DATA REGISTERS DEFINITION END*/
 /*************************************************/
@@ -1862,218 +1855,218 @@ struct bno055_sic_matrix_t
 /*************************************************/
 /* Configuration registers*/
 /* Accel range configuration register*/
-#define BNO055_ACCEL_RANGE_POS (0)
-#define BNO055_ACCEL_RANGE_MSK (0X03)
-#define BNO055_ACCEL_RANGE_LEN (2)
-#define BNO055_ACCEL_RANGE_REG BNO055_ACCEL_CONFIG_ADDR
+#define BNO055_ACCEL_RANGE_POS                 (0)
+#define BNO055_ACCEL_RANGE_MSK                 (0X03)
+#define BNO055_ACCEL_RANGE_LEN                 (2)
+#define BNO055_ACCEL_RANGE_REG                 BNO055_ACCEL_CONFIG_ADDR
 
 /* Accel bandwidth configuration register*/
-#define BNO055_ACCEL_BW_POS (2)
-#define BNO055_ACCEL_BW_MSK (0X1C)
-#define BNO055_ACCEL_BW_LEN (3)
-#define BNO055_ACCEL_BW_REG BNO055_ACCEL_CONFIG_ADDR
+#define BNO055_ACCEL_BW_POS                    (2)
+#define BNO055_ACCEL_BW_MSK                    (0X1C)
+#define BNO055_ACCEL_BW_LEN                    (3)
+#define BNO055_ACCEL_BW_REG                    BNO055_ACCEL_CONFIG_ADDR
 
 /* Accel power mode configuration register*/
-#define BNO055_ACCEL_POWER_MODE_POS (5)
-#define BNO055_ACCEL_POWER_MODE_MSK (0XE0)
-#define BNO055_ACCEL_POWER_MODE_LEN (3)
-#define BNO055_ACCEL_POWER_MODE_REG BNO055_ACCEL_CONFIG_ADDR
+#define BNO055_ACCEL_POWER_MODE_POS            (5)
+#define BNO055_ACCEL_POWER_MODE_MSK            (0XE0)
+#define BNO055_ACCEL_POWER_MODE_LEN            (3)
+#define BNO055_ACCEL_POWER_MODE_REG            BNO055_ACCEL_CONFIG_ADDR
 
 /* Mag data output rate configuration register*/
-#define BNO055_MAG_DATA_OUTPUT_RATE_POS (0)
-#define BNO055_MAG_DATA_OUTPUT_RATE_MSK (0X07)
-#define BNO055_MAG_DATA_OUTPUT_RATE_LEN (3)
-#define BNO055_MAG_DATA_OUTPUT_RATE_REG BNO055_MAG_CONFIG_ADDR
+#define BNO055_MAG_DATA_OUTPUT_RATE_POS        (0)
+#define BNO055_MAG_DATA_OUTPUT_RATE_MSK        (0X07)
+#define BNO055_MAG_DATA_OUTPUT_RATE_LEN        (3)
+#define BNO055_MAG_DATA_OUTPUT_RATE_REG        BNO055_MAG_CONFIG_ADDR
 
 /* Mag operation mode configuration register*/
-#define BNO055_MAG_OPERATION_MODE_POS (3)
-#define BNO055_MAG_OPERATION_MODE_MSK (0X18)
-#define BNO055_MAG_OPERATION_MODE_LEN (2)
-#define BNO055_MAG_OPERATION_MODE_REG BNO055_MAG_CONFIG_ADDR
+#define BNO055_MAG_OPERATION_MODE_POS          (3)
+#define BNO055_MAG_OPERATION_MODE_MSK          (0X18)
+#define BNO055_MAG_OPERATION_MODE_LEN          (2)
+#define BNO055_MAG_OPERATION_MODE_REG          BNO055_MAG_CONFIG_ADDR
 
 /* Mag power mode configuration register*/
-#define BNO055_MAG_POWER_MODE_POS (5)
-#define BNO055_MAG_POWER_MODE_MSK (0X60)
-#define BNO055_MAG_POWER_MODE_LEN (2)
-#define BNO055_MAG_POWER_MODE_REG BNO055_MAG_CONFIG_ADDR
+#define BNO055_MAG_POWER_MODE_POS              (5)
+#define BNO055_MAG_POWER_MODE_MSK              (0X60)
+#define BNO055_MAG_POWER_MODE_LEN              (2)
+#define BNO055_MAG_POWER_MODE_REG              BNO055_MAG_CONFIG_ADDR
 
 /* Gyro range configuration register*/
-#define BNO055_GYRO_RANGE_POS (0)
-#define BNO055_GYRO_RANGE_MSK (0X07)
-#define BNO055_GYRO_RANGE_LEN (3)
-#define BNO055_GYRO_RANGE_REG BNO055_GYRO_CONFIG_ADDR
+#define BNO055_GYRO_RANGE_POS                  (0)
+#define BNO055_GYRO_RANGE_MSK                  (0X07)
+#define BNO055_GYRO_RANGE_LEN                  (3)
+#define BNO055_GYRO_RANGE_REG                  BNO055_GYRO_CONFIG_ADDR
 
 /* Gyro bandwidth configuration register*/
-#define BNO055_GYRO_BW_POS (3)
-#define BNO055_GYRO_BW_MSK (0X38)
-#define BNO055_GYRO_BW_LEN (3)
-#define BNO055_GYRO_BW_REG BNO055_GYRO_CONFIG_ADDR
+#define BNO055_GYRO_BW_POS                     (3)
+#define BNO055_GYRO_BW_MSK                     (0X38)
+#define BNO055_GYRO_BW_LEN                     (3)
+#define BNO055_GYRO_BW_REG                     BNO055_GYRO_CONFIG_ADDR
 
 /* Gyro power mode configuration register*/
-#define BNO055_GYRO_POWER_MODE_POS (0)
-#define BNO055_GYRO_POWER_MODE_MSK (0X07)
-#define BNO055_GYRO_POWER_MODE_LEN (3)
-#define BNO055_GYRO_POWER_MODE_REG BNO055_GYRO_MODE_CONFIG_ADDR
+#define BNO055_GYRO_POWER_MODE_POS             (0)
+#define BNO055_GYRO_POWER_MODE_MSK             (0X07)
+#define BNO055_GYRO_POWER_MODE_LEN             (3)
+#define BNO055_GYRO_POWER_MODE_REG             BNO055_GYRO_MODE_CONFIG_ADDR
 
 /* Sleep configuration registers*/
 /* Accel sleep mode configuration register*/
-#define BNO055_ACCEL_SLEEP_MODE_POS (0)
-#define BNO055_ACCEL_SLEEP_MODE_MSK (0X01)
-#define BNO055_ACCEL_SLEEP_MODE_LEN (1)
-#define BNO055_ACCEL_SLEEP_MODE_REG BNO055_ACCEL_SLEEP_CONFIG_ADDR
+#define BNO055_ACCEL_SLEEP_MODE_POS            (0)
+#define BNO055_ACCEL_SLEEP_MODE_MSK            (0X01)
+#define BNO055_ACCEL_SLEEP_MODE_LEN            (1)
+#define BNO055_ACCEL_SLEEP_MODE_REG            BNO055_ACCEL_SLEEP_CONFIG_ADDR
 
 /* Accel sleep duration configuration register*/
-#define BNO055_ACCEL_SLEEP_DURN_POS (1)
-#define BNO055_ACCEL_SLEEP_DURN_MSK (0X1E)
-#define BNO055_ACCEL_SLEEP_DURN_LEN (4)
-#define BNO055_ACCEL_SLEEP_DURN_REG BNO055_ACCEL_SLEEP_CONFIG_ADDR
+#define BNO055_ACCEL_SLEEP_DURN_POS            (1)
+#define BNO055_ACCEL_SLEEP_DURN_MSK            (0X1E)
+#define BNO055_ACCEL_SLEEP_DURN_LEN            (4)
+#define BNO055_ACCEL_SLEEP_DURN_REG            BNO055_ACCEL_SLEEP_CONFIG_ADDR
 
 /* Gyro sleep duration configuration register*/
-#define BNO055_GYRO_SLEEP_DURN_POS (0)
-#define BNO055_GYRO_SLEEP_DURN_MSK (0X07)
-#define BNO055_GYRO_SLEEP_DURN_LEN (3)
-#define BNO055_GYRO_SLEEP_DURN_REG BNO055_GYRO_SLEEP_CONFIG_ADDR
+#define BNO055_GYRO_SLEEP_DURN_POS             (0)
+#define BNO055_GYRO_SLEEP_DURN_MSK             (0X07)
+#define BNO055_GYRO_SLEEP_DURN_LEN             (3)
+#define BNO055_GYRO_SLEEP_DURN_REG             BNO055_GYRO_SLEEP_CONFIG_ADDR
 
 /* Gyro auto sleep duration configuration register*/
-#define BNO055_GYRO_AUTO_SLEEP_DURN_POS (3)
-#define BNO055_GYRO_AUTO_SLEEP_DURN_MSK (0X38)
-#define BNO055_GYRO_AUTO_SLEEP_DURN_LEN (3)
-#define BNO055_GYRO_AUTO_SLEEP_DURN_REG BNO055_GYRO_SLEEP_CONFIG_ADDR
+#define BNO055_GYRO_AUTO_SLEEP_DURN_POS        (3)
+#define BNO055_GYRO_AUTO_SLEEP_DURN_MSK        (0X38)
+#define BNO055_GYRO_AUTO_SLEEP_DURN_LEN        (3)
+#define BNO055_GYRO_AUTO_SLEEP_DURN_REG        BNO055_GYRO_SLEEP_CONFIG_ADDR
 
 /* Mag sleep mode configuration register*/
-#define BNO055_MAG_SLEEP_MODE_POS (0)
-#define BNO055_MAG_SLEEP_MODE_MSK (0X01)
-#define BNO055_MAG_SLEEP_MODE_LEN (1)
-#define BNO055_MAG_SLEEP_MODE_REG BNO055_MAG_SLEEP_CONFIG_ADDR
+#define BNO055_MAG_SLEEP_MODE_POS              (0)
+#define BNO055_MAG_SLEEP_MODE_MSK              (0X01)
+#define BNO055_MAG_SLEEP_MODE_LEN              (1)
+#define BNO055_MAG_SLEEP_MODE_REG              BNO055_MAG_SLEEP_CONFIG_ADDR
 
 /* Mag sleep duration configuration register*/
-#define BNO055_MAG_SLEEP_DURN_POS (1)
-#define BNO055_MAG_SLEEP_DURN_MSK (0X1E)
-#define BNO055_MAG_SLEEP_DURN_LEN (4)
-#define BNO055_MAG_SLEEP_DURN_REG BNO055_MAG_SLEEP_CONFIG_ADDR
+#define BNO055_MAG_SLEEP_DURN_POS              (1)
+#define BNO055_MAG_SLEEP_DURN_MSK              (0X1E)
+#define BNO055_MAG_SLEEP_DURN_LEN              (4)
+#define BNO055_MAG_SLEEP_DURN_REG              BNO055_MAG_SLEEP_CONFIG_ADDR
 
 /* Interrupt registers*/
 /* Gyro any motion interrupt msk register*/
-#define BNO055_GYRO_ANY_MOTION_INTR_MASK_POS (2)
-#define BNO055_GYRO_ANY_MOTION_INTR_MASK_MSK (0X04)
-#define BNO055_GYRO_ANY_MOTION_INTR_MASK_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_INTR_MASK_REG BNO055_INT_MASK_ADDR
+#define BNO055_GYRO_ANY_MOTION_INTR_MASK_POS   (2)
+#define BNO055_GYRO_ANY_MOTION_INTR_MASK_MSK   (0X04)
+#define BNO055_GYRO_ANY_MOTION_INTR_MASK_LEN   (1)
+#define BNO055_GYRO_ANY_MOTION_INTR_MASK_REG   BNO055_INT_MASK_ADDR
 
 /* Gyro high rate interrupt msk register*/
-#define BNO055_GYRO_HIGHRATE_INTR_MASK_POS (3)
-#define BNO055_GYRO_HIGHRATE_INTR_MASK_MSK (0X08)
-#define BNO055_GYRO_HIGHRATE_INTR_MASK_LEN (1)
-#define BNO055_GYRO_HIGHRATE_INTR_MASK_REG BNO055_INT_MASK_ADDR
+#define BNO055_GYRO_HIGHRATE_INTR_MASK_POS     (3)
+#define BNO055_GYRO_HIGHRATE_INTR_MASK_MSK     (0X08)
+#define BNO055_GYRO_HIGHRATE_INTR_MASK_LEN     (1)
+#define BNO055_GYRO_HIGHRATE_INTR_MASK_REG     BNO055_INT_MASK_ADDR
 
 /* Accel high g interrupt msk register*/
-#define BNO055_ACCEL_HIGH_G_INTR_MASK_POS (5)
-#define BNO055_ACCEL_HIGH_G_INTR_MASK_MSK (0X20)
-#define BNO055_ACCEL_HIGH_G_INTR_MASK_LEN (1)
-#define BNO055_ACCEL_HIGH_G_INTR_MASK_REG BNO055_INT_MASK_ADDR
+#define BNO055_ACCEL_HIGH_G_INTR_MASK_POS      (5)
+#define BNO055_ACCEL_HIGH_G_INTR_MASK_MSK      (0X20)
+#define BNO055_ACCEL_HIGH_G_INTR_MASK_LEN      (1)
+#define BNO055_ACCEL_HIGH_G_INTR_MASK_REG      BNO055_INT_MASK_ADDR
 
 /* Accel any motion interrupt msk register*/
-#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_POS (6)
-#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_MSK (0X40)
-#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_LEN (1)
-#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_REG BNO055_INT_MASK_ADDR
+#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_POS  (6)
+#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_MSK  (0X40)
+#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_LEN  (1)
+#define BNO055_ACCEL_ANY_MOTION_INTR_MASK_REG  BNO055_INT_MASK_ADDR
 
 /* Accel any motion interrupt msk register*/
-#define BNO055_ACCEL_NO_MOTION_INTR_MASK_POS (7)
-#define BNO055_ACCEL_NO_MOTION_INTR_MASK_MSK (0X80)
-#define BNO055_ACCEL_NO_MOTION_INTR_MASK_LEN (1)
-#define BNO055_ACCEL_NO_MOTION_INTR_MASK_REG BNO055_INT_MASK_ADDR
+#define BNO055_ACCEL_NO_MOTION_INTR_MASK_POS   (7)
+#define BNO055_ACCEL_NO_MOTION_INTR_MASK_MSK   (0X80)
+#define BNO055_ACCEL_NO_MOTION_INTR_MASK_LEN   (1)
+#define BNO055_ACCEL_NO_MOTION_INTR_MASK_REG   BNO055_INT_MASK_ADDR
 
 /* Gyro any motion interrupt register*/
-#define BNO055_GYRO_ANY_MOTION_INTR_POS (2)
-#define BNO055_GYRO_ANY_MOTION_INTR_MSK (0X04)
-#define BNO055_GYRO_ANY_MOTION_INTR_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_INTR_REG BNO055_INT_ADDR
+#define BNO055_GYRO_ANY_MOTION_INTR_POS        (2)
+#define BNO055_GYRO_ANY_MOTION_INTR_MSK        (0X04)
+#define BNO055_GYRO_ANY_MOTION_INTR_LEN        (1)
+#define BNO055_GYRO_ANY_MOTION_INTR_REG        BNO055_INT_ADDR
 
 /* Gyro high rate interrupt register*/
-#define BNO055_GYRO_HIGHRATE_INTR_POS (3)
-#define BNO055_GYRO_HIGHRATE_INTR_MSK (0X08)
-#define BNO055_GYRO_HIGHRATE_INTR_LEN (1)
-#define BNO055_GYRO_HIGHRATE_INTR_REG BNO055_INT_ADDR
+#define BNO055_GYRO_HIGHRATE_INTR_POS          (3)
+#define BNO055_GYRO_HIGHRATE_INTR_MSK          (0X08)
+#define BNO055_GYRO_HIGHRATE_INTR_LEN          (1)
+#define BNO055_GYRO_HIGHRATE_INTR_REG          BNO055_INT_ADDR
 
 /* Accel high g interrupt register*/
-#define BNO055_ACCEL_HIGH_G_INTR_POS (5)
-#define BNO055_ACCEL_HIGH_G_INTR_MSK (0X20)
-#define BNO055_ACCEL_HIGH_G_INTR_LEN (1)
-#define BNO055_ACCEL_HIGH_G_INTR_REG BNO055_INT_ADDR
+#define BNO055_ACCEL_HIGH_G_INTR_POS           (5)
+#define BNO055_ACCEL_HIGH_G_INTR_MSK           (0X20)
+#define BNO055_ACCEL_HIGH_G_INTR_LEN           (1)
+#define BNO055_ACCEL_HIGH_G_INTR_REG           BNO055_INT_ADDR
 
 /* Accel any motion interrupt register*/
-#define BNO055_ACCEL_ANY_MOTION_INTR_POS (6)
-#define BNO055_ACCEL_ANY_MOTION_INTR_MSK (0X40)
-#define BNO055_ACCEL_ANY_MOTION_INTR_LEN (1)
-#define BNO055_ACCEL_ANY_MOTION_INTR_REG BNO055_INT_ADDR
+#define BNO055_ACCEL_ANY_MOTION_INTR_POS       (6)
+#define BNO055_ACCEL_ANY_MOTION_INTR_MSK       (0X40)
+#define BNO055_ACCEL_ANY_MOTION_INTR_LEN       (1)
+#define BNO055_ACCEL_ANY_MOTION_INTR_REG       BNO055_INT_ADDR
 
 /*Accel any motion interrupt register*/
-#define BNO055_ACCEL_NO_MOTION_INTR_POS (7)
-#define BNO055_ACCEL_NO_MOTION_INTR_MSK (0X80)
-#define BNO055_ACCEL_NO_MOTION_INTR_LEN (1)
-#define BNO055_ACCEL_NO_MOTION_INTR_REG BNO055_INT_ADDR
+#define BNO055_ACCEL_NO_MOTION_INTR_POS        (7)
+#define BNO055_ACCEL_NO_MOTION_INTR_MSK        (0X80)
+#define BNO055_ACCEL_NO_MOTION_INTR_LEN        (1)
+#define BNO055_ACCEL_NO_MOTION_INTR_REG        BNO055_INT_ADDR
 
 /*Accel any motion threshold setting*/
-#define BNO055_ACCEL_ANY_MOTION_THRES_POS (0)
-#define BNO055_ACCEL_ANY_MOTION_THRES_MSK (0XFF)
-#define BNO055_ACCEL_ANY_MOTION_THRES_LEN (8)
-#define BNO055_ACCEL_ANY_MOTION_THRES_REG BNO055_ACCEL_ANY_MOTION_THRES_ADDR
+#define BNO055_ACCEL_ANY_MOTION_THRES_POS      (0)
+#define BNO055_ACCEL_ANY_MOTION_THRES_MSK      (0XFF)
+#define BNO055_ACCEL_ANY_MOTION_THRES_LEN      (8)
+#define BNO055_ACCEL_ANY_MOTION_THRES_REG      BNO055_ACCEL_ANY_MOTION_THRES_ADDR
 
 /*Accel interrupt setting register*/
-#define BNO055_ACCEL_ANY_MOTION_DURN_SET_POS (0)
-#define BNO055_ACCEL_ANY_MOTION_DURN_SET_MSK (0X03)
-#define BNO055_ACCEL_ANY_MOTION_DURN_SET_LEN (2)
-#define BNO055_ACCEL_ANY_MOTION_DURN_SET_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_ANY_MOTION_DURN_SET_POS   (0)
+#define BNO055_ACCEL_ANY_MOTION_DURN_SET_MSK   (0X03)
+#define BNO055_ACCEL_ANY_MOTION_DURN_SET_LEN   (2)
+#define BNO055_ACCEL_ANY_MOTION_DURN_SET_REG   BNO055_ACCEL_INTR_SETTINGS_ADDR
 
 /* Accel AM/NM axis selection register*/
-#define BNO055_ACCEL_ANY_MOTION_X_AXIS_POS (2)
-#define BNO055_ACCEL_ANY_MOTION_X_AXIS_MSK (0X04)
-#define BNO055_ACCEL_ANY_MOTION_X_AXIS_LEN (1)
-#define BNO055_ACCEL_ANY_MOTION_X_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_ANY_MOTION_X_AXIS_POS     (2)
+#define BNO055_ACCEL_ANY_MOTION_X_AXIS_MSK     (0X04)
+#define BNO055_ACCEL_ANY_MOTION_X_AXIS_LEN     (1)
+#define BNO055_ACCEL_ANY_MOTION_X_AXIS_REG     BNO055_ACCEL_INTR_SETTINGS_ADDR
 
-#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_POS (3)
-#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_MSK (0X08)
-#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_LEN (1)
-#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_POS     (3)
+#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_MSK     (0X08)
+#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_LEN     (1)
+#define BNO055_ACCEL_ANY_MOTION_Y_AXIS_REG     BNO055_ACCEL_INTR_SETTINGS_ADDR
 
-#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_POS (4)
-#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_MSK (0X10)
-#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_LEN (1)
-#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_POS     (4)
+#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_MSK     (0X10)
+#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_LEN     (1)
+#define BNO055_ACCEL_ANY_MOTION_Z_AXIS_REG     BNO055_ACCEL_INTR_SETTINGS_ADDR
 
 /* Accel high g axis selection register*/
-#define BNO055_ACCEL_HIGH_G_X_AXIS_POS (5)
-#define BNO055_ACCEL_HIGH_G_X_AXIS_MSK (0X20)
-#define BNO055_ACCEL_HIGH_G_X_AXIS_LEN (1)
-#define BNO055_ACCEL_HIGH_G_X_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_HIGH_G_X_AXIS_POS         (5)
+#define BNO055_ACCEL_HIGH_G_X_AXIS_MSK         (0X20)
+#define BNO055_ACCEL_HIGH_G_X_AXIS_LEN         (1)
+#define BNO055_ACCEL_HIGH_G_X_AXIS_REG         BNO055_ACCEL_INTR_SETTINGS_ADDR
 
-#define BNO055_ACCEL_HIGH_G_Y_AXIS_POS (6)
-#define BNO055_ACCEL_HIGH_G_Y_AXIS_MSK (0X40)
-#define BNO055_ACCEL_HIGH_G_Y_AXIS_LEN (1)
-#define BNO055_ACCEL_HIGH_G_Y_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_HIGH_G_Y_AXIS_POS         (6)
+#define BNO055_ACCEL_HIGH_G_Y_AXIS_MSK         (0X40)
+#define BNO055_ACCEL_HIGH_G_Y_AXIS_LEN         (1)
+#define BNO055_ACCEL_HIGH_G_Y_AXIS_REG         BNO055_ACCEL_INTR_SETTINGS_ADDR
 
-#define BNO055_ACCEL_HIGH_G_Z_AXIS_POS (7)
-#define BNO055_ACCEL_HIGH_G_Z_AXIS_MSK (0X80)
-#define BNO055_ACCEL_HIGH_G_Z_AXIS_LEN (1)
-#define BNO055_ACCEL_HIGH_G_Z_AXIS_REG BNO055_ACCEL_INTR_SETTINGS_ADDR
+#define BNO055_ACCEL_HIGH_G_Z_AXIS_POS         (7)
+#define BNO055_ACCEL_HIGH_G_Z_AXIS_MSK         (0X80)
+#define BNO055_ACCEL_HIGH_G_Z_AXIS_LEN         (1)
+#define BNO055_ACCEL_HIGH_G_Z_AXIS_REG         BNO055_ACCEL_INTR_SETTINGS_ADDR
 
 /* Accel High g duration setting register*/
-#define BNO055_ACCEL_HIGH_G_DURN_POS (0)
-#define BNO055_ACCEL_HIGH_G_DURN_MSK (0XFF)
-#define BNO055_ACCEL_HIGH_G_DURN_LEN (8)
-#define BNO055_ACCEL_HIGH_G_DURN_REG BNO055_ACCEL_HIGH_G_DURN_ADDR
+#define BNO055_ACCEL_HIGH_G_DURN_POS           (0)
+#define BNO055_ACCEL_HIGH_G_DURN_MSK           (0XFF)
+#define BNO055_ACCEL_HIGH_G_DURN_LEN           (8)
+#define BNO055_ACCEL_HIGH_G_DURN_REG           BNO055_ACCEL_HIGH_G_DURN_ADDR
 
 /* Accel High g threshold setting register*/
-#define BNO055_ACCEL_HIGH_G_THRES_POS (0)
-#define BNO055_ACCEL_HIGH_G_THRES_MSK (0XFF)
-#define BNO055_ACCEL_HIGH_G_THRES_LEN (8)
-#define BNO055_ACCEL_HIGH_G_THRES_REG BNO055_ACCEL_HIGH_G_THRES_ADDR
+#define BNO055_ACCEL_HIGH_G_THRES_POS          (0)
+#define BNO055_ACCEL_HIGH_G_THRES_MSK          (0XFF)
+#define BNO055_ACCEL_HIGH_G_THRES_LEN          (8)
+#define BNO055_ACCEL_HIGH_G_THRES_REG          BNO055_ACCEL_HIGH_G_THRES_ADDR
 
 /* Accel no/slow motion threshold setting*/
-#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_POS (0)
-#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_MSK (0XFF)
-#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_LEN (8)
-#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_REG \
+#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_POS  (0)
+#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_MSK  (0XFF)
+#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_LEN  (8)
+#define BNO055_ACCEL_SLOW_NO_MOTION_THRES_REG   \
     BNO055_ACCEL_NO_MOTION_THRES_ADDR
 
 /* Accel no/slow motion enable setting*/
@@ -2083,121 +2076,121 @@ struct bno055_sic_matrix_t
 #define BNO055_ACCEL_SLOW_NO_MOTION_ENABLE_REG BNO055_ACCEL_NO_MOTION_SET_ADDR
 
 /* Accel no/slow motion duration setting*/
-#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_POS (1)
-#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_MSK (0X7E)
-#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_LEN (6)
-#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_REG BNO055_ACCEL_NO_MOTION_SET_ADDR
+#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_POS   (1)
+#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_MSK   (0X7E)
+#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_LEN   (6)
+#define BNO055_ACCEL_SLOW_NO_MOTION_DURN_REG   BNO055_ACCEL_NO_MOTION_SET_ADDR
 
 /*Gyro interrupt setting register*/
 /*Gyro any motion axis setting*/
-#define BNO055_GYRO_ANY_MOTION_X_AXIS_POS (0)
-#define BNO055_GYRO_ANY_MOTION_X_AXIS_MSK (0X01)
-#define BNO055_GYRO_ANY_MOTION_X_AXIS_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_X_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_ANY_MOTION_X_AXIS_POS      (0)
+#define BNO055_GYRO_ANY_MOTION_X_AXIS_MSK      (0X01)
+#define BNO055_GYRO_ANY_MOTION_X_AXIS_LEN      (1)
+#define BNO055_GYRO_ANY_MOTION_X_AXIS_REG      BNO055_GYRO_INTR_SETING_ADDR
 
-#define BNO055_GYRO_ANY_MOTION_Y_AXIS_POS (1)
-#define BNO055_GYRO_ANY_MOTION_Y_AXIS_MSK (0X02)
-#define BNO055_GYRO_ANY_MOTION_Y_AXIS_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_Y_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_ANY_MOTION_Y_AXIS_POS      (1)
+#define BNO055_GYRO_ANY_MOTION_Y_AXIS_MSK      (0X02)
+#define BNO055_GYRO_ANY_MOTION_Y_AXIS_LEN      (1)
+#define BNO055_GYRO_ANY_MOTION_Y_AXIS_REG      BNO055_GYRO_INTR_SETING_ADDR
 
-#define BNO055_GYRO_ANY_MOTION_Z_AXIS_POS (2)
-#define BNO055_GYRO_ANY_MOTION_Z_AXIS_MSK (0X04)
-#define BNO055_GYRO_ANY_MOTION_Z_AXIS_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_Z_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_ANY_MOTION_Z_AXIS_POS      (2)
+#define BNO055_GYRO_ANY_MOTION_Z_AXIS_MSK      (0X04)
+#define BNO055_GYRO_ANY_MOTION_Z_AXIS_LEN      (1)
+#define BNO055_GYRO_ANY_MOTION_Z_AXIS_REG      BNO055_GYRO_INTR_SETING_ADDR
 
 /*Gyro high rate axis setting*/
-#define BNO055_GYRO_HIGHRATE_X_AXIS_POS (3)
-#define BNO055_GYRO_HIGHRATE_X_AXIS_MSK (0X08)
-#define BNO055_GYRO_HIGHRATE_X_AXIS_LEN (1)
-#define BNO055_GYRO_HIGHRATE_X_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_HIGHRATE_X_AXIS_POS        (3)
+#define BNO055_GYRO_HIGHRATE_X_AXIS_MSK        (0X08)
+#define BNO055_GYRO_HIGHRATE_X_AXIS_LEN        (1)
+#define BNO055_GYRO_HIGHRATE_X_AXIS_REG        BNO055_GYRO_INTR_SETING_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Y_AXIS_POS (4)
-#define BNO055_GYRO_HIGHRATE_Y_AXIS_MSK (0X10)
-#define BNO055_GYRO_HIGHRATE_Y_AXIS_LEN (1)
-#define BNO055_GYRO_HIGHRATE_Y_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_HIGHRATE_Y_AXIS_POS        (4)
+#define BNO055_GYRO_HIGHRATE_Y_AXIS_MSK        (0X10)
+#define BNO055_GYRO_HIGHRATE_Y_AXIS_LEN        (1)
+#define BNO055_GYRO_HIGHRATE_Y_AXIS_REG        BNO055_GYRO_INTR_SETING_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Z_AXIS_POS (5)
-#define BNO055_GYRO_HIGHRATE_Z_AXIS_MSK (0X20)
-#define BNO055_GYRO_HIGHRATE_Z_AXIS_LEN (1)
-#define BNO055_GYRO_HIGHRATE_Z_AXIS_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_HIGHRATE_Z_AXIS_POS        (5)
+#define BNO055_GYRO_HIGHRATE_Z_AXIS_MSK        (0X20)
+#define BNO055_GYRO_HIGHRATE_Z_AXIS_LEN        (1)
+#define BNO055_GYRO_HIGHRATE_Z_AXIS_REG        BNO055_GYRO_INTR_SETING_ADDR
 
 /* Gyro filter setting*/
-#define BNO055_GYRO_ANY_MOTION_FILTER_POS (6)
-#define BNO055_GYRO_ANY_MOTION_FILTER_MSK (0X40)
-#define BNO055_GYRO_ANY_MOTION_FILTER_LEN (1)
-#define BNO055_GYRO_ANY_MOTION_FILTER_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_ANY_MOTION_FILTER_POS      (6)
+#define BNO055_GYRO_ANY_MOTION_FILTER_MSK      (0X40)
+#define BNO055_GYRO_ANY_MOTION_FILTER_LEN      (1)
+#define BNO055_GYRO_ANY_MOTION_FILTER_REG      BNO055_GYRO_INTR_SETING_ADDR
 
-#define BNO055_GYRO_HIGHRATE_FILTER_POS (7)
-#define BNO055_GYRO_HIGHRATE_FILTER_MSK (0X80)
-#define BNO055_GYRO_HIGHRATE_FILTER_LEN (1)
-#define BNO055_GYRO_HIGHRATE_FILTER_REG BNO055_GYRO_INTR_SETING_ADDR
+#define BNO055_GYRO_HIGHRATE_FILTER_POS        (7)
+#define BNO055_GYRO_HIGHRATE_FILTER_MSK        (0X80)
+#define BNO055_GYRO_HIGHRATE_FILTER_LEN        (1)
+#define BNO055_GYRO_HIGHRATE_FILTER_REG        BNO055_GYRO_INTR_SETING_ADDR
 
 /* Gyro high rate X axis settings*/
-#define BNO055_GYRO_HIGHRATE_X_THRES_POS (0)
-#define BNO055_GYRO_HIGHRATE_X_THRES_MSK (0X1F)
-#define BNO055_GYRO_HIGHRATE_X_THRES_LEN (5)
-#define BNO055_GYRO_HIGHRATE_X_THRES_REG BNO055_GYRO_HIGHRATE_X_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_X_THRES_POS       (0)
+#define BNO055_GYRO_HIGHRATE_X_THRES_MSK       (0X1F)
+#define BNO055_GYRO_HIGHRATE_X_THRES_LEN       (5)
+#define BNO055_GYRO_HIGHRATE_X_THRES_REG       BNO055_GYRO_HIGHRATE_X_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_X_HYST_POS (5)
-#define BNO055_GYRO_HIGHRATE_X_HYST_MSK (0X60)
-#define BNO055_GYRO_HIGHRATE_X_HYST_LEN (2)
-#define BNO055_GYRO_HIGHRATE_X_HYST_REG BNO055_GYRO_HIGHRATE_X_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_X_HYST_POS        (5)
+#define BNO055_GYRO_HIGHRATE_X_HYST_MSK        (0X60)
+#define BNO055_GYRO_HIGHRATE_X_HYST_LEN        (2)
+#define BNO055_GYRO_HIGHRATE_X_HYST_REG        BNO055_GYRO_HIGHRATE_X_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_X_DURN_POS (0)
-#define BNO055_GYRO_HIGHRATE_X_DURN_MSK (0XFF)
-#define BNO055_GYRO_HIGHRATE_X_DURN_LEN (8)
-#define BNO055_GYRO_HIGHRATE_X_DURN_REG BNO055_GYRO_DURN_X_ADDR
+#define BNO055_GYRO_HIGHRATE_X_DURN_POS        (0)
+#define BNO055_GYRO_HIGHRATE_X_DURN_MSK        (0XFF)
+#define BNO055_GYRO_HIGHRATE_X_DURN_LEN        (8)
+#define BNO055_GYRO_HIGHRATE_X_DURN_REG        BNO055_GYRO_DURN_X_ADDR
 
 /* Gyro high rate Y axis settings*/
-#define BNO055_GYRO_HIGHRATE_Y_THRES_POS (0)
-#define BNO055_GYRO_HIGHRATE_Y_THRES_MSK (0X1F)
-#define BNO055_GYRO_HIGHRATE_Y_THRES_LEN (5)
-#define BNO055_GYRO_HIGHRATE_Y_THRES_REG BNO055_GYRO_HIGHRATE_Y_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_Y_THRES_POS       (0)
+#define BNO055_GYRO_HIGHRATE_Y_THRES_MSK       (0X1F)
+#define BNO055_GYRO_HIGHRATE_Y_THRES_LEN       (5)
+#define BNO055_GYRO_HIGHRATE_Y_THRES_REG       BNO055_GYRO_HIGHRATE_Y_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Y_HYST_POS (5)
-#define BNO055_GYRO_HIGHRATE_Y_HYST_MSK (0X60)
-#define BNO055_GYRO_HIGHRATE_Y_HYST_LEN (2)
-#define BNO055_GYRO_HIGHRATE_Y_HYST_REG BNO055_GYRO_HIGHRATE_Y_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_Y_HYST_POS        (5)
+#define BNO055_GYRO_HIGHRATE_Y_HYST_MSK        (0X60)
+#define BNO055_GYRO_HIGHRATE_Y_HYST_LEN        (2)
+#define BNO055_GYRO_HIGHRATE_Y_HYST_REG        BNO055_GYRO_HIGHRATE_Y_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Y_DURN_POS (0)
-#define BNO055_GYRO_HIGHRATE_Y_DURN_MSK (0XFF)
-#define BNO055_GYRO_HIGHRATE_Y_DURN_LEN (8)
-#define BNO055_GYRO_HIGHRATE_Y_DURN_REG BNO055_GYRO_DURN_Y_ADDR
+#define BNO055_GYRO_HIGHRATE_Y_DURN_POS        (0)
+#define BNO055_GYRO_HIGHRATE_Y_DURN_MSK        (0XFF)
+#define BNO055_GYRO_HIGHRATE_Y_DURN_LEN        (8)
+#define BNO055_GYRO_HIGHRATE_Y_DURN_REG        BNO055_GYRO_DURN_Y_ADDR
 
 /* Gyro high rate Z axis settings*/
-#define BNO055_GYRO_HIGHRATE_Z_THRES_POS (0)
-#define BNO055_GYRO_HIGHRATE_Z_THRES_MSK (0X1F)
-#define BNO055_GYRO_HIGHRATE_Z_THRES_LEN (5)
-#define BNO055_GYRO_HIGHRATE_Z_THRES_REG BNO055_GYRO_HIGHRATE_Z_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_Z_THRES_POS       (0)
+#define BNO055_GYRO_HIGHRATE_Z_THRES_MSK       (0X1F)
+#define BNO055_GYRO_HIGHRATE_Z_THRES_LEN       (5)
+#define BNO055_GYRO_HIGHRATE_Z_THRES_REG       BNO055_GYRO_HIGHRATE_Z_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Z_HYST_POS (5)
-#define BNO055_GYRO_HIGHRATE_Z_HYST_MSK (0X60)
-#define BNO055_GYRO_HIGHRATE_Z_HYST_LEN (2)
-#define BNO055_GYRO_HIGHRATE_Z_HYST_REG BNO055_GYRO_HIGHRATE_Z_SET_ADDR
+#define BNO055_GYRO_HIGHRATE_Z_HYST_POS        (5)
+#define BNO055_GYRO_HIGHRATE_Z_HYST_MSK        (0X60)
+#define BNO055_GYRO_HIGHRATE_Z_HYST_LEN        (2)
+#define BNO055_GYRO_HIGHRATE_Z_HYST_REG        BNO055_GYRO_HIGHRATE_Z_SET_ADDR
 
-#define BNO055_GYRO_HIGHRATE_Z_DURN_POS (0)
-#define BNO055_GYRO_HIGHRATE_Z_DURN_MSK (0XFF)
-#define BNO055_GYRO_HIGHRATE_Z_DURN_LEN (8)
-#define BNO055_GYRO_HIGHRATE_Z_DURN_REG (BNO055_GYRO_DURN_Z_ADDR)
+#define BNO055_GYRO_HIGHRATE_Z_DURN_POS        (0)
+#define BNO055_GYRO_HIGHRATE_Z_DURN_MSK        (0XFF)
+#define BNO055_GYRO_HIGHRATE_Z_DURN_LEN        (8)
+#define BNO055_GYRO_HIGHRATE_Z_DURN_REG        (BNO055_GYRO_DURN_Z_ADDR)
 
 /*Gyro any motion threshold setting*/
-#define BNO055_GYRO_ANY_MOTION_THRES_POS (0)
-#define BNO055_GYRO_ANY_MOTION_THRES_MSK (0X7F)
-#define BNO055_GYRO_ANY_MOTION_THRES_LEN (7)
-#define BNO055_GYRO_ANY_MOTION_THRES_REG \
+#define BNO055_GYRO_ANY_MOTION_THRES_POS       (0)
+#define BNO055_GYRO_ANY_MOTION_THRES_MSK       (0X7F)
+#define BNO055_GYRO_ANY_MOTION_THRES_LEN       (7)
+#define BNO055_GYRO_ANY_MOTION_THRES_REG    \
     BNO055_GYRO_ANY_MOTION_THRES_ADDR
 
 /* Gyro any motion slope sample setting*/
-#define BNO055_GYRO_SLOPE_SAMPLES_POS (0)
-#define BNO055_GYRO_SLOPE_SAMPLES_MSK (0X03)
-#define BNO055_GYRO_SLOPE_SAMPLES_LEN (2)
-#define BNO055_GYRO_SLOPE_SAMPLES_REG BNO055_GYRO_ANY_MOTION_SET_ADDR
+#define BNO055_GYRO_SLOPE_SAMPLES_POS          (0)
+#define BNO055_GYRO_SLOPE_SAMPLES_MSK          (0X03)
+#define BNO055_GYRO_SLOPE_SAMPLES_LEN          (2)
+#define BNO055_GYRO_SLOPE_SAMPLES_REG          BNO055_GYRO_ANY_MOTION_SET_ADDR
 
 /* Gyro awake duration setting*/
-#define BNO055_GYRO_AWAKE_DURN_POS (2)
-#define BNO055_GYRO_AWAKE_DURN_MSK (0X0C)
-#define BNO055_GYRO_AWAKE_DURN_LEN (2)
-#define BNO055_GYRO_AWAKE_DURN_REG BNO055_GYRO_ANY_MOTION_SET_ADDR
+#define BNO055_GYRO_AWAKE_DURN_POS             (2)
+#define BNO055_GYRO_AWAKE_DURN_MSK             (0X0C)
+#define BNO055_GYRO_AWAKE_DURN_LEN             (2)
+#define BNO055_GYRO_AWAKE_DURN_REG             BNO055_GYRO_ANY_MOTION_SET_ADDR
 
 /* PAGE1 DATA REGISTERS DEFINITION END*/
 /*************************************************/
@@ -2239,7 +2232,7 @@ struct bno055_sic_matrix_t
  *  affect the reference value of the parameter
  *  (Better case don't change the reference value of the parameter)
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_init_lib_impl(const struct i2c_dt_spec *dev_addr, struct bno055_t *bno055);
+BNO055_RETURN_FUNCTION_TYPE bno055_init(struct bno055_t *bno055);
 
 /*!
  *  @brief
@@ -2256,7 +2249,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_init_lib_impl(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_register(const struct i2c_dt_spec *dev_addr, u8 addr_u8, u8 *data_u8, u8 len_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_register(u8 addr_u8, u8 *data_u8, u8 len_u8);
 
 /*!
  *  @brief This API reads the data from
@@ -2273,7 +2266,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_register(const struct i2c_dt_spec *dev_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_register(const struct i2c_dt_spec *dev_addr, u8 addr_u8, u8 *data_u8, u8 len_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_register(u8 addr_u8, u8 *data_u8, u8 len_u8);
 
 /*!
  *  @brief This API reads chip id
@@ -2286,7 +2279,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_register(const struct i2c_dt_spec *dev_a
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_chip_id(const struct i2c_dt_spec *dev_addr, u8 *chip_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_chip_id(u8 *chip_id_u8);
 
 /*!
  *  @brief This API reads software revision id
@@ -2300,7 +2293,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_chip_id(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_sw_rev_id(const struct i2c_dt_spec *dev_addr, u16 *sw_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_sw_rev_id(u16 *sw_id_u8);
 
 /*!
  *  @brief This API reads page id
@@ -2318,7 +2311,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_sw_rev_id(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_page_id(const struct i2c_dt_spec *dev_addr, u8 *page_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_page_id(u8 *page_id_u8);
 
 /*!
  *  @brief This API used to write
@@ -2335,7 +2328,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_page_id(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_page_id(const struct i2c_dt_spec *dev_addr, u8 page_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_page_id(u8 page_id_u8);
 
 /*!
  *  @brief This API reads accel revision id
@@ -2349,7 +2342,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_page_id(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_rev_id(const struct i2c_dt_spec *dev_addr, u8 *accel_rev_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_rev_id(u8 *accel_rev_id_u8);
 
 /*!
  *  @brief This API reads mag revision id
@@ -2363,7 +2356,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_rev_id(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_rev_id(const struct i2c_dt_spec *dev_addr, u8 *mag_rev_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_rev_id(u8 *mag_rev_id_u8);
 
 /*!
  *  @brief This API reads gyro revision id
@@ -2379,7 +2372,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_rev_id(const struct i2c_dt_spec *dev
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_rev_id(const struct i2c_dt_spec *dev_addr, u8 *gyro_rev_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_rev_id(u8 *gyro_rev_id_u8);
 
 /*!
  *  @brief This API used to read boot loader revision id
@@ -2394,7 +2387,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_rev_id(const struct i2c_dt_spec *de
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_bl_rev_id(const struct i2c_dt_spec *dev_addr, u8 *bl_rev_id_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_bl_rev_id(u8 *bl_rev_id_u8);
 
 /**************************************************/
 /**\name ACCEL DATA READ FUNCTIONS */
@@ -2417,7 +2410,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_bl_rev_id(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_x(const struct i2c_dt_spec *dev_addr, s16 *accel_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_x(s16 *accel_x_s16);
 
 /*!
  *  @brief This API reads acceleration data Y values
@@ -2436,7 +2429,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_x(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_y(const struct i2c_dt_spec *dev_addr, s16 *accel_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_y(s16 *accel_y_s16);
 
 /*!
  *  @brief This API reads acceleration data z values
@@ -2455,7 +2448,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_y(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_z(const struct i2c_dt_spec *dev_addr, s16 *accel_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_z(s16 *accel_z_s16);
 
 /*!
  *  @brief This API reads acceleration data xyz values
@@ -2477,7 +2470,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_z(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_xyz(const struct i2c_dt_spec *dev_addr, struct bno055_accel_t *accel);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_xyz(struct bno055_accel_t *accel);
 
 /**************************************************/
 /**\name MAG DATA READ FUNCTIONS */
@@ -2501,7 +2494,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_xyz(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_x(const struct i2c_dt_spec *dev_addr, s16 *mag_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_x(s16 *mag_x_s16);
 
 /*!
  *  @brief This API reads mag data y values
@@ -2520,7 +2513,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_x(const struct i2c_dt_spec *dev_addr
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_y(const struct i2c_dt_spec *dev_addr, s16 *mag_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_y(s16 *mag_y_s16);
 
 /*!
  *  @brief This API reads mag data z values
@@ -2540,7 +2533,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_y(const struct i2c_dt_spec *dev_addr
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_z(const struct i2c_dt_spec *dev_addr, s16 *mag_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_z(s16 *mag_z_s16);
 
 /*!
  *  @brief This API reads mag data xyz values
@@ -2562,7 +2555,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_z(const struct i2c_dt_spec *dev_addr
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_xyz(const struct i2c_dt_spec *dev_addr, struct bno055_mag_t *mag);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_xyz(struct bno055_mag_t *mag);
 
 /**************************************************/
 /**\name GYRO DATA READ FUNCTIONS */
@@ -2585,7 +2578,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_xyz(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_x(const struct i2c_dt_spec *dev_addr, s16 *gyro_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_x(s16 *gyro_x_s16);
 
 /*!
  *  @brief This API reads gyro data y values
@@ -2604,7 +2597,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_x(const struct i2c_dt_spec *dev_add
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_y(const struct i2c_dt_spec *dev_addr, s16 *gyro_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_y(s16 *gyro_y_s16);
 
 /*!
  *  @brief This API reads gyro data z values
@@ -2618,7 +2611,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_y(const struct i2c_dt_spec *dev_add
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_z(const struct i2c_dt_spec *dev_addr, s16 *gyro_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_z(s16 *gyro_z_s16);
 
 /*!
  *  @brief This API reads gyro data xyz values
@@ -2640,7 +2633,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_z(const struct i2c_dt_spec *dev_add
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_xyz(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_t *gyro);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_xyz(struct bno055_gyro_t *gyro);
 
 /**************************************************/
 /**\name EULER DATA READ FUNCTIONS */
@@ -2657,7 +2650,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_xyz(const struct i2c_dt_spec *dev_a
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_h(const struct i2c_dt_spec *dev_addr, s16 *euler_h_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_h(s16 *euler_h_s16);
 
 /*!
  *  @brief This API reads Euler data r values
@@ -2670,7 +2663,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_h(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_r(const struct i2c_dt_spec *dev_addr, s16 *euler_r_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_r(s16 *euler_r_s16);
 
 /*!
  *  @brief This API reads Euler data p values
@@ -2684,7 +2677,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_r(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_p(const struct i2c_dt_spec *dev_addr, s16 *euler_p_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_p(s16 *euler_p_s16);
 
 /*!
  *  @brief This API reads Euler data hrp values
@@ -2705,7 +2698,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_p(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_hrp(const struct i2c_dt_spec *dev_addr, struct bno055_euler_t *euler);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_hrp(struct bno055_euler_t *euler);
 
 /**************************************************/
 /**\name QUATERNION DATA READ FUNCTIONS */
@@ -2723,7 +2716,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_euler_hrp(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_w(const struct i2c_dt_spec *dev_addr, s16 *quaternion_w_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_w(s16 *quaternion_w_s16);
 
 /*!
  *  @brief This API reads quaternion data x values
@@ -2737,7 +2730,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_w(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_x(const struct i2c_dt_spec *dev_addr, s16 *quaternion_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_x(s16 *quaternion_x_s16);
 
 /*!
  *  @brief This API reads quaternion data y values
@@ -2751,7 +2744,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_x(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_y(const struct i2c_dt_spec *dev_addr, s16 *quaternion_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_y(s16 *quaternion_y_s16);
 
 /*!
  *  @brief This API reads quaternion data z values
@@ -2765,7 +2758,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_y(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_z(const struct i2c_dt_spec *dev_addr, s16 *quaternion_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_z(s16 *quaternion_z_s16);
 
 /*!
  *  @brief This API reads Quaternion data wxyz values
@@ -2788,7 +2781,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_z(const struct i2c_dt_spec *d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_wxyz(const struct i2c_dt_spec *dev_addr, struct bno055_quaternion_t *quaternion);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_wxyz(struct bno055_quaternion_t *quaternion);
 
 /**************************************************/
 /**\name LINEAR ACCEL DATA READ FUNCTIONS */
@@ -2806,7 +2799,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_quaternion_wxyz(const struct i2c_dt_spec
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_x(const struct i2c_dt_spec *dev_addr, s16 *linear_accel_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_x(s16 *linear_accel_x_s16);
 
 /*!
  *  @brief This API reads Linear accel data x values
@@ -2820,7 +2813,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_x(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_y(const struct i2c_dt_spec *dev_addr, s16 *linear_accel_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_y(s16 *linear_accel_y_s16);
 
 /*!
  *  @brief This API reads Linear accel data x values
@@ -2834,7 +2827,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_y(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_z(const struct i2c_dt_spec *dev_addr, s16 *linear_accel_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_z(s16 *linear_accel_z_s16);
 
 /*!
  *  @brief This API reads Linear accel data xyz values
@@ -2854,7 +2847,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_z(const struct i2c_dt_spec 
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_xyz(const struct i2c_dt_spec *dev_addr, struct bno055_linear_accel_t *linear_accel);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_xyz(struct bno055_linear_accel_t *linear_accel);
 
 /**************************************************/
 /**\name GRAVITY DATA READ FUNCTIONS */
@@ -2872,7 +2865,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_linear_accel_xyz(const struct i2c_dt_spe
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_x(const struct i2c_dt_spec *dev_addr, s16 *gravity_x_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_x(s16 *gravity_x_s16);
 
 /*!
  *  @brief This API reads gravity data y values
@@ -2886,7 +2879,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_x(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_y(const struct i2c_dt_spec *dev_addr, s16 *gravity_y_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_y(s16 *gravity_y_s16);
 
 /*!
  *  @brief This API reads gravity data z values
@@ -2900,7 +2893,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_y(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_z(const struct i2c_dt_spec *dev_addr, s16 *gravity_z_s16);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_z(s16 *gravity_z_s16);
 
 /*!
  *  @brief This API reads gravity data xyz values
@@ -2921,7 +2914,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_z(const struct i2c_dt_spec *dev_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_xyz(const struct i2c_dt_spec *dev_addr, struct bno055_gravity_t *gravity);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_xyz(struct bno055_gravity_t *gravity);
 
 /**************************************************/
 /**\name TEMPERATURE DATA READ FUNCTIONS */
@@ -2939,9 +2932,9 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gravity_xyz(const struct i2c_dt_spec *de
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_temp_data(const struct i2c_dt_spec *dev_addr, s8 *temp_s8);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_temp_data(s8 *temp_s8);
 
-#ifdef BNO055_FLOAT_ENABLE
+#ifdef  BNO055_FLOAT_ENABLE
 
 /********************************************************************/
 /**\name FUNCTIONS FOR READING ACCEL DATA OUTPUT AS FLOAT PRECISION */
@@ -2961,7 +2954,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_temp_data(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_msq(const struct i2c_dt_spec *dev_addr, float *accel_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_msq(float *accel_x_f);
 
 /*!
  *  @brief This API is used to convert the accel x raw data
@@ -2977,7 +2970,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_msq(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_msq(const struct i2c_dt_spec *dev_addr, float *accel_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_msq(float *accel_y_f);
 
 /*!
  *  @brief This API is used to convert the accel z raw data
@@ -2993,7 +2986,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_msq(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_msq(const struct i2c_dt_spec *dev_addr, float *accel_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_msq(float *accel_z_f);
 
 /*!
  *  @brief This API is used to convert the accel y raw data
@@ -3008,7 +3001,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_msq(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_mg(const struct i2c_dt_spec *dev_addr, float *accel_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_mg(float *accel_x_f);
 
 /*!
  *  @brief This API is used to convert the accel y raw data
@@ -3023,7 +3016,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_x_mg(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_mg(const struct i2c_dt_spec *dev_addr, float *accel_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_mg(float *accel_y_f);
 
 /*!
  *  @brief This API is used to convert the accel z raw data
@@ -3039,7 +3032,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_y_mg(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_mg(const struct i2c_dt_spec *dev_addr, float *accel_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_mg(float *accel_z_f);
 
 /*!
  *  @brief This API is used to convert the accel xyz raw data
@@ -3059,7 +3052,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_z_mg(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_msq(const struct i2c_dt_spec *dev_addr, struct bno055_accel_float_t *accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_msq(struct bno055_accel_float_t *accel_xyz);
 
 /*!
  *  @brief This API is used to convert the accel xyz raw data
@@ -3080,7 +3073,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_msq(const struct i2c_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_mg(const struct i2c_dt_spec *dev_addr, struct bno055_accel_float_t *accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_mg(struct bno055_accel_float_t *accel_xyz);
 
 /********************************************************************/
 /**\name FUNCTIONS FOR READING MAG DATA OUTPUT AS FLOAT PRECISION */
@@ -3100,7 +3093,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_accel_xyz_mg(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_x_uT(const struct i2c_dt_spec *dev_addr, float *mag_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_x_uT(float *mag_x_f);
 
 /*!
  *  @brief This API is used to convert the mag y raw data
@@ -3115,7 +3108,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_x_uT(const struct i2c_dt_sp
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_y_uT(const struct i2c_dt_spec *dev_addr, float *mag_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_y_uT(float *mag_y_f);
 
 /*!
  *  @brief This API is used to convert the mag z raw data
@@ -3130,7 +3123,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_y_uT(const struct i2c_dt_sp
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_z_uT(const struct i2c_dt_spec *dev_addr, float *mag_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_z_uT(float *mag_z_f);
 
 /*!
  *  @brief This API is used to convert the mag yz raw data
@@ -3150,7 +3143,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_z_uT(const struct i2c_dt_sp
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_xyz_uT(const struct i2c_dt_spec *dev_addr, struct bno055_mag_float_t *mag_xyz_data);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_xyz_uT(struct bno055_mag_float_t *mag_xyz_data);
 
 /********************************************************************/
 /**\name FUNCTIONS FOR READING GYRO DATA OUTPUT AS FLOAT PRECISION */
@@ -3168,7 +3161,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_mag_xyz_uT(const struct i2c_dt_
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_dps(const struct i2c_dt_spec *dev_addr, float *gyro_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_dps(float *gyro_x_f);
 
 /*!
  *  @brief This API is used to convert the gyro x raw data
@@ -3183,7 +3176,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_dps(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_rps(const struct i2c_dt_spec *dev_addr, float *gyro_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_rps(float *gyro_x_f);
 
 /*!
  *  @brief This API is used to convert the gyro y raw data
@@ -3198,7 +3191,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_x_rps(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_dps(const struct i2c_dt_spec *dev_addr, float *gyro_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_dps(float *gyro_y_f);
 
 /*!
  *  @brief This API is used to convert the gyro y raw data
@@ -3214,7 +3207,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_dps(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_rps(const struct i2c_dt_spec *dev_addr, float *gyro_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_rps(float *gyro_y_f);
 
 /*!
  *  @brief This API is used to convert the gyro z raw data
@@ -3229,7 +3222,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_y_rps(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_dps(const struct i2c_dt_spec *dev_addr, float *gyro_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_dps(float *gyro_z_f);
 
 /*!
  *  @brief This API is used to convert the gyro z raw data
@@ -3244,7 +3237,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_dps(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_rps(const struct i2c_dt_spec *dev_addr, float *gyro_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_rps(float *gyro_z_f);
 
 /*!
  *  @brief This API is used to convert the gyro xyz raw data
@@ -3265,7 +3258,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_z_rps(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_dps(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_float_t *gyro_xyz_data);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_dps(struct bno055_gyro_float_t *gyro_xyz_data);
 
 /*!
  *  @brief This API is used to convert the gyro xyz raw data
@@ -3286,7 +3279,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_dps(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_rps(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_float_t *gyro_xyz_data);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_rps(struct bno055_gyro_float_t *gyro_xyz_data);
 
 /********************************************************************/
 /**\name FUNCTIONS FOR READING EULER DATA OUTPUT AS FLOAT PRECISION */
@@ -3304,7 +3297,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gyro_xyz_rps(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_deg(const struct i2c_dt_spec *dev_addr, float *euler_h_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_deg(float *euler_h_f);
 
 /*!
  *  @brief This API is used to convert the Euler h raw data
@@ -3318,7 +3311,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_deg(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_rad(const struct i2c_dt_spec *dev_addr, float *euler_h_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_rad(float *euler_h_f);
 
 /*!
  *  @brief This API is used to convert the Euler r raw data
@@ -3331,7 +3324,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_h_rad(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_deg(const struct i2c_dt_spec *dev_addr, float *euler_r_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_deg(float *euler_r_f);
 
 /*!
  *  @brief This API is used to convert the Euler r raw data
@@ -3344,7 +3337,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_deg(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_rad(const struct i2c_dt_spec *dev_addr, float *euler_r_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_rad(float *euler_r_f);
 
 /*!
  *  @brief This API is used to convert the Euler p raw data
@@ -3357,7 +3350,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_r_rad(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_deg(const struct i2c_dt_spec *dev_addr, float *euler_p_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_deg(float *euler_p_f);
 
 /*!
  *  @brief This API is used to convert the Euler p raw data
@@ -3371,7 +3364,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_deg(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_rad(const struct i2c_dt_spec *dev_addr, float *euler_p_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_rad(float *euler_p_f);
 
 /*!
  *  @brief This API is used to convert the Euler hrp raw data
@@ -3391,7 +3384,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_p_rad(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_deg(const struct i2c_dt_spec *dev_addr, struct bno055_euler_float_t *euler_hpr);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_deg(struct bno055_euler_float_t *euler_hpr);
 
 /*!
  *  @brief This API is used to convert the Euler xyz raw data
@@ -3411,7 +3404,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_deg(const struct i2c_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_rad(const struct i2c_dt_spec *dev_addr, struct bno055_euler_float_t *euler_hpr);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_rad(struct bno055_euler_float_t *euler_hpr);
 
 /***************************************************************************/
 /**\name FUNCTIONS FOR READING LINEAR ACCEL DATA OUTPUT AS FLOAT PRECISION */
@@ -3427,7 +3420,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_euler_hpr_rad(const struct i2c_
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_x_msq(const struct i2c_dt_spec *dev_addr, float *linear_accel_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_x_msq(float *linear_accel_x_f);
 
 /*!
  *  @brief This API is used to convert the linear
@@ -3439,7 +3432,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_x_msq(const struct
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_y_msq(const struct i2c_dt_spec *dev_addr, float *linear_accel_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_y_msq(float *linear_accel_y_f);
 
 /*!
  *  @brief This API is used to convert the linear
@@ -3452,7 +3445,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_y_msq(const struct
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_z_msq(const struct i2c_dt_spec *dev_addr, float *linear_accel_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_z_msq(float *linear_accel_z_f);
 
 /*!
  *  @brief This API is used to convert the linear accel xyz raw data
@@ -3473,8 +3466,8 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_z_msq(const struct
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_xyz_msq(const struct i2c_dt_spec *dev_addr,
-                                                                      struct bno055_linear_accel_float_t *linear_accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_xyz_msq(
+    struct bno055_linear_accel_float_t *linear_accel_xyz);
 
 /********************************************************************/
 /**\name FUNCTIONS FOR READING GRAVITY DATA OUTPUT AS FLOAT PRECISION */
@@ -3492,7 +3485,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_linear_accel_xyz_msq(const stru
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_x_msq(const struct i2c_dt_spec *dev_addr, float *gravity_x_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_x_msq(float *gravity_x_f);
 
 /*!
  *  @brief This API is used to convert the gravity
@@ -3506,7 +3499,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_x_msq(const struct i2c_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_y_msq(const struct i2c_dt_spec *dev_addr, float *gravity_y_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_y_msq(float *gravity_y_f);
 
 /*!
  *  @brief This API is used to convert the gravity
@@ -3519,7 +3512,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_y_msq(const struct i2c_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_z_msq(const struct i2c_dt_spec *dev_addr, float *gravity_z_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_z_msq(float *gravity_z_f);
 
 /*!
  *  @brief This API is used to convert the gravity xyz raw data
@@ -3540,7 +3533,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_float_z_msq(const struct i2c_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gravity_xyz_msq(const struct i2c_dt_spec *dev_addr, struct bno055_gravity_float_t *gravity_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gravity_xyz_msq(struct bno055_gravity_float_t *gravity_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING TEMPERATURE DATA OUTPUT AS FLOAT PRECISION */
@@ -3558,7 +3551,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_gravity_xyz_msq(const struct i2
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_fahrenheit(const struct i2c_dt_spec *dev_addr, float *temp_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_fahrenheit(float *temp_f);
 
 /*!
  *  @brief This API is used to convert the temperature
@@ -3573,10 +3566,10 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_fahrenheit(const struct i2
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_celsius(const struct i2c_dt_spec *dev_addr, float *temp_f);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_celsius(float *temp_f);
 
 #endif
-#ifdef BNO055_DOUBLE_ENABLE
+#ifdef  BNO055_DOUBLE_ENABLE
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING ACCEL DATA OUTPUT AS DOUBLE PRECISION */
@@ -3596,7 +3589,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_float_temp_celsius(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_msq(const struct i2c_dt_spec *dev_addr, double *accel_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_msq(double *accel_x_d);
 
 /*!
  *  @brief This API is used to convert the accel y raw data
@@ -3613,7 +3606,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_msq(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_msq(const struct i2c_dt_spec *dev_addr, double *accel_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_msq(double *accel_y_d);
 
 /*!
  *  @brief This API is used to convert the accel z raw data
@@ -3627,7 +3620,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_msq(const struct i2c_d
  *  @retval 0 -> BNO055_SUCCESS
  *  @retval 1 -> BNO055_ERROR
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_msq(const struct i2c_dt_spec *dev_addr, double *accel_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_msq(double *accel_z_d);
 
 /*!
  *  @brief This API is used to convert the accel x raw data
@@ -3644,7 +3637,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_msq(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_mg(const struct i2c_dt_spec *dev_addr, double *accel_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_mg(double *accel_x_d);
 
 /*!
  *  @brief This API is used to convert the accel y raw data
@@ -3660,7 +3653,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_x_mg(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_mg(const struct i2c_dt_spec *dev_addr, double *accel_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_mg(double *accel_y_d);
 
 /*!
  *  @brief This API is used to convert the accel z raw data
@@ -3675,7 +3668,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_y_mg(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_mg(const struct i2c_dt_spec *dev_addr, double *accel_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_mg(double *accel_z_d);
 
 /*!
  *  @brief This API is used to convert the accel xyz raw data
@@ -3696,7 +3689,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_z_mg(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_msq(const struct i2c_dt_spec *dev_addr, struct bno055_accel_double_t *accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_msq(struct bno055_accel_double_t *accel_xyz);
 
 /*!
  *  @brief This API is used to convert the accel xyz raw data
@@ -3716,7 +3709,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_msq(const struct i2c
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_mg(const struct i2c_dt_spec *dev_addr, struct bno055_accel_double_t *accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_mg(struct bno055_accel_double_t *accel_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING MAG DATA OUTPUT AS DOUBLE PRECISION */
@@ -3737,7 +3730,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_accel_xyz_mg(const struct i2c_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_x_uT(const struct i2c_dt_spec *dev_addr, double *mag_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_x_uT(double *mag_x_d);
 
 /*!
  *  @brief This API is used to convert the mag x raw data
@@ -3754,7 +3747,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_x_uT(const struct i2c_dt_s
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_y_uT(const struct i2c_dt_spec *dev_addr, double *mag_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_y_uT(double *mag_y_d);
 
 /*!
  *  @brief This API is used to convert the mag z raw data
@@ -3770,7 +3763,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_y_uT(const struct i2c_dt_s
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_z_uT(const struct i2c_dt_spec *dev_addr, double *mag_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_z_uT(double *mag_z_d);
 
 /*!
  *  @brief This API is used to convert the mag yz raw data
@@ -3790,7 +3783,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_z_uT(const struct i2c_dt_s
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_xyz_uT(const struct i2c_dt_spec *dev_addr, struct bno055_mag_double_t *mag_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_xyz_uT(struct bno055_mag_double_t *mag_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING GYRO DATA OUTPUT AS DOUBLE PRECISION */
@@ -3810,7 +3803,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_mag_xyz_uT(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_dps(const struct i2c_dt_spec *dev_addr, double *gyro_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_dps(double *gyro_x_d);
 
 /*!
  *  @brief This API is used to convert the gyro y raw data
@@ -3826,7 +3819,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_dps(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_dps(const struct i2c_dt_spec *dev_addr, double *gyro_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_dps(double *gyro_y_d);
 
 /*!
  *  @brief This API is used to convert the gyro z raw data
@@ -3842,7 +3835,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_dps(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_dps(const struct i2c_dt_spec *dev_addr, double *gyro_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_dps(double *gyro_z_d);
 
 /*!
  *  @brief This API is used to convert the gyro x raw data
@@ -3858,7 +3851,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_dps(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_rps(const struct i2c_dt_spec *dev_addr, double *gyro_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_rps(double *gyro_x_d);
 
 /*!
  *  @brief This API is used to convert the gyro y raw data
@@ -3874,7 +3867,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_x_rps(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_rps(const struct i2c_dt_spec *dev_addr, double *gyro_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_rps(double *gyro_y_d);
 
 /*!
  *  @brief This API is used to convert the gyro z raw data
@@ -3890,7 +3883,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_y_rps(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_rps(const struct i2c_dt_spec *dev_addr, double *gyro_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_rps(double *gyro_z_d);
 
 /*!
  *  @brief This API is used to convert the gyro xyz raw data
@@ -3910,7 +3903,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_z_rps(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_dps(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_double_t *gyro_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_dps(struct bno055_gyro_double_t *gyro_xyz);
 
 /*!
  *  @brief This API is used to convert the gyro xyz raw data
@@ -3930,7 +3923,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_dps(const struct i2c_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_rps(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_double_t *gyro_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_rps(struct bno055_gyro_double_t *gyro_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING EULER DATA OUTPUT AS DOUBLE PRECISION */
@@ -3948,7 +3941,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gyro_xyz_rps(const struct i2c_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_deg(const struct i2c_dt_spec *dev_addr, double *euler_h_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_deg(double *euler_h_d);
 
 /*!
  *  @brief This API is used to convert the Euler p raw data
@@ -3962,7 +3955,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_deg(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_deg(const struct i2c_dt_spec *dev_addr, double *euler_p_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_deg(double *euler_p_d);
 
 /*!
  *  @brief This API is used to convert the Euler r raw data
@@ -3976,7 +3969,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_deg(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_deg(const struct i2c_dt_spec *dev_addr, double *euler_r_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_deg(double *euler_r_d);
 
 /*!
  *  @brief This API is used to convert the Euler h raw data
@@ -3990,7 +3983,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_deg(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_rad(const struct i2c_dt_spec *dev_addr, double *euler_h_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_rad(double *euler_h_d);
 
 /*!
  *  @brief This API is used to convert the Euler p raw data
@@ -4004,7 +3997,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_h_rad(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_rad(const struct i2c_dt_spec *dev_addr, double *euler_p_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_rad(double *euler_p_d);
 
 /*!
  *  @brief This API is used to convert the Euler r raw data
@@ -4018,7 +4011,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_p_rad(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_rad(const struct i2c_dt_spec *dev_addr, double *euler_r_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_rad(double *euler_r_d);
 
 /*!
  *  @brief This API is used to convert the Euler hpr raw data
@@ -4038,7 +4031,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_r_rad(const struct i2c_d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_deg(const struct i2c_dt_spec *dev_addr, struct bno055_euler_double_t *euler_hpr);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_deg(struct bno055_euler_double_t *euler_hpr);
 
 /*!
  *  @brief This API is used to convert the Euler hpr raw data
@@ -4058,7 +4051,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_deg(const struct i2c
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_rad(const struct i2c_dt_spec *dev_addr, struct bno055_euler_double_t *euler_hpr);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_rad(struct bno055_euler_double_t *euler_hpr);
 
 /****************************************************************************/
 /**\name FUNCTIONS FOR READING LINEAR ACCEL DATA OUTPUT AS DOUBLE PRECISION */
@@ -4077,7 +4070,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_euler_hpr_rad(const struct i2c
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_x_msq(const struct i2c_dt_spec *dev_addr, double *linear_accel_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_x_msq(double *linear_accel_x_d);
 
 /*!
  *  @brief This API is used to convert the linear
@@ -4092,7 +4085,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_x_msq(const struc
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_y_msq(const struct i2c_dt_spec *dev_addr, double *linear_accel_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_y_msq(double *linear_accel_y_d);
 
 /*!
  *  @brief This API is used to convert the linear
@@ -4107,7 +4100,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_y_msq(const struc
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_z_msq(const struct i2c_dt_spec *dev_addr, double *linear_accel_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_z_msq(double *linear_accel_z_d);
 
 /*!
  *  @brief This API is used to convert the linear accel xyz raw data
@@ -4127,8 +4120,8 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_z_msq(const struc
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_xyz_msq(const struct i2c_dt_spec *dev_addr,
-                                                                       struct bno055_linear_accel_double_t *linear_accel_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_xyz_msq(
+    struct bno055_linear_accel_double_t *linear_accel_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING GRAVITY DATA OUTPUT AS DOUBLE PRECISION */
@@ -4146,7 +4139,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_linear_accel_xyz_msq(const str
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_x_msq(const struct i2c_dt_spec *dev_addr, double *gravity_x_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_x_msq(double *gravity_x_d);
 
 /*!
  *  @brief This API is used to convert the gravity
@@ -4160,7 +4153,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_x_msq(const struct i2c
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_y_msq(const struct i2c_dt_spec *dev_addr, double *gravity_y_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_y_msq(double *gravity_y_d);
 
 /*!
  *  @brief This API is used to convert the gravity
@@ -4174,7 +4167,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_y_msq(const struct i2c
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_z_msq(const struct i2c_dt_spec *dev_addr, double *gravity_z_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_z_msq(double *gravity_z_d);
 
 /*!
  *  @brief This API is used to convert the gravity xyz raw data
@@ -4194,7 +4187,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_gravity_double_z_msq(const struct i2c
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gravity_xyz_msq(const struct i2c_dt_spec *dev_addr, struct bno055_gravity_double_t *gravity_xyz);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gravity_xyz_msq(struct bno055_gravity_double_t *gravity_xyz);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING TEMPERATURE DATA OUTPUT AS DOUBLE PRECISION*/
@@ -4212,7 +4205,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_gravity_xyz_msq(const struct i
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_fahrenheit(const struct i2c_dt_spec *dev_addr, double *temp_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_fahrenheit(double *temp_d);
 
 /*!
  *  @brief This API is used to convert the temperature
@@ -4226,7 +4219,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_fahrenheit(const struct i
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_celsius(const struct i2c_dt_spec *dev_addr, double *temp_d);
+BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_celsius(double *temp_d);
 
 #endif
 
@@ -4246,7 +4239,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_convert_double_temp_celsius(const struct i2c_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_calib_stat(const struct i2c_dt_spec *dev_addr, u8 *mag_calib_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_calib_stat(u8 *mag_calib_u8);
 
 /*!
  *  @brief This API used to read
@@ -4260,7 +4253,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_calib_stat(const struct i2c_dt_spec *
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_calib_stat(const struct i2c_dt_spec *dev_addr, u8 *accel_calib_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_calib_stat(u8 *accel_calib_u8);
 
 /*!
  *  @brief This API used to read
@@ -4274,7 +4267,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_calib_stat(const struct i2c_dt_spec
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_calib_stat(const struct i2c_dt_spec *dev_addr, u8 *gyro_calib_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_calib_stat(u8 *gyro_calib_u8);
 
 /*!
  *  @brief This API used to read
@@ -4288,7 +4281,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_calib_stat(const struct i2c_dt_spec 
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_calib_stat(const struct i2c_dt_spec *dev_addr, u8 *sys_calib_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_calib_stat(u8 *sys_calib_u8);
 
 /******************************************************************/
 /**\name FUNCTIONS FOR READING ACCEL,MAG,GYRO AND SYSTEM SELF TEST */
@@ -4310,7 +4303,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_calib_stat(const struct i2c_dt_spec *
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_accel(const struct i2c_dt_spec *dev_addr, u8 *selftest_accel_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_accel(u8 *selftest_accel_u8);
 
 /*!
  *  @brief This API used to read
@@ -4328,7 +4321,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_accel(const struct i2c_dt_spec *
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mag(const struct i2c_dt_spec *dev_addr, u8 *selftest_mag_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mag(u8 *selftest_mag_u8);
 
 /*!
  *  @brief This API used to read
@@ -4346,7 +4339,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mag(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_gyro(const struct i2c_dt_spec *dev_addr, u8 *selftest_gyro_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_gyro(u8 *selftest_gyro_u8);
 
 /*!
  *  @brief This API used to read
@@ -4364,7 +4357,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_gyro(const struct i2c_dt_spec *d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mcu(const struct i2c_dt_spec *dev_addr, u8 *selftest_mcu_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mcu(u8 *selftest_mcu_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR READING GYRO INTERRUPT STATUS */
@@ -4393,7 +4386,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest_mcu(const struct i2c_dt_spec *de
  *  bno055_set_intr_gyro_any_motion()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_any_motion(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_any_motion(u8 *gyro_any_motion_u8);
 
 /*!
  *  @brief This API used to read the stat_s8 of
@@ -4417,7 +4410,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_any_motion(const struct i2
  *
  *  bno055_set_intr_gyro_highrate()
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_highrate(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_highrate(u8 *gyro_highrate_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR READING ACCEL INTERRUPT STATUS */
@@ -4446,7 +4439,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_gyro_highrate(const struct i2c_
  *  bno055_set_intr_accel_high_g()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_high_g(const struct i2c_dt_spec *dev_addr, u8 *accel_high_g_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_high_g(u8 *accel_high_g_u8);
 
 /*!
  *  @brief This API used to read the stat_s8 of
@@ -4470,7 +4463,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_high_g(const struct i2c_d
  *
  *  bno055_set_intr_accel_any_motion()
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_any_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_any_motion(u8 *accel_any_motion_u8);
 
 /*!
  *  @brief This API used to read the stat_s8 of
@@ -4495,7 +4488,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_any_motion(const struct i
  *
  *  bno055_set_intr_accel_nomotion()
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_no_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_no_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_no_motion(u8 *accel_no_motion_u8);
 
 /**************************************************************************/
 /**\name FUNCTIONS FOR READING SYSTEM CLOCK, STATUS AND BNO055_ERROR CODE */
@@ -4513,7 +4506,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_stat_accel_no_motion(const struct i2
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_stat_main_clk(const struct i2c_dt_spec *dev_addr, u8 *stat_main_clk_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_stat_main_clk(u8 *stat_main_clk_u8);
 
 /*!
  *  @brief This API is used to read system status
@@ -4527,7 +4520,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_stat_main_clk(const struct i2c_dt_spec *d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_stat_code(const struct i2c_dt_spec *dev_addr, u8 *sys_stat_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_stat_code(u8 *sys_stat_u8);
 
 /*!
  *  @brief This API is used to read system BNO055_ERROR
@@ -4542,7 +4535,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_stat_code(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_error_code(const struct i2c_dt_spec *dev_addr, u8 *sys_error_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_error_code(u8 *sys_error_u8);
 
 /********************************************/
 /**\name FUNCTIONS FOR ACCEL UNIT SELECTION */
@@ -4564,7 +4557,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_error_code(const struct i2c_dt_spec *
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_unit(const struct i2c_dt_spec *dev_addr, u8 *accel_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_unit(u8 *accel_unit_u8);
 
 /*!
  *  @brief This API used to write the accel unit
@@ -4583,7 +4576,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_unit(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_unit(const struct i2c_dt_spec *dev_addr, u8 accel_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_unit(u8 accel_unit_u8);
 
 /********************************************/
 /**\name FUNCTIONS FOR GYRO UNIT SELECTION */
@@ -4606,7 +4599,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_unit(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_unit(const struct i2c_dt_spec *dev_addr, u8 *gyro_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_unit(u8 *gyro_unit_u8);
 
 /*!
  *  @brief This API used to write the gyro unit
@@ -4625,7 +4618,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_unit(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_unit(const struct i2c_dt_spec *dev_addr, u8 gyro_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_unit(u8 gyro_unit_u8);
 
 /********************************************/
 /**\name FUNCTIONS FOR EULER UNIT SELECTION */
@@ -4648,7 +4641,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_unit(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_euler_unit(const struct i2c_dt_spec *dev_addr, u8 *euler_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_euler_unit(u8 *euler_unit_u8);
 
 /*!
  *  @brief This API used to write the Euler unit
@@ -4667,7 +4660,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_euler_unit(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_euler_unit(const struct i2c_dt_spec *dev_addr, u8 euler_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_euler_unit(u8 euler_unit_u8);
 
 /********************************************/
 /**\name FUNCTIONS FOR TILT UNIT SELECTION */
@@ -4690,7 +4683,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_euler_unit(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_tilt_unit(const struct i2c_dt_spec *dev_addr, u8 *tilt_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_tilt_unit(u8 *tilt_unit_u8);
 
 /*!
  *  @brief This API used to write the tilt unit
@@ -4713,7 +4706,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_tilt_unit(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_tilt_unit(const struct i2c_dt_spec *dev_addr, u8 tilt_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_tilt_unit(u8 tilt_unit_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR TEMPERATURE UNIT SELECTION */
@@ -4735,7 +4728,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_tilt_unit(const struct i2c_dt_spec *dev_a
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_unit(const struct i2c_dt_spec *dev_addr, u8 *temp_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_unit(u8 *temp_unit_u8);
 
 /*!
  *  @brief This API used to write the temperature unit
@@ -4754,7 +4747,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_unit(const struct i2c_dt_spec *dev_a
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_unit(const struct i2c_dt_spec *dev_addr, u8 temp_unit_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_unit(u8 temp_unit_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR DATA OUTPUT FORMAT SELECT */
@@ -4776,7 +4769,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_unit(const struct i2c_dt_spec *dev_a
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_data_output_format(const struct i2c_dt_spec *dev_addr, u8 *data_output_format_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_data_output_format(u8 *data_output_format_u8);
 
 /*!
  *  @brief This API used to read the current selected orientation mode
@@ -4794,7 +4787,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_data_output_format(const struct i2c_dt_sp
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_data_output_format(const struct i2c_dt_spec *dev_addr, u8 data_output_format_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_data_output_format(u8 data_output_format_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR DATA OPERATION MODE  */
@@ -4838,7 +4831,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_data_output_format(const struct i2c_dt_sp
  *  to configure the various settings of the BNO
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_operation_mode(const struct i2c_dt_spec *dev_addr, u8 *operation_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_operation_mode(u8 *operation_mode_u8);
 
 /*! @brief This API used to write the operation mode
  *  from register from 0x3D bit 0 to 3
@@ -4880,7 +4873,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_operation_mode(const struct i2c_dt_spec *
  *  to configure the various settings of the BNO
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_operation_mode(const struct i2c_dt_spec *dev_addr, u8 operation_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_operation_mode(u8 operation_mode_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR POWER MODE  */
@@ -4912,7 +4905,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_operation_mode(const struct i2c_dt_spec *
  *  refer data sheet 3.4.2
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_power_mode(const struct i2c_dt_spec *dev_addr, u8 *power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_power_mode(u8 *power_mode_u8);
 
 /*! @brief This API used to write the power mode
  *  from register from 0x3E bit 0 to 1
@@ -4941,7 +4934,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_power_mode(const struct i2c_dt_spec *dev_
  *  refer data sheet 3.4.2
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_power_mode(const struct i2c_dt_spec *dev_addr, u8 power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_power_mode(u8 power_mode_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR RESET INTERRUPT  */
@@ -4964,7 +4957,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_power_mode(const struct i2c_dt_spec *dev_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_rst(const struct i2c_dt_spec *dev_addr, u8 *intr_rst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_rst(u8 *intr_rst_u8);
 
 /*!
  *  @brief This API used to write the reset interrupt
@@ -4983,7 +4976,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_rst(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_rst(const struct i2c_dt_spec *dev_addr, u8 intr_rst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_rst(u8 intr_rst_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR CLOCK SOURCE  */
@@ -5005,7 +4998,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_rst(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_clk_src(const struct i2c_dt_spec *dev_addr, u8 *clk_src_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_clk_src(u8 *clk_src_u8);
 
 /*!
  *  @brief This API used to write the clk source
@@ -5023,7 +5016,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_clk_src(const struct i2c_dt_spec *dev_add
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_clk_src(const struct i2c_dt_spec *dev_addr, u8 clk_src_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_clk_src(u8 clk_src_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR RESET SYSTEM  */
@@ -5046,7 +5039,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_clk_src(const struct i2c_dt_spec *dev_add
  *
  *  @note It resets the whole system
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_rst(const struct i2c_dt_spec *dev_addr, u8 *sys_rst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_rst(u8 *sys_rst_u8);
 
 /*!
  *  @brief This API used to write the reset system
@@ -5065,7 +5058,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_sys_rst(const struct i2c_dt_spec *dev_add
  *
  *  @note It resets the whole system
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_sys_rst(const struct i2c_dt_spec *dev_addr, u8 sys_rst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_sys_rst(u8 sys_rst_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR SELF TEST  */
@@ -5088,7 +5081,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_sys_rst(const struct i2c_dt_spec *dev_add
  *
  *  @note It triggers the self test
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest(const struct i2c_dt_spec *dev_addr, u8 *selftest_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest(u8 *selftest_u8);
 
 /*!
  *  @brief This API used to write the self test
@@ -5109,7 +5102,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_selftest(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_selftest(const struct i2c_dt_spec *dev_addr, u8 selftest_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_selftest(u8 selftest_u8);
 
 /**************************************************/
 /**\name FUNCTIONS FOR TEMPERATURE SOURCE  */
@@ -5132,7 +5125,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_selftest(const struct i2c_dt_spec *dev_ad
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_source(const struct i2c_dt_spec *dev_addr, u8 *temp_source_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_source(u8 *temp_source_u8);
 
 /*!
  *  @brief This API used to write the temperature source
@@ -5151,7 +5144,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_temp_source(const struct i2c_dt_spec *dev
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_source(const struct i2c_dt_spec *dev_addr, u8 temp_source_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_source(u8 temp_source_u8);
 
 /**************************************************/
 /**\name APIs FOR AXIS REMAP  */
@@ -5190,7 +5183,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_temp_source(const struct i2c_dt_spec *dev
  *  bno055_set_z_remap_sign()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_axis_remap_value(const struct i2c_dt_spec *dev_addr, u8 *remap_axis_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_axis_remap_value(u8 *remap_axis_u8);
 
 /*!
  *  @brief This API used to write the axis remap value
@@ -5225,7 +5218,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_axis_remap_value(const struct i2c_dt_spec
  *  bno055_set_z_remap_sign()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_axis_remap_value(const struct i2c_dt_spec *dev_addr, u8 remap_axis_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_axis_remap_value(u8 remap_axis_u8);
 
 /**************************************************/
 /**\name APIs FOR AXIS REMAP SIGN  */
@@ -5247,7 +5240,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_axis_remap_value(const struct i2c_dt_spec
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_x_sign(const struct i2c_dt_spec *dev_addr, u8 *remap_x_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_x_sign(u8 *remap_x_sign_u8);
 
 /*!
  *  @brief This API used to write the x-axis remap
@@ -5265,7 +5258,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_x_sign(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_x_sign(const struct i2c_dt_spec *dev_addr, u8 remap_x_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_x_sign(u8 remap_x_sign_u8);
 
 /*!
  *  @brief This API used to read the y-axis remap
@@ -5283,7 +5276,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_x_sign(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_y_sign(const struct i2c_dt_spec *dev_addr, u8 *remap_y_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_y_sign(u8 *remap_y_sign_u8);
 
 /*!
  *  @brief This API used to write the y-axis remap
@@ -5301,7 +5294,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_y_sign(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_y_sign(const struct i2c_dt_spec *dev_addr, u8 remap_y_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_y_sign(u8 remap_y_sign_u8);
 
 /*!
  *  @brief This API used to read the z-axis remap
@@ -5319,7 +5312,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_y_sign(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_z_sign(const struct i2c_dt_spec *dev_addr, u8 *remap_z_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_z_sign(u8 *remap_z_sign_u8);
 
 /*!
  *  @brief This API used to write the z-axis remap
@@ -5337,7 +5330,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_remap_z_sign(const struct i2c_dt_spec *de
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_z_sign(const struct i2c_dt_spec *dev_addr, u8 remap_z_sign_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_z_sign(u8 remap_z_sign_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR SOFT IRON CALIBRATION MATRIX  */
@@ -5368,7 +5361,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_remap_z_sign(const struct i2c_dt_spec *de
  *
  *  @note : Each soft iron calibration matrix range from -32768 to +32767
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_sic_matrix(const struct i2c_dt_spec *dev_addr, struct bno055_sic_matrix_t *sic_matrix);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_sic_matrix(struct bno055_sic_matrix_t  *sic_matrix);
 
 /*!
  *  @brief This API is used to write soft iron calibration matrix
@@ -5395,7 +5388,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_sic_matrix(const struct i2c_dt_spec *dev
  *
  *  @note : Each soft iron calibration matrix range from -32768 to +32767
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_sic_matrix(const struct i2c_dt_spec *dev_addr, struct bno055_sic_matrix_t *sic_matrix);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_sic_matrix(struct bno055_sic_matrix_t  *sic_matrix);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL OFFSET AND RADIUS */
@@ -5432,7 +5425,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_sic_matrix(const struct i2c_dt_spec *de
  *  accel G range can be configured by using the
  *  bno055_set_accel_range() API
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_offset(const struct i2c_dt_spec *dev_addr, struct bno055_accel_offset_t *accel_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_offset(struct bno055_accel_offset_t  *accel_offset);
 
 /*!
  *  @brief This API is used to write accel offset and accel radius
@@ -5465,7 +5458,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_accel_offset(const struct i2c_dt_spec *d
  *  accel G range can be configured by using the
  *  bno055_set_accel_range() API
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_accel_offset(const struct i2c_dt_spec *dev_addr, struct bno055_accel_offset_t *accel_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_accel_offset(struct bno055_accel_offset_t  *accel_offset);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR MAG OFFSET AND RADIUS*/
@@ -5491,7 +5484,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_accel_offset(const struct i2c_dt_spec *
  *
  *  @note  The range of the magnetometer offset is +/-6400 in LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_offset(const struct i2c_dt_spec *dev_addr, struct bno055_mag_offset_t *mag_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_offset(struct bno055_mag_offset_t  *mag_offset);
 
 /*!
  *  @brief This API is used to read mag offset
@@ -5513,7 +5506,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_mag_offset(const struct i2c_dt_spec *dev
  *
  *  @note  The range of the magnetometer offset is +/-6400 in LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_mag_offset(const struct i2c_dt_spec *dev_addr, struct bno055_mag_offset_t *mag_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_mag_offset(struct bno055_mag_offset_t  *mag_offset);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR GYRO OFFSET */
@@ -5550,7 +5543,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_mag_offset(const struct i2c_dt_spec *de
  *  Gyro range can be configured by using the
  *  bno055_set_gyro_range() API
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_offset(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_offset_t *gyro_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_offset(struct bno055_gyro_offset_t  *gyro_offset);
 
 /*!
  *  @brief This API is used to read gyro offset
@@ -5583,7 +5576,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_read_gyro_offset(const struct i2c_dt_spec *de
  *  Gyro range can be configured by using the
  *  bno055_set_gyro_range() API
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_write_gyro_offset(const struct i2c_dt_spec *dev_addr, struct bno055_gyro_offset_t *gyro_offset);
+BNO055_RETURN_FUNCTION_TYPE bno055_write_gyro_offset(struct bno055_gyro_offset_t *gyro_offset);
 
 /********************************************************/
 /************** PAGE1 Functions *********************/
@@ -5610,7 +5603,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_write_gyro_offset(const struct i2c_dt_spec *d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_range(const struct i2c_dt_spec *dev_addr, u8 *accel_range_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_range(u8 *accel_range_u8);
 
 /*!
  *  @brief This API used to write the accel range
@@ -5631,7 +5624,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_range(const struct i2c_dt_spec *dev
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_range(const struct i2c_dt_spec *dev_addr, u8 accel_range_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_range(u8 accel_range_u8);
 
 /*!
  *  @brief This API used to read the accel bandwidth
@@ -5656,7 +5649,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_range(const struct i2c_dt_spec *dev
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_bw(const struct i2c_dt_spec *dev_addr, u8 *accel_bw_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_bw(u8 *accel_bw_u8);
 
 /*!
  *  @brief This API used to write the accel bandwidth
@@ -5681,7 +5674,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_bw(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_bw(const struct i2c_dt_spec *dev_addr, u8 accel_bw_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_bw(u8 accel_bw_u8);
 
 /*!
  *  @brief This API used to read the accel power mode
@@ -5703,7 +5696,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_bw(const struct i2c_dt_spec *dev_ad
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_power_mode(const struct i2c_dt_spec *dev_addr, u8 *accel_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_power_mode(u8 *accel_power_mode_u8);
 
 /*!
  *  @brief This API used to write the accel power mode
@@ -5725,7 +5718,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_power_mode(const struct i2c_dt_spec
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_power_mode(const struct i2c_dt_spec *dev_addr, u8 accel_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_power_mode(u8 accel_power_mode_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR MAG CONFIGURATION */
@@ -5754,7 +5747,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_power_mode(const struct i2c_dt_spec
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_data_output_rate(const struct i2c_dt_spec *dev_addr, u8 *mag_data_output_rate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_data_output_rate(u8 *mag_data_output_rate_u8);
 
 /*!
  *  @brief This API used to write the mag output data rate
@@ -5779,7 +5772,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_data_output_rate(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_data_output_rate(const struct i2c_dt_spec *dev_addr, u8 mag_data_output_rate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_data_output_rate(u8 mag_data_output_rate_u8);
 
 /*!
  *  @brief This API used to read the mag operation mode
@@ -5800,7 +5793,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_data_output_rate(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_operation_mode(const struct i2c_dt_spec *dev_addr, u8 *mag_operation_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_operation_mode(u8 *mag_operation_mode_u8);
 
 /*!
  *  @brief This API used to write the mag operation mode
@@ -5821,7 +5814,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_operation_mode(const struct i2c_dt_sp
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_operation_mode(const struct i2c_dt_spec *dev_addr, u8 mag_operation_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_operation_mode(u8 mag_operation_mode_u8);
 
 /*!
  *  @brief This API used to read the mag power mode
@@ -5842,7 +5835,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_operation_mode(const struct i2c_dt_sp
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_power_mode(const struct i2c_dt_spec *dev_addr, u8 *mag_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_power_mode(u8 *mag_power_mode_u8);
 
 /*!
  *  @brief This API used to write the mag power mode
@@ -5863,7 +5856,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_power_mode(const struct i2c_dt_spec *
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_power_mode(const struct i2c_dt_spec *dev_addr, u8 mag_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_power_mode(u8 mag_power_mode_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR GYRO CONFIGURATION */
@@ -5889,7 +5882,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_power_mode(const struct i2c_dt_spec *
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_range(const struct i2c_dt_spec *dev_addr, u8 *gyro_range_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_range(u8 *gyro_range_u8);
 
 /*!
  *  @brief This API used to write the gyro range
@@ -5911,7 +5904,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_range(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_range(const struct i2c_dt_spec *dev_addr, u8 gyro_range_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_range(u8 gyro_range_u8);
 
 /*!
  *  @brief This API used to read the gyro bandwidth
@@ -5936,7 +5929,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_range(const struct i2c_dt_spec *dev_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_bw(const struct i2c_dt_spec *dev_addr, u8 *gyro_bw_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_bw(u8 *gyro_bw_u8);
 
 /*!
  *  @brief This API used to write the gyro bandwidth
@@ -5961,7 +5954,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_bw(const struct i2c_dt_spec *dev_add
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_bw(const struct i2c_dt_spec *dev_addr, u8 gyro_bw_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_bw(u8 gyro_bw_u8);
 
 /*!
  *  @brief This API used to read the gyro power mode
@@ -5983,7 +5976,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_bw(const struct i2c_dt_spec *dev_add
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_power_mode(const struct i2c_dt_spec *dev_addr, u8 *gyro_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_power_mode(u8 *gyro_power_mode_u8);
 
 /*!
  *  @brief This API used to write the gyro power mode
@@ -6005,7 +5998,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_power_mode(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_power_mode(const struct i2c_dt_spec *dev_addr, u8 gyro_power_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_power_mode(u8 gyro_power_mode_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL SLEEP SETTINGS  */
@@ -6028,7 +6021,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_power_mode(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_tmr_mode(const struct i2c_dt_spec *dev_addr, u8 *sleep_tmr_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_tmr_mode(u8 *sleep_tmr_u8);
 
 /*!
  *  @brief This API used to write the accel sleep mode
@@ -6047,7 +6040,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_tmr_mode(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_tmr_mode(const struct i2c_dt_spec *dev_addr, u8 sleep_tmr_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_tmr_mode(u8 sleep_tmr_u8);
 
 /*!
  *  @brief This API used to read the accel sleep duration
@@ -6075,7 +6068,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_tmr_mode(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 *sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_durn(u8 *sleep_durn_u8);
 
 /*!
  *  @brief This API used to write the accel sleep duration
@@ -6103,7 +6096,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_sleep_durn(const struct i2c_dt_spec
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_durn(u8 sleep_durn_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR GYRO SLEEP SETTINGS  */
@@ -6121,7 +6114,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_sleep_durn(const struct i2c_dt_spec
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 *sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_sleep_durn(u8 *sleep_durn_u8);
 
 /*!
  *  @brief This API used to write the gyro sleep duration
@@ -6135,7 +6128,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_sleep_durn(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 sleep_durn);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_sleep_durn(u8 sleep_durn);
 
 /*!
  *  @brief This API used to read the gyro auto sleep duration
@@ -6149,7 +6142,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_sleep_durn(const struct i2c_dt_spec 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_auto_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 *auto_sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_auto_sleep_durn(u8 *auto_sleep_durn_u8);
 
 /*!
  *  @brief This API used to write the gyro auto sleep duration
@@ -6164,7 +6157,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_auto_sleep_durn(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_gyro_set_auto_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 auto_sleep_durn_u8, u8 bw);
+BNO055_RETURN_FUNCTION_TYPE bno055_gyro_set_auto_sleep_durn(u8 auto_sleep_durn_u8, u8 bw);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR MAG SLEEP SETTINGS  */
@@ -6182,7 +6175,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_gyro_set_auto_sleep_durn(const struct i2c_dt_
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_mode(const struct i2c_dt_spec *dev_addr, u8 *sleep_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_mode(u8 *sleep_mode_u8);
 
 /*!
  *  @brief This API used to write the mag sleep mode
@@ -6196,7 +6189,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_mode(const struct i2c_dt_spec *
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_mode(const struct i2c_dt_spec *dev_addr, u8 sleep_mode_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_mode(u8 sleep_mode_u8);
 
 /*!
  *  @brief This API used to read the mag sleep duration
@@ -6210,7 +6203,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_mode(const struct i2c_dt_spec *
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 *sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_durn(u8 *sleep_durn_u8);
 
 /*!
  *  @brief This API used to write the mag sleep duration
@@ -6224,7 +6217,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_mag_sleep_durn(const struct i2c_dt_spec *
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_durn(const struct i2c_dt_spec *dev_addr, u8 sleep_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_durn(u8 sleep_durn_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR GYRO INTERRUPT MASK  */
@@ -6266,7 +6259,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_mag_sleep_durn(const struct i2c_dt_spec *
  *  bno055_set_gyro_any_motion_awake_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_any_motion(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_any_motion(u8 *gyro_any_motion_u8);
 
 /*!
  *  @brief This API used to write the gyro anymotion interrupt mask
@@ -6304,7 +6297,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_any_motion(const struct i2
  *  bno055_set_gyro_any_motion_awake_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_any_motion(const struct i2c_dt_spec *dev_addr, u8 gyro_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_any_motion(u8 gyro_any_motion_u8);
 
 /*!
  *  @brief This API used to read the gyro highrate interrupt mask
@@ -6357,7 +6350,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_any_motion(const struct i2
  *  bno055_set_gyro_highrate_z_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_highrate(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_highrate(u8 *gyro_highrate_u8);
 
 /*!
  *  @brief This API used to write the gyro highrate interrupt mask
@@ -6410,7 +6403,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_gyro_highrate(const struct i2c_
  *  bno055_set_gyro_highrate_z_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_highrate(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_highrate(u8 gyro_highrate_u8);
 
 /*****************************************************/
 /**\name APIs FOR ACCEL INTERRUPT MASK  */
@@ -6447,7 +6440,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_gyro_highrate(const struct i2c_
  *  bno055_set_accel_high_g_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_high_g(const struct i2c_dt_spec *dev_addr, u8 *accel_high_g_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_high_g(u8 *accel_high_g_u8);
 
 /*!
  *  @brief This API used to write the accel highg interrupt mask
@@ -6480,7 +6473,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_high_g(const struct i2c_d
  *  bno055_set_accel_high_g_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_high_g(const struct i2c_dt_spec *dev_addr, u8 accel_high_g_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_high_g(u8 accel_high_g_u8);
 
 /*!
  *  @brief This API used to read the accel anymotion interrupt mask
@@ -6513,7 +6506,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_high_g(const struct i2c_d
  *  bno055_set_accel_high_g_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_any_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_any_motion(u8 *accel_any_motion_u8);
 
 /*!
  *  @brief This API used to write the accel anymotion interrupt mask
@@ -6545,7 +6538,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_any_motion(const struct i
  *  bno055_set_accel_any_motion_thres()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_any_motion(const struct i2c_dt_spec *dev_addr, u8 accel_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_any_motion(u8 accel_any_motion_u8);
 
 /*!
  *  @brief This API used to read the accel nomotion interrupt mask
@@ -6576,7 +6569,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_any_motion(const struct i
  *  bno055_set_accel_any_motion_thres())
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_no_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_nomotion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_no_motion(u8 *accel_nomotion_u8);
 
 /*!
  *  @brief This API used to write the accel nomotion interrupt mask
@@ -6612,7 +6605,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_mask_accel_no_motion(const struct i2
  *  bno055_set_accel_slow_no_motion_enable()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_no_motion(const struct i2c_dt_spec *dev_addr, u8 accel_nomotion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_no_motion(u8 accel_nomotion_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR GYRO INTERRUPT */
@@ -6653,7 +6646,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_mask_accel_no_motion(const struct i2
  *
  *  bno055_set_gyro_any_motion_awake_durn()
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_any_motion(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_any_motion(u8 *gyro_any_motion_u8);
 
 /*!
  *  @brief This API used to write the gyro anymotion interrupt
@@ -6690,7 +6683,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_any_motion(const struct i2c_dt_
  *
  *  bno055_set_gyro_any_motion_awake_durn()
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_any_motion(const struct i2c_dt_spec *dev_addr, u8 gyro_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_any_motion(u8 gyro_any_motion_u8);
 
 /*!
  *  @brief This API used to read the gyro highrate interrupt
@@ -6743,7 +6736,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_any_motion(const struct i2c_dt_
  *  bno055_set_gyro_highrate_z_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_highrate(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_highrate(u8 *gyro_highrate_u8);
 
 /*!
  *  @brief This API used to write the gyro highrate interrupt
@@ -6796,7 +6789,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_gyro_highrate(const struct i2c_dt_sp
  *  bno055_set_gyro_highrate_z_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_highrate(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_highrate(u8 gyro_highrate_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL INTERRUPT  */
@@ -6833,7 +6826,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_gyro_highrate(const struct i2c_dt_sp
  *  bno055_set_accel_high_g_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_high_g(const struct i2c_dt_spec *dev_addr, u8 *accel_high_g_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_high_g(u8 *accel_high_g_u8);
 
 /*!
  *  @brief This API used to write the accel highg interrupt
@@ -6866,7 +6859,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_high_g(const struct i2c_dt_spe
  *  bno055_set_accel_high_g_durn()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_high_g(const struct i2c_dt_spec *dev_addr, u8 accel_high_g_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_high_g(u8 accel_high_g_u8);
 
 /*!
  *  @brief This API used to read the accel anymotion interrupt
@@ -6898,7 +6891,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_high_g(const struct i2c_dt_spe
  *  bno055_set_accel_any_motion_thres()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_any_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_any_motion(u8 *accel_any_motion_u8);
 
 /*!
  *  @brief This API used to write the accel anymotion interrupt
@@ -6930,7 +6923,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_any_motion(const struct i2c_dt
  *  bno055_set_accel_any_motion_thres()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_any_motion(const struct i2c_dt_spec *dev_addr, u8 accel_any_motion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_any_motion(u8 accel_any_motion_u8);
 
 /*!
  *  @brief This API used to read the accel nomotion interrupt
@@ -6966,7 +6959,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_any_motion(const struct i2c_dt
  *  bno055_set_accel_slow_no_motion_enable()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_no_motion(const struct i2c_dt_spec *dev_addr, u8 *accel_nomotion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_no_motion(u8 *accel_nomotion_u8);
 
 /*!
  *  @brief This API used to write the accel nomotion interrupt
@@ -7002,7 +6995,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_intr_accel_no_motion(const struct i2c_dt_
  *  bno055_set_accel_slow_no_motion_enable()
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_no_motion(const struct i2c_dt_spec *dev_addr, u8 accel_nomotion_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_no_motion(u8 accel_nomotion_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL ANY_MOTION THRESHOLD  */
@@ -7033,7 +7026,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_intr_accel_no_motion(const struct i2c_dt_
  *     16g       |    31.25mg    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_thres(const struct i2c_dt_spec *dev_addr, u8 *accel_any_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_thres(u8 *accel_any_motion_thres_u8);
 
 /*!
  *  @brief This API used to write the accel any motion threshold
@@ -7060,7 +7053,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_thres(const struct i2c_d
  *     16g       |    31.25mg    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_thres(const struct i2c_dt_spec *dev_addr, u8 accel_any_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_thres(u8 accel_any_motion_thres_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL ANY_MOTION DURATION  */
@@ -7082,7 +7075,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_thres(const struct i2c_d
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_durn(const struct i2c_dt_spec *dev_addr, u8 *accel_any_motion_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_durn(u8 *accel_any_motion_durn_u8);
 
 /*!
  *  @brief This API used to write the accel anymotion duration
@@ -7101,7 +7094,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_durn(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_durn(const struct i2c_dt_spec *dev_addr, u8 accel_any_motion_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_durn(u8 accel_any_motion_durn_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL ANY_MOTION AXIS ENABLE  */
@@ -7129,7 +7122,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_durn(const struct i2c_dt
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_no_motion_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 *data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_no_motion_axis_enable(u8 channel_u8, u8 *data_u8);
 
 /*!
  *  @brief This API used to write the accel anymotion enable
@@ -7153,7 +7146,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_any_motion_no_motion_axis_enable(co
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_no_motion_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_no_motion_axis_enable(u8 channel_u8, u8 data_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL HIGHG AXIS ENABLE  */
@@ -7181,7 +7174,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_any_motion_no_motion_axis_enable(co
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 *data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_axis_enable(u8 channel_u8, u8 *data_u8);
 
 /*!
  *  @brief This API used to write the accel highg enable
@@ -7205,7 +7198,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_axis_enable(const struct i2c
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_axis_enable(u8 channel_u8, u8 data_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL HIGHG DURATION */
@@ -7227,7 +7220,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_axis_enable(const struct i2c
  *  in a range from 2 ms to 512 ms
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_durn(const struct i2c_dt_spec *dev_addr, u8 *accel_high_g_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_durn(u8 *accel_high_g_durn_u8);
 
 /*!
  *  @brief This API used to write the accel highg duration
@@ -7245,7 +7238,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_durn(const struct i2c_dt_spe
  *  in a range from 2 ms to 512 ms
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_durn(const struct i2c_dt_spec *dev_addr, u8 accel_high_g_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_durn(u8 accel_high_g_durn_u8);
 
 /*****************************************************/
 /**\name FUNCTIONS FOR ACCEL HIGHG THRESHOLD */
@@ -7272,7 +7265,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_durn(const struct i2c_dt_spe
  *     16g       |    62.5mg     |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_thres(const struct i2c_dt_spec *dev_addr, u8 *accel_high_g_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_thres(u8 *accel_high_g_thres_u8);
 
 /*!
  *  @brief This API used to write the accel highg threshold
@@ -7295,7 +7288,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_high_g_thres(const struct i2c_dt_sp
  *     16g       |    62.5mg     |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_thres(const struct i2c_dt_spec *dev_addr, u8 accel_high_g_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_thres(u8 accel_high_g_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR ACCEL SLOWNOMOTION THRESHOLD */
@@ -7322,7 +7315,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_high_g_thres(const struct i2c_dt_sp
  *     8g        |    15.63mg    |   1LSB
  *     16g       |    31.25mg    |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_thres(const struct i2c_dt_spec *dev_addr, u8 *accel_slow_no_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_thres(u8 *accel_slow_no_motion_thres_u8);
 
 /*!
  *  @brief This API used to write the accel slownomotion threshold
@@ -7345,7 +7338,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_thres(const struct i
  *     8g        |    15.63mg    |   1LSB
  *     16g       |    31.25mg    |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_thres(const struct i2c_dt_spec *dev_addr, u8 accel_slow_no_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_thres(u8 accel_slow_no_motion_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR ACCEL SLOWNOMOTION ENABLE */
@@ -7366,7 +7359,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_thres(const struct i
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_enable(const struct i2c_dt_spec *dev_addr, u8 *accel_slow_no_motion_en_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_enable(u8 *accel_slow_no_motion_en_u8);
 
 /*!
  *  @brief This API used to write accel slownomotion enable
@@ -7383,7 +7376,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_enable(const struct 
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_enable(const struct i2c_dt_spec *dev_addr, u8 accel_slow_no_motion_en_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_enable(u8 accel_slow_no_motion_en_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR ACCEL SLOWNOMOTION DURATION */
@@ -7401,7 +7394,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_enable(const struct 
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_durn(const struct i2c_dt_spec *dev_addr, u8 *accel_slow_no_motion_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_durn(u8 *accel_slow_no_motion_durn_u8);
 
 /*!
  *  @brief This API used to write accel slownomotion duration
@@ -7415,7 +7408,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_accel_slow_no_motion_durn(const struct i2
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_durn(const struct i2c_dt_spec *dev_addr, u8 accel_slow_no_motion_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_durn(u8 accel_slow_no_motion_durn_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO ANY_MOTION AXIS ENABLE */
@@ -7444,7 +7437,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_accel_slow_no_motion_durn(const struct i2
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 *data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_axis_enable(u8 channel_u8, u8 *data_u8);
 
 /*!
  *  @brief This API used to write the gyro anymotion enable
@@ -7468,7 +7461,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_axis_enable(const struct 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_axis_enable(u8 channel_u8, u8 data_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE ENABLE */
@@ -7497,7 +7490,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_axis_enable(const struct 
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 *data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_axis_enable(u8 channel_u8, u8 *data_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE AXIS ENABLE */
@@ -7525,7 +7518,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_axis_enable(const struct i2
  *
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_axis_enable(const struct i2c_dt_spec *dev_addr, u8 channel_u8, u8 data_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_axis_enable(u8 channel_u8, u8 data_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO ANY_MOTION FILTER */
@@ -7546,7 +7539,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_axis_enable(const struct i2
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_filter(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_filter_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_filter(u8 *gyro_any_motion_filter_u8);
 
 /*!
  *  @brief This API used to write gyro anymotion filter
@@ -7563,7 +7556,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_filter(const struct i2c_d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_filter(const struct i2c_dt_spec *dev_addr, u8 gyro_any_motion_filter_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_filter(u8 gyro_any_motion_filter_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE FILTER */
@@ -7584,7 +7577,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_filter(const struct i2c_d
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_filter(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_filter_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_filter(u8 *gyro_highrate_filter_u8);
 
 /*!
  *  @brief This API used to write gyro highrate filter
@@ -7601,7 +7594,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_filter(const struct i2c_dt_
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_filter(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_filter_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_filter(u8 gyro_highrate_filter_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE X THRESHOLD */
@@ -7628,7 +7621,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_filter(const struct i2c_dt_
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_thres(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_x_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_thres(u8 *gyro_highrate_x_thres_u8);
 
 /*!
  *  @brief This API used to write gyro highrate x threshold
@@ -7651,7 +7644,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_thres(const struct i2c_dt
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_thres(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_x_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_thres(u8 gyro_highrate_x_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE X HYSTERESIS */
@@ -7680,7 +7673,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_thres(const struct i2c_dt
  *     500            |    15.56dps     |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_hyst(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_x_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_hyst(u8 *gyro_highrate_x_hyst_u8);
 
 /*!
  *  @brief This API used to write gyro highrate x hysteresis
@@ -7705,7 +7698,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_hyst(const struct i2c_dt_
  *     500            |    15.56dps     |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_hyst(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_x_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_hyst(u8 gyro_highrate_x_hyst_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE X DURATION */
@@ -7726,7 +7719,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_hyst(const struct i2c_dt_
  *  (1 + gyro_highrate_x_durn_u8)*2.5ms
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_durn(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_x_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_durn(u8 *gyro_highrate_x_durn_u8);
 
 /*!
  *  @brief This API used to write gyro highrate x duration
@@ -7742,7 +7735,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_x_durn(const struct i2c_dt_
  *
  *  (1 + gyro_highrate_x_durn_u8)*2.5ms
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_durn(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_x_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_durn(u8 gyro_highrate_x_durn_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Y THRESHOLD */
@@ -7769,7 +7762,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_x_durn(const struct i2c_dt_
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_thres(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_y_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_thres(u8 *gyro_highrate_y_thres_u8);
 
 /*!
  *  @brief This API used to write gyro highrate y threshold
@@ -7792,7 +7785,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_thres(const struct i2c_dt
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_thres(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_y_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_thres(u8 gyro_highrate_y_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Y HYSTERESIS */
@@ -7820,7 +7813,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_thres(const struct i2c_dt
  *     1000           |    31.13dps     |   1LSB
  *     500            |    15.56dps     |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_hyst(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_y_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_hyst(u8 *gyro_highrate_y_hyst_u8);
 
 /*!
  *  @brief This API used to write gyro highrate y hysteresis
@@ -7844,7 +7837,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_hyst(const struct i2c_dt_
  *     1000           |    31.13dps     |   1LSB
  *     500            |    15.56dps     |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_hyst(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_y_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_hyst(u8 gyro_highrate_y_hyst_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Y DURATION */
@@ -7864,7 +7857,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_hyst(const struct i2c_dt_
  *
  *  (1 + gyro_highrate_y_durn_u8)*2.5ms
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_durn(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_y_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_durn(u8 *gyro_highrate_y_durn_u8);
 
 /*!
  *  @brief This API used to write gyro highrate y duration
@@ -7880,7 +7873,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_y_durn(const struct i2c_dt_
  *
  *  (1 + gyro_highrate_y_durn_u8)*2.5ms
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_durn(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_y_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_durn(u8 gyro_highrate_y_durn_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Z THRESHOLD */
@@ -7907,7 +7900,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_y_durn(const struct i2c_dt_
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_thres(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_z_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_thres(u8 *gyro_highrate_z_thres_u8);
 
 /*!
  *  @brief This API used to write gyro highrate z threshold
@@ -7930,7 +7923,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_thres(const struct i2c_dt
  *     125            |    7.8125dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_thres(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_z_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_thres(u8 gyro_highrate_z_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Z HYSTERESIS */
@@ -7958,7 +7951,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_thres(const struct i2c_dt
  *     1000           |    31.13dps     |   1LSB
  *     500            |    15.56dps     |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_hyst(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_z_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_hyst(u8 *gyro_highrate_z_hyst_u8);
 
 /*!
  *  @brief This API used to write gyro highrate z hysteresis
@@ -7982,7 +7975,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_hyst(const struct i2c_dt_
  *     1000           |    31.13dps     |   1LSB
  *     500            |    15.56dps     |   1LSB
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_hyst(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_z_hyst_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_hyst(u8 gyro_highrate_z_hyst_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO HIGHRATE Z DURATION */
@@ -8002,7 +7995,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_hyst(const struct i2c_dt_
  *
  *  (1 + gyro_highrate_z_durn_u8)*2.5ms
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_durn(const struct i2c_dt_spec *dev_addr, u8 *gyro_highrate_z_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_durn(u8 *gyro_highrate_z_durn_u8);
 
 /*!
  *  @brief This API used to write gyro highrate z duration
@@ -8018,7 +8011,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_highrate_z_durn(const struct i2c_dt_
  *
  *  (1 + gyro_highrate_z_durn_u8)*2.5ms
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_durn(const struct i2c_dt_spec *dev_addr, u8 gyro_highrate_z_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_durn(u8 gyro_highrate_z_durn_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO ANY_MOTION THRESHOLD */
@@ -8044,7 +8037,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_highrate_z_durn(const struct i2c_dt_
  *     500            |    0.25dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_thres(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_thres(u8 *gyro_any_motion_thres_u8);
 
 /*!
  *  @brief This API used to write gyro anymotion threshold
@@ -8066,7 +8059,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_thres(const struct i2c_dt
  *     500            |    0.25dps    |   1LSB
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_thres(const struct i2c_dt_spec *dev_addr, u8 gyro_any_motion_thres_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_thres(u8 gyro_any_motion_thres_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO ANY_MOTION SLOPE SAMPLES */
@@ -8090,7 +8083,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_thres(const struct i2c_dt
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_slope_samples(const struct i2c_dt_spec *dev_addr, u8 *gyro_any_motion_slope_samples_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_slope_samples(u8 *gyro_any_motion_slope_samples_u8);
 
 /*!
  *  @brief This API used to write gyro anymotion slope samples
@@ -8110,7 +8103,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_slope_samples(const struc
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_slope_samples(const struct i2c_dt_spec *dev_addr, u8 gyro_any_motion_slope_samples_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_slope_samples(u8 gyro_any_motion_slope_samples_u8);
 
 /**************************************************************/
 /**\name FUNCTIONS FOR GYRO ANY_MOTION AWAKE DURATION */
@@ -8127,7 +8120,7 @@ BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_slope_samples(const struc
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_awake_durn(const struct i2c_dt_spec *dev_addr, u8 *gyro_awake_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_awake_durn(u8 *gyro_awake_durn_u8);
 
 /*!
  *  @brief This API used to write gyro anymotion awake duration
@@ -8140,197 +8133,6 @@ BNO055_RETURN_FUNCTION_TYPE bno055_get_gyro_any_motion_awake_durn(const struct i
  *  @retval 1 -> BNO055_ERROR
  *
  */
-BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_awake_durn(const struct i2c_dt_spec *dev_addr, u8 gyro_awake_durn_u8);
+BNO055_RETURN_FUNCTION_TYPE bno055_set_gyro_any_motion_awake_durn(u8 gyro_awake_durn_u8);
 
 #endif
-
-enum bno055_model
-{
-    BNO055_MODEL_BNO055,
-};
-
-struct bno055_config
-{
-    struct i2c_dt_spec bus;
-    enum bno055_model model;
-};
-
-struct bno055_data
-{
-    s16 accel_datax;
-
-    /* variable used to read the accel y data */
-    s16 accel_datay;
-
-    /* variable used to read the accel z data */
-    s16 accel_dataz;
-
-    /* variable used to read the accel xyz data */
-    struct bno055_accel_t accel_xyz;
-
-    /*********read raw mag data***********/
-    /* variable used to read the mag x data */
-    s16 mag_datax;
-
-    /* variable used to read the mag y data */
-    s16 mag_datay;
-
-    /* variable used to read the mag z data */
-    s16 mag_dataz;
-
-    /* structure used to read the mag xyz data */
-    struct bno055_mag_t mag_xyz;
-
-    /***********read raw gyro data***********/
-    /* variable used to read the gyro x data */
-    s16 gyro_datax;
-
-    /* variable used to read the gyro y data */
-    s16 gyro_datay;
-
-    /* variable used to read the gyro z data */
-    s16 gyro_dataz;
-
-    /* structure used to read the gyro xyz data */
-    struct bno055_gyro_t gyro_xyz;
-
-    /*************read raw Euler data************/
-    /* variable used to read the euler h data */
-    s16 euler_data_h;
-
-    /* variable used to read the euler r data */
-    s16 euler_data_r;
-
-    /* variable used to read the euler p data */
-    s16 euler_data_p;
-
-    /* structure used to read the euler hrp data */
-    struct bno055_euler_t euler_hrp;
-
-    /************read raw quaternion data**************/
-    /* variable used to read the quaternion w data */
-    s16 quaternion_data_w;
-
-    /* variable used to read the quaternion x data */
-    s16 quaternion_data_x;
-
-    /* variable used to read the quaternion y data */
-    s16 quaternion_data_y;
-
-    /* variable used to read the quaternion z data */
-    s16 quaternion_data_z;
-
-    /* structure used to read the quaternion wxyz data */
-    struct bno055_quaternion_t quaternion_wxyz;
-
-    /************read raw linear acceleration data***********/
-    /* variable used to read the linear accel x data */
-    s16 linear_accel_data_x;
-
-    /* variable used to read the linear accel y data */
-    s16 linear_accel_data_y;
-
-    /* variable used to read the linear accel z data */
-    s16 linear_accel_data_z;
-
-    /* structure used to read the linear accel xyz data */
-    struct bno055_linear_accel_t linear_acce_xyz;
-
-    /*****************read raw gravity sensor data****************/
-    /* variable used to read the gravity x data */
-    s16 gravity_data_x;
-
-    /* variable used to read the gravity y data */
-    s16 gravity_data_y;
-
-    /* variable used to read the gravity z data */
-    s16 gravity_data_z;
-
-    /* structure used to read the gravity xyz data */
-    struct bno055_gravity_t gravity_xyz;
-
-    /*************read accel converted data***************/
-    /* variable used to read the accel x data output as m/s2 or mg */
-    double d_accel_datax;
-
-    /* variable used to read the accel y data output as m/s2 or mg */
-    double d_accel_datay;
-
-    /* variable used to read the accel z data output as m/s2 or mg */
-    double d_accel_dataz;
-
-    /* structure used to read the accel xyz data output as m/s2 or mg */
-    struct bno055_accel_double_t d_accel_xyz;
-
-    /******************read mag converted data********************/
-    /* variable used to read the mag x data output as uT*/
-    double d_mag_datax;
-
-    /* variable used to read the mag y data output as uT*/
-    double d_mag_datay;
-
-    /* variable used to read the mag z data output as uT*/
-    double d_mag_dataz;
-
-    /* structure used to read the mag xyz data output as uT*/
-    struct bno055_mag_double_t d_mag_xyz;
-
-    /*****************read gyro converted data************************/
-    /* variable used to read the gyro x data output as dps or rps */
-    double d_gyro_datax;
-
-    /* variable used to read the gyro y data output as dps or rps */
-    double d_gyro_datay;
-
-    /* variable used to read the gyro z data output as dps or rps */
-    double d_gyro_dataz;
-
-    /* structure used to read the gyro xyz data output as dps or rps */
-    struct bno055_gyro_double_t d_gyro_xyz;
-
-    /*******************read euler converted data*******************/
-
-    /* variable used to read the euler h data output
-     * as degree or radians*/
-    double d_euler_data_h;
-
-    /* variable used to read the euler r data output
-     * as degree or radians*/
-    double d_euler_data_r;
-
-    /* variable used to read the euler p data output
-     * as degree or radians*/
-    double d_euler_data_p;
-
-    /* structure used to read the euler hrp data output
-     * as as degree or radians */
-    struct bno055_euler_double_t d_euler_hpr;
-
-    /*********read linear acceleration converted data**********/
-    /* variable used to read the linear accel x data output as m/s2*/
-    double d_linear_accel_datax;
-
-    /* variable used to read the linear accel y data output as m/s2*/
-    double d_linear_accel_datay;
-
-    /* variable used to read the linear accel z data output as m/s2*/
-    double d_linear_accel_dataz;
-
-    /* structure used to read the linear accel xyz data output as m/s2*/
-    struct bno055_linear_accel_double_t d_linear_accel_xyz;
-
-    /********************Gravity converted data**********************/
-    /* variable used to read the gravity sensor x data output as m/s2*/
-    double d_gravity_data_x;
-
-    /* variable used to read the gravity sensor y data output as m/s2*/
-    double d_gravity_data_y;
-
-    /* variable used to read the gravity sensor z data output as m/s2*/
-    double d_gravity_data_z;
-
-    /* structure used to read the gravity xyz data output as m/s2*/
-    struct bno055_gravity_double_t d_gravity_xyz;
-};
-
-#endif /* ZEPHYR_DRIVERS_SENSOR_SCD4X_H_ */
