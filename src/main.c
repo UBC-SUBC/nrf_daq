@@ -3,10 +3,8 @@
 #include <zephyr/drivers/sensor.h>
 #include "sensor/bno055/bno055.h"
 #include "sensor/bno055/driver_functions.h"
-
-#if !DT_HAS_COMPAT_STATUS_OKAY(bosch_bno055)
-#error "No bosch,bno055 compatible node found in the device tree"
-#endif
+#include <zephyr/drivers/i2c.h>
+#include <zephyr/sys/printk.h>
 
 #define BNO055_I2C_ADDR 0x28  // Adjust based on your hardware
 #define BNO055_OPR_MODE_ADDR 0x3D
@@ -15,7 +13,11 @@
 #define BNO055_OPR_MODE_NDOF 0x0C
 #define BNO055_SYS_RESET 0x20
 
-const struct device *i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));  // Adjust as needed
+#if !DT_HAS_COMPAT_STATUS_OKAY(bosch_bno055)
+#error "No bosch,bno055 compatible node found in the device tree"
+#endif
+
+const struct device* i2c_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
 
 void bno055_reset(void)
 {
