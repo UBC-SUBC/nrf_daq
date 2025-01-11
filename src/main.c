@@ -7,11 +7,8 @@
 #include <zephyr/sys/printk.h>
 
 #define BNO055_I2C_ADDR 0x28  // Adjust based on your hardware
-#define BNO055_OPR_MODE_ADDR 0x3D
-#define BNO055_SYS_TRIGGER_ADDR 0x3F
-#define BNO055_EULER_H_LSB_ADDR 0x1A
-#define BNO055_OPR_MODE_NDOF 0x0C
 #define BNO055_SYS_RESET 0x20
+#define BNO055_OPR_MODE_NDOF 0x0C
 
 #if !DT_HAS_COMPAT_STATUS_OKAY(bosch_bno055)
 #error "No bosch,bno055 compatible node found in the device tree"
@@ -69,7 +66,7 @@ int main(void)
 {
     if (!device_is_ready(i2c_dev)) {
         printk("I2C device not ready\n");
-        return;
+        return 0;
     }
 
     printk("Initializing BNO055...\n");
@@ -79,7 +76,7 @@ int main(void)
 
     // Set NDOF mode for absolute orientation
     if (bno055_set_mode(BNO055_OPR_MODE_NDOF) < 0) {
-        return;
+        return 0;
     }
 
     while (1) {

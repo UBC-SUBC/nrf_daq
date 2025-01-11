@@ -3,6 +3,7 @@
         "stddef.h": "c",
         "random": "c",
         "array": "c",
-        "sensor.h": "c"
+        "sensor.h": "c",
+        "kernel.h": "c"
     }
 }
