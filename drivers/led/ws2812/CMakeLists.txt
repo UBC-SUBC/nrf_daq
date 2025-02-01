@@ -1,2 +1,2 @@
 zephyr_library()
-zephyr_library_sources(driver_functions.c)
+zephyr_library_sources(led_driver.c)
