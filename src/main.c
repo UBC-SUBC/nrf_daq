@@ -15,17 +15,14 @@ struct bno055_t bno055;
 
 int main(void)
 {
-    while(1)
+    if (setup_led() == 0)
     {
-        if (setup_led() == 0)
-        {
-            printk("Failed to setup LED\n");
-            return 1;
-        }
-        
-        printk("LED setup successful\n");
-
-        set_all(RGB(0, 0, 255));
-        send_data();
+        printk("Failed to setup LED\n");
+        return 1;
     }
+
+    printk("LED setup successful\n");
+
+    set_all(RGB(0, 0, 255));
+    send_data();
 }

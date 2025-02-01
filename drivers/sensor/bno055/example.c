@@ -1,4 +1,5 @@
-#include "driver_functions.h"
+#include "bno055.h"
+#include "example.h"
 
 /*----------------------------------------------------------------------------*
  *  struct bno055_t parameters can be accessed by using BNO055
