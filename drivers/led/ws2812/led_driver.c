@@ -3,7 +3,7 @@
 
 #define LOG_LEVEL 4
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(main);
+LOG_MODULE_REGISTER(led_driver);
 
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/led_strip.h>
@@ -16,9 +16,9 @@ LOG_MODULE_REGISTER(main);
 #define STRIP_NODE		DT_ALIAS(led_strip)
 #define STRIP_NUM_PIXELS	DT_PROP(DT_ALIAS(led_strip), chain_length)
 
-#define DELAY_TIME K_MSEC(50)
+#define RGB(_r, _g, _b) ((struct led_rgb){ .r = (_r), .g = (_g), .b = (_b) })
 
-#define RGB(_r, _g, _b) { .r = (_r), .g = (_g), .b = (_b) }
+#define DELAY_TIME K_MSEC(50)
 
 struct led_rgb pixels[STRIP_NUM_PIXELS];
 
