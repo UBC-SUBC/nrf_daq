@@ -30,10 +30,10 @@ int setup_led(void)
 		LOG_INF("Found LED strip device %s", strip->name);
 	} else {
 		LOG_ERR("LED strip device %s is not ready", strip->name);
-		return 0;
+		return 1;
 	}
 
-    return 1; // success
+    return 0; // success
 }
 
 int set_all(struct led_rgb color) 
@@ -54,6 +54,16 @@ int set_color(uint8_t index, struct led_rgb color)
 	memcpy(&pixels[index], &color, sizeof(struct led_rgb));
 
     return 1; // success
+}
+
+int clear_all(void)
+{
+	struct led_rgb blank = RGB(0, 0, 0);
+	for (size_t i = 0; i < STRIP_NUM_PIXELS; i++) {
+		memcpy(&pixels[i], &blank, sizeof(struct led_rgb));
+	}
+
+	return 1; // success
 }
 
 int send_data(void) 

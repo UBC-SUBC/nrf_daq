@@ -7,22 +7,34 @@
 #include "sensor/bno055/bno055.h"
 #include "led/ws2812/led_driver.h"
 
-#define LOG_LEVEL 4
-#include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(main);
-
-struct bno055_t bno055;
 
 int main(void)
 {
-    if (setup_led() == 0)
+    if(setup_led())
     {
         printk("Failed to setup LED\n");
-        return 1;
+        return -1;
     }
 
-    printk("LED setup successful\n");
+    if(setup_bno055())
+    {
+        printk("Failed to setup BNO055\n");
+        return -1;
+    }
 
-    set_all(RGB(0, 0, 255));
-    send_data();
+    struct bno055_euler_t euler;
+    
+    while(1) {
+        read_euler_hrp(&euler);
+        if(euler.p > 100) {
+            set_all(RGB(0, 50, 0));
+        } else if (euler.p < -100) {
+            set_all(RGB(50, 0, 0));
+        } else {
+            clear_all();
+            printk("Cleared: %d\n", euler.p);
+        }
+        send_data();
+        k_sleep(K_MSEC(500));
+    }
 }

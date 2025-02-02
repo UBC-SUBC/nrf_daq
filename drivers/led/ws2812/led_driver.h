@@ -6,3 +6,4 @@ int setup_led(void);
 int set_all(struct led_rgb color);
 int set_color(uint8_t index, struct led_rgb color);
 int send_data(void);
+int clear_all(void);

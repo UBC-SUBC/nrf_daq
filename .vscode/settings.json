@@ -4,6 +4,8 @@
         "random": "c",
         "array": "c",
         "sensor.h": "c",
-        "kernel.h": "c"
+        "kernel.h": "c",
+        "gpio.h": "c",
+        "bno055.h": "c"
     }
 }
