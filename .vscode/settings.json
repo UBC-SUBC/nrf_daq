@@ -4,6 +4,7 @@
         "random": "c",
         "array": "c",
         "sensor.h": "c",
-        "kernel.h": "c"
+        "kernel.h": "c",
+        "spi.h": "c"
     }
 }
