@@ -1,8 +1,8 @@
 &i2c0 {
-    temp_sensor: temp_sensor@44 {
+    mag_sensor: mag_sensor@10 {
         compatible = "i2c-device";
         status = "okay";
-        reg = <0x44>;
-        label = "SHT31";
+        reg = <0x10>;
+        label = "MLX90393-SLQ-ABA-011-RE";
     };
 };
