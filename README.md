@@ -6,7 +6,7 @@ The sensors inside the enclosures are:
 - BNO055 IMU (I2C)
 
 The sensors that route to outside the enclosures are:
-- MLX90393-SLQ-ABA-011-RE Hall Effect Sensor (SPI and I2C possible, using SPI due to wire length requirements)
+- MLX90393-SLQ-ABA-011-RE Hall Effect Sensor (both SPI and I2C possible)
 - [Depth Sensor](https://bluerobotics.com/store/sensors-cameras/sensors/bar30-sensor-r1/)
 
 Other things that interact with the nrf52840dk dev board
