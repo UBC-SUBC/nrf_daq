@@ -19,4 +19,4 @@ Connect the following pins together
 
 Connect to the terminal VCOM0
 
-A demo application exists at [Melexis Driver for mls90394](https://github.com/zephyrproject-rtos/zephyr/tree/v4.1.0-rc3/drivers/sensor/melexis)
+A demo application exists at [Melexis Driver for mlx90394](https://github.com/zephyrproject-rtos/zephyr/tree/v4.1.0-rc3/drivers/sensor/melexis)

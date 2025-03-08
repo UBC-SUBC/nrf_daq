@@ -8,16 +8,10 @@
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/i2c.h>
-
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/sys/printk.h>
 
-#define SLEEP_TIME_MS 1000
-
-// MLX90393-SLQ-ABA-011-RE 
-#define CONFIG_REG      0x0C
-#define CONFIG_VAL      0x16
-#define RM_REG          0x4F
-#define I2C_ADDR        0x0C
+#include "reg.h"
 
 #define I2C0_NODE DT_NODELABEL(mag_sensor)
 
