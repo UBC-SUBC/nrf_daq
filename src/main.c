@@ -13,7 +13,7 @@
 
 #include "reg.h"
 
-#define I2C0_NODE DT_NODELABEL(mag_sensor)
+#define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 int main(void)
 {
