@@ -90,10 +90,10 @@ int main(void)
 			       dev_i2c.addr, read_reg[0]);
 		}
 
-        uint8_t t = (read_buf[1] << 8) | read_buf[2];
-        uint8_t x = (read_buf[3] << 8) | read_buf[4];
-        uint8_t y = (read_buf[5] << 8) | read_buf[6];
-        uint8_t z = (read_buf[7] << 8) | read_buf[8];
+        uint16_t t = (read_buf[1] << 8) | read_buf[2];
+        uint16_t x = (read_buf[3] << 8) | read_buf[4];
+        uint16_t y = (read_buf[5] << 8) | read_buf[6];
+        uint16_t z = (read_buf[7] << 8) | read_buf[8];
 
         //Print reading to console  
         printk("t: %d\n", t);
