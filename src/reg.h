@@ -6,6 +6,9 @@
 #define RM_REG          0x4F
 #define RST_REG         0xF0
 #define EX_REG          0x80
+#define GAIN_REG        0x00
+#define READ_CMD        0x50
+#define WRITE_CMD       0x60
 
 #define SLEEP_TIME_US   1500
 
