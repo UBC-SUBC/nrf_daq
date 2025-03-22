@@ -31,22 +31,32 @@ int main(void)
         printk("I2C bus: %s, Address: 0x%X\n", dev_i2c.bus->name, dev_i2c.addr);
     }
 
+    k_usleep(SLEEP_TIME_US);
+
+    uint8_t reset[1] = {RST_REG};
+    ret = i2c_write_dt(&dev_i2c, reset, sizeof(reset));
+    k_usleep(SLEEP_TIME_US);
+    if(ret != 0){
+        printk("Reset failed to write to I2C device address %x\n", dev_i2c.addr);
+        return -1;
+    } else {
+        printk("Reset set\n");
+    }
+
     // set up exit
     uint8_t exit[1] = {0x80};
     ret = i2c_write_dt(&dev_i2c, exit, sizeof(exit));
     if(ret != 0){
         printk("Failed to write to I2C device address %x\n", dev_i2c.addr);
+        return -1;
     } else {
         printk("Exit set\n");
     }
 
-    uint8_t config[2] = {CONFIG_REG, CONFIG_VAL};
+    k_usleep(SLEEP_TIME_US);
 
-    ret = i2c_write_dt(&dev_i2c, config, sizeof(config));
-    if(ret != 0){
-        printk("Failed to write to I2C device address %x\n", dev_i2c.addr);
-        return -1;
-    }
+    
+
 
 
     while (1) {        
@@ -69,6 +79,6 @@ int main(void)
         printk("y: %d\n", y);
         printk("z: %d\n", z);
 
-        k_msleep(SLEEP_TIME_MS);
+        k_usleep(SLEEP_TIME_US);
     }
 }

@@ -4,10 +4,14 @@
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
     
-    mlx_90393: mlx_90393@20 {
+    mlx_90393: mlx_90393@18 {
         compatible = "i2c-device";
         status = "okay";
-        reg = <0x20>;
+        reg = <0x18>;
         label = "MLX90393-SLQ-ABA-011-RE";
     };
+};
+
+&clock {
+    status = "okay";
 };

@@ -7,7 +7,7 @@
 #define RST_REG         0xF0
 #define EX_REG          0x80
 
-#define SLEEP_TIME_MS   1000
+#define SLEEP_TIME_US   1500
 
 // bool Adafruit_MLX90393::_init(void) {
 
