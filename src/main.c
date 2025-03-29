@@ -100,7 +100,7 @@ int main(void)
         printk("Read resolution, status byte: %d\n", res[0]);
     }
     uint16_t data = (res[1] << 8) | res[2];
-    mlx90393_resolution_t resolution = MLX90393_RES_18;
+    mlx90393_resolution_t resolution = MLX90393_RES_16;
 
     data &= ~0x0060;
     data |= resolution << 5; // set to 16 bit resolution
@@ -118,20 +118,20 @@ int main(void)
         printk("Resolution set, status byte: %d\n", ret_val[0]);
     }
 
-    // single measurement command
-    uint8_t sm[1] = {SM_REG};
-    ret = i2c_write_read_dt(&dev_i2c, sm, sizeof(sm), ret_val, sizeof(ret_val));
-    if(ret != 0){
-        printk("Failed to write/read I2C device address %x at Reg. %x \n",
-            dev_i2c.addr, sm[0]);
-        return -1;
-    } else {
-        printk("Single measurement set, status byte: %d\n", ret_val[0]);
-    }
-
-    k_usleep(SLEEP_TIME_US);
-
     while (1) {        
+        // single measurement command
+        uint8_t sm[1] = {SM_REG};
+        ret = i2c_write_read_dt(&dev_i2c, sm, sizeof(sm), ret_val, sizeof(ret_val));
+        if(ret != 0){
+            printk("Failed to write/read I2C device address %x at Reg. %x \n",
+                dev_i2c.addr, sm[0]);
+            return -1;
+        } else {
+            printk("Single measurement set, status byte: %d\n", ret_val[0]);
+        }
+
+        k_msleep(SLEEP_TIME_US);
+
         uint8_t read_buf[9];
         uint8_t read_reg[1] = {RM_REG};
         ret = i2c_write_read_dt(&dev_i2c, read_reg, sizeof(read_reg), read_buf, sizeof(read_buf));
