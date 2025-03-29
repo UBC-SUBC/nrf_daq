@@ -9,6 +9,7 @@
 #define GAIN_REG        0x00
 #define READ_CMD        0x50
 #define WRITE_CMD       0x60
+#define RES_REG         0x02
 
 #define SLEEP_TIME_US   1500
 

@@ -15,6 +15,13 @@
 
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
+typedef enum mlx90393_resolution {
+    MLX90393_RES_16,
+    MLX90393_RES_17,
+    MLX90393_RES_18,
+    MLX90393_RES_19,
+} mlx90393_resolution_t;
+
 int main(void)
 {
 
@@ -70,7 +77,7 @@ int main(void)
         printk("Read gain\n");
     }
 
-    gain_result[2] |= 0x01;
+    gain_result[2] |= 0x03;
 
     uint8_t write[4] = {WRITE_CMD, gain_result[1], gain_result[2], GAIN_REG << 2};
     ret = i2c_write_read_dt(&dev_i2c, write, sizeof(write), ret_val, sizeof(ret_val));
@@ -79,6 +86,36 @@ int main(void)
         return -1;
     } else {
         printk("Gain set\n");
+    }
+
+    // set up resolution
+    uint8_t resolution_settings[2] = {READ_CMD, RES_REG << 2};
+    uint8_t res[3] = {};
+    ret = i2c_write_read_dt(&dev_i2c, resolution_settings, sizeof(resolution_settings), res, sizeof(res));
+    if(ret != 0){
+        printk("Failed to write/read I2C device address %x at Reg. %x \n",
+            dev_i2c.addr, res[0]);
+        return -1;
+    } else {
+        printk("Read resolution\n");
+    }
+    uint16_t data = (res[1] << 8) | res[2];
+    mlx90393_resolution_t resolution = MLX90393_RES_18;
+
+    data &= ~0x0060;
+    data |= resolution << 5; // set to 16 bit resolution
+    data &= ~0x0180;
+    data |= resolution << 7; // set to 16 bit resolution
+    data &= ~0x0600;
+    data |= resolution << 9; // set to 16 bit resolution
+
+    uint8_t write_resolution[4] = {WRITE_CMD, data >> 8, data & 0xFF, RES_REG << 2};
+    ret = i2c_write_read_dt(&dev_i2c, write_resolution, sizeof(write_resolution), ret_val, sizeof(ret_val));
+    if(ret != 0){
+        printk("Failed to write I2C device address %x\n", dev_i2c.addr);
+        return -1;
+    } else {
+        printk("Resolution set\n");
     }
 
     while (1) {        
