@@ -48,7 +48,7 @@ int main(void)
         printk("Failed to write to I2C device address %x\n", dev_i2c.addr);
         return -1;
     } else {
-        printk("Exit set\n");
+        printk("Exit set, status byte: %d\n", ret_val[0]);
     }
 
     k_usleep(SLEEP_TIME_US);
@@ -60,7 +60,7 @@ int main(void)
         printk("Reset failed to write to I2C device address %x\n", dev_i2c.addr);
         return -1;
     } else {
-        printk("Reset set\n");
+        printk("Reset set, status byte: %d\n", ret_val[0]);
     }
 
     k_usleep(SLEEP_TIME_US);
@@ -74,7 +74,7 @@ int main(void)
             dev_i2c.addr, gain[0]);
         return -1;
     } else {
-        printk("Read gain\n");
+        printk("Read gain, status byte: %d\n", gain_result[0]);
     }
 
     gain_result[2] |= 0x03;
@@ -85,7 +85,7 @@ int main(void)
         printk("Failed to write I2C device address %x\n", dev_i2c.addr);
         return -1;
     } else {
-        printk("Gain set\n");
+        printk("Gain set, status byte: %d\n", ret_val[0]);
     }
 
     // set up resolution
@@ -97,7 +97,7 @@ int main(void)
             dev_i2c.addr, res[0]);
         return -1;
     } else {
-        printk("Read resolution\n");
+        printk("Read resolution, status byte: %d\n", res[0]);
     }
     uint16_t data = (res[1] << 8) | res[2];
     mlx90393_resolution_t resolution = MLX90393_RES_18;
@@ -115,8 +115,21 @@ int main(void)
         printk("Failed to write I2C device address %x\n", dev_i2c.addr);
         return -1;
     } else {
-        printk("Resolution set\n");
+        printk("Resolution set, status byte: %d\n", ret_val[0]);
     }
+
+    // single measurement command
+    uint8_t sm[1] = {SM_REG};
+    ret = i2c_write_read_dt(&dev_i2c, sm, sizeof(sm), ret_val, sizeof(ret_val));
+    if(ret != 0){
+        printk("Failed to write/read I2C device address %x at Reg. %x \n",
+            dev_i2c.addr, sm[0]);
+        return -1;
+    } else {
+        printk("Single measurement set, status byte: %d\n", ret_val[0]);
+    }
+
+    k_usleep(SLEEP_TIME_US);
 
     while (1) {        
         uint8_t read_buf[9];
@@ -127,16 +140,21 @@ int main(void)
 			       dev_i2c.addr, read_reg[0]);
 		}
 
-        uint16_t t = (read_buf[1] << 8) | read_buf[2];
-        uint16_t x = (read_buf[3] << 8) | read_buf[4];
-        uint16_t y = (read_buf[5] << 8) | read_buf[6];
-        uint16_t z = (read_buf[7] << 8) | read_buf[8];
+        int16_t t = (read_buf[1] << 8) | read_buf[2];
+        int16_t x = (read_buf[3] << 8) | read_buf[4];
+        int16_t y = (read_buf[5] << 8) | read_buf[6];
+        int16_t z = (read_buf[7] << 8) | read_buf[8];
 
         //Print reading to console  
+        printk("Status byte: %d\n", read_buf[0]);
         printk("t: %d\n", t);
         printk("x: %d\n", x);
         printk("y: %d\n", y);
         printk("z: %d\n\n", z);
+        
+        if(read_buf[0] == 17 || read_buf[0] == 16) {
+            return -1;
+        }
 
         k_msleep(SLEEP_TIME_US);
     }
