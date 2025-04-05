@@ -52,9 +52,9 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 
 	case UART_RX_BUF_RELEASED:
         
-        int16_t x = (read_buf[1] << 8 | read_buf[2]);
-        int16_t y = (read_buf[3] << 8 | read_buf[4]);
-        int16_t z = (read_buf[5] << 8 | read_buf[6]);
+        int16_t x = (rx_buf[1] << 8 | rx_buf[2]);
+        int16_t y = (rx_buf[3] << 8 | rx_buf[4]);
+        int16_t z = (rx_buf[5] << 8 | rx_buf[6]);
 
         printk("Status byte %d\n", read_buf[0]);
         printk("x: %d\n", x);
