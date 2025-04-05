@@ -98,17 +98,17 @@ int main(void)
         return ret;
     }
 
-    /* transfer data */
-    ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
-	if (ret) {
-		return ret;
-	}
-
     /* receive data */
     ret = uart_rx_enable(uart, rx_buf, sizeof(rx_buf), 100);
     if (ret) {
         return ret;
     }
+
+    /* transfer data */
+    ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
+	if (ret) {
+		return ret;
+	}
 
     while(1) {
         k_msleep(SLEEP_TIME_MS);
