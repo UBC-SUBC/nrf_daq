@@ -41,7 +41,7 @@ int set_all(struct led_rgb color)
 		memcpy(&pixels[i], &color, sizeof(struct led_rgb));
     }
 
-    return 1; // success
+    return 0; // success
 }
 
 int set_color(uint8_t index, struct led_rgb color) 
@@ -52,7 +52,7 @@ int set_color(uint8_t index, struct led_rgb color)
 
 	memcpy(&pixels[index], &color, sizeof(struct led_rgb));
 
-    return 1; // success
+    return 0; // success
 }
 
 int clear_all(void)
@@ -62,7 +62,7 @@ int clear_all(void)
 		memcpy(&pixels[i], &blank, sizeof(struct led_rgb));
 	}
 
-	return 1; // success
+	return 0; // success
 }
 
 int send_data(void) 
@@ -71,8 +71,8 @@ int send_data(void)
 
 	if (rc) {
 		LOG_ERR("couldn't update strip: %d", rc);
-		return 0; // fail
+		return rc; // fail
 	}
 
-	return 1; // success
+	return 0; // success
 }
