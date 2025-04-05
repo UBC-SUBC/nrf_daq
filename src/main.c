@@ -112,5 +112,9 @@ int main(void)
 
     while(1) {
         k_msleep(SLEEP_TIME_MS);
+        ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
+        if (ret) {
+            return ret;
+        }
     }
 }
