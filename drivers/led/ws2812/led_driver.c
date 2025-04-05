@@ -13,8 +13,7 @@ LOG_MODULE_REGISTER(led_driver);
 
 #include "led_driver.h"
 
-#define STRIP_NODE		DT_ALIAS(led_strip)
-#define STRIP_NUM_PIXELS	DT_PROP(DT_ALIAS(led_strip), chain_length)
+
 
 #define RGB(_r, _g, _b) ((struct led_rgb){ .r = (_r), .g = (_g), .b = (_b) })
 
