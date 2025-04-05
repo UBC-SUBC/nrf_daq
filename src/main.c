@@ -31,7 +31,9 @@ const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
-	switch (evt->type) {
+	int16_t x, y, z;
+    
+    switch (evt->type) {
 	
 	case UART_TX_DONE:
 		printk("Sent data successfully\n");
@@ -52,15 +54,14 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 
 	case UART_RX_BUF_RELEASED:
         
-        int16_t x = (rx_buf[1] << 8 | rx_buf[2]);
-        int16_t y = (rx_buf[3] << 8 | rx_buf[4]);
-        int16_t z = (rx_buf[5] << 8 | rx_buf[6]);
+        // x = (rx_buf[1] << 8 | rx_buf[2]);
+        // y = (rx_buf[3] << 8 | rx_buf[4]);
+        // z = (rx_buf[5] << 8 | rx_buf[6]);
 
-        printk("Status byte %d\n", read_buf[0]);
-        printk("x: %d\n", x);
-        printk("y: %d\n", y);
-        printk("z: %d\n", z);
-		// do something
+        // printk("Status byte %d\n", rx_buf[0]);
+        // printk("x: %d\n", x);
+        // printk("y: %d\n", y);
+        // printk("z: %d\n", z);
 		break;
 
 	case UART_RX_STOPPED:
@@ -69,8 +70,15 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		break;
     
     case UART_RX_DISABLED:
-        
-        //printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
+        // printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
+        x = (rx_buf[1] << 8 | rx_buf[2]);
+        y = (rx_buf[3] << 8 | rx_buf[4]);
+        z = (rx_buf[5] << 8 | rx_buf[6]);
+
+        printk("YES Status byte %d\n", rx_buf[0]);
+        printk("x: %d\n", x);
+        printk("y: %d\n", y);
+        printk("z: %d\n", z);
         uart_rx_enable(dev, rx_buf, sizeof(rx_buf), 100);
         break;
 		
