@@ -22,16 +22,12 @@
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 static uint8_t rx_buf[10] = {0}; //A buffer to store incoming UART data 
-static uint8_t tx_buf[] = {"Host: A \n\r"}; //send buffer
+static uint8_t tx_buf[] =  {"Host: B\n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
-typedef enum mlx90393_resolution {
-    MLX90393_RES_16,
-    MLX90393_RES_17,
-    MLX90393_RES_18,
-    MLX90393_RES_19,
-} mlx90393_resolution_t;
+// static uint8_t line_buf[64];
+// static size_t line_pos = 0;
 
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
@@ -45,8 +41,9 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		// do something
 		break;
 		
-    case UART_RX_RDY:
-        printk("Received data: %.*s\n", sizeof(rx_buf), rx_buf);
+	case UART_RX_RDY:
+        //printk("Received: %.*s\n", sizeof(rx_buf), rx_buf);
+
         break;
 
 	case UART_RX_BUF_REQUEST:
@@ -54,12 +51,26 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		break;
 
 	case UART_RX_BUF_RELEASED:
+        
+        int16_t x = (read_buf[1] << 8 | read_buf[2]);
+        int16_t y = (read_buf[3] << 8 | read_buf[4]);
+        int16_t z = (read_buf[5] << 8 | read_buf[6]);
+
+        printk("Status byte %d\n", read_buf[0]);
+        printk("x: %d\n", x);
+        printk("y: %d\n", y);
+        printk("z: %d\n", z);
+		// do something
 		break;
 
 	case UART_RX_STOPPED:
+    //printk("Full Received: %.*s\n", sizeof(rx_buf), rx_buf);
+		// do something
 		break;
     
     case UART_RX_DISABLED:
+        
+        //printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
         uart_rx_enable(dev, rx_buf, sizeof(rx_buf), 100);
         break;
 		
