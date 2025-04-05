@@ -22,7 +22,7 @@
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 static uint8_t rx_buf[10] = {0}; //A buffer to store incoming UART data 
-static uint8_t tx_buf[] =  {"Host B: hall effect \n\r"}; //send buffer
+static uint8_t tx_buf[] =  {"Host B: hf\n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
@@ -105,5 +105,9 @@ int main(void)
 
     while(1) {
         k_msleep(SLEEP_TIME_MS);
+        ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
+        if (ret) {
+            return ret;
+        }
     }
 }
