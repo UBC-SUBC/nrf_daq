@@ -15,14 +15,14 @@
 
 #include "reg.h"
 
-#define SLEEP_TIME_MS 1000
+#define SLEEP_TIME_MS 5000
 #define RECEIVE_BUFF_SIZE 10
 #define RECEIVE_TIMEOUT 100
 
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 static uint8_t rx_buf[10] = {0}; //A buffer to store incoming UART data 
-static uint8_t tx_buf[] =  {"Host A \n\r"}; //send buffer
+static uint8_t tx_buf[] = {"Host: A \n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
@@ -45,8 +45,8 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		// do something
 		break;
 		
-	case UART_RX_RDY:
-        printk("Received: %.*s\n", evt->data.rx.len, &evt->data.rx.buf[evt->data.rx.offset]);
+    case UART_RX_RDY:
+        printk("Received data: %.*s\n", sizeof(rx_buf), rx_buf);
         break;
 
 	case UART_RX_BUF_REQUEST:
@@ -54,11 +54,9 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		break;
 
 	case UART_RX_BUF_RELEASED:
-		// do something
 		break;
 
 	case UART_RX_STOPPED:
-		// do something
 		break;
     
     case UART_RX_DISABLED:
