@@ -22,16 +22,9 @@
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 static uint8_t rx_buf[10] = {0}; //A buffer to store incoming UART data 
-static uint8_t tx_buf[] =  {"Host A \n\r"}; //send buffer
+static uint8_t tx_buf[] =  {"Host B: hall effect \n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
-
-typedef enum mlx90393_resolution {
-    MLX90393_RES_16,
-    MLX90393_RES_17,
-    MLX90393_RES_18,
-    MLX90393_RES_19,
-} mlx90393_resolution_t;
 
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
@@ -98,17 +91,17 @@ int main(void)
         return ret;
     }
 
-    /* transfer data */
-    ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
-	if (ret) {
-		return ret;
-	}
-
     /* receive data */
     ret = uart_rx_enable(uart, rx_buf, sizeof(rx_buf), 100);
     if (ret) {
         return ret;
     }
+
+    /* transfer data */
+    ret = uart_tx(uart, tx_buf, sizeof(tx_buf), SYS_FOREVER_US);
+	if (ret) {
+		return ret;
+	}
 
     while(1) {
         k_msleep(SLEEP_TIME_MS);
