@@ -3,14 +3,15 @@
 
 #define CONFIG_REG      0x10
 #define CONFIG_VAL      0x16
-#define RM_REG          0x4F
+#define RM_REG          0x4E
 #define RST_REG         0xF0
 #define EX_REG          0x80
 #define GAIN_REG        0x00
 #define READ_CMD        0x50
 #define WRITE_CMD       0x60
 #define RES_REG         0x02
-#define SM_REG          0x3F
+#define SM_REG          0x3E
+#define BM_REG          0x1F
 
 #define SLEEP_TIME_US   1500
 

@@ -14,7 +14,7 @@ Connect the following pins together
 | SCL      | P27          |
 | SDA      | P26          |
 | MS       | VDD          |
-| INT      | GND (optional)  |
+| INT      | P11          |
 | VDD      | VDD          |
 
 Connect to the terminal VCOM0

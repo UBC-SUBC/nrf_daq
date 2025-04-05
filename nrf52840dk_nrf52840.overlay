@@ -9,8 +9,11 @@
         status = "okay";
         reg = <0x18>;
         label = "MLX90393-SLQ-ABA-011-RE";
+        int-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
     };
 };
+
+
 
 &clock {
     status = "okay";

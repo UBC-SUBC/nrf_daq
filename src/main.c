@@ -130,9 +130,9 @@ int main(void)
             printk("Single measurement set, status byte: %d\n", ret_val[0]);
         }
 
-        k_msleep(SLEEP_TIME_US);
+        k_usleep(SLEEP_TIME_US);
 
-        uint8_t read_buf[9];
+        uint8_t read_buf[7];
         uint8_t read_reg[1] = {RM_REG};
         ret = i2c_write_read_dt(&dev_i2c, read_reg, sizeof(read_reg), read_buf, sizeof(read_buf));
         if (ret != 0) {
@@ -140,21 +140,15 @@ int main(void)
 			       dev_i2c.addr, read_reg[0]);
 		}
 
-        int16_t t = (read_buf[1] << 8) | read_buf[2];
-        int16_t x = (read_buf[3] << 8) | read_buf[4];
-        int16_t y = (read_buf[5] << 8) | read_buf[6];
-        int16_t z = (read_buf[7] << 8) | read_buf[8];
+        int16_t x = (read_buf[1] << 8) | read_buf[2];
+        int16_t y = (read_buf[3] << 8) | read_buf[4];
+        int16_t z = (read_buf[5] << 8) | read_buf[6];
 
         //Print reading to console  
         printk("Status byte: %d\n", read_buf[0]);
-        printk("t: %d\n", t);
         printk("x: %d\n", x);
         printk("y: %d\n", y);
         printk("z: %d\n\n", z);
-        
-        if(read_buf[0] == 17 || read_buf[0] == 16) {
-            return -1;
-        }
 
         k_msleep(SLEEP_TIME_US);
     }
