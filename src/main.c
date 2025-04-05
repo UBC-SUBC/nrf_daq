@@ -15,14 +15,14 @@
 
 #include "reg.h"
 
-#define SLEEP_TIME_MS 1000
+#define SLEEP_TIME_MS 5000
 #define RECEIVE_BUFF_SIZE 10
 #define RECEIVE_TIMEOUT 100
 
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
 static uint8_t rx_buf[10] = {0}; //A buffer to store incoming UART data 
-static uint8_t tx_buf[] =  {"Host B: hf\n\r"}; //send buffer
+static uint8_t tx_buf[] =  {"Host: B\n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
