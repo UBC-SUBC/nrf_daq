@@ -15,7 +15,7 @@
 
 #include "reg.h"
 
-#define SLEEP_TIME_MS 5000
+#define SLEEP_TIME_MS 10000
 #define RECEIVE_BUFF_SIZE 10
 #define RECEIVE_TIMEOUT 100
 
@@ -26,8 +26,6 @@ static uint8_t tx_buf[] =  {"Host: B\n\r"}; //send buffer
 
 const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart1));
 
-// static uint8_t line_buf[64];
-// static size_t line_pos = 0;
 
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
@@ -40,37 +38,11 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		break;
 
 	case UART_TX_ABORTED:
-		// do something
+		printk("Transmission aborted due to timeout\n");
 		break;
 		
 	case UART_RX_RDY:
-        //printk("Received: %.*s\n", sizeof(rx_buf), rx_buf);
-
-        break;
-
-	case UART_RX_BUF_REQUEST:
-		// do something
-		break;
-
-	case UART_RX_BUF_RELEASED:
-        
-        // x = (rx_buf[1] << 8 | rx_buf[2]);
-        // y = (rx_buf[3] << 8 | rx_buf[4]);
-        // z = (rx_buf[5] << 8 | rx_buf[6]);
-
-        // printk("Status byte %d\n", rx_buf[0]);
-        // printk("x: %d\n", x);
-        // printk("y: %d\n", y);
-        // printk("z: %d\n", z);
-		break;
-
-	case UART_RX_STOPPED:
-    //printk("Full Received: %.*s\n", sizeof(rx_buf), rx_buf);
-		// do something
-		break;
-    
-    case UART_RX_DISABLED:
-        // printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
+        printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
         x = (rx_buf[1] << 8 | rx_buf[2]);
         y = (rx_buf[3] << 8 | rx_buf[4]);
         z = (rx_buf[5] << 8 | rx_buf[6]);
@@ -79,6 +51,17 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
         printk("x: %d\n", x);
         printk("y: %d\n", y);
         printk("z: %d\n", z);
+        break;
+
+	case UART_RX_BUF_RELEASED:
+		break;
+
+	case UART_RX_STOPPED:
+    //printk("Full Received: %.*s\n", sizeof(rx_buf), rx_buf);
+		// do something
+		break;
+    
+    case UART_RX_DISABLED:
         uart_rx_enable(dev, rx_buf, sizeof(rx_buf), 100);
         break;
 		
