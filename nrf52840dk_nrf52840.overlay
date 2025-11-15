@@ -10,26 +10,26 @@
  * definition.
  */
 
-&mx25r64 {
-	partitions {
-		compatible = "fixed-partitions";
-		#address-cells = <1>;
-		#size-cells = <1>;
+ &spi2 {
+    status = "okay";
+    cs-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>; /* Replace with your chip select pin */
 
-		/* 128kiB external storage partition */
-		external_partition: partition@0 {
-			reg = <0x00000000 0x00020000>;
-		};
-	};
+    sdcard: mmc@0 {
+        compatible = "zephyr,mmc-spi-slot";
+        reg = <0>;
+        label = "SD";
+        spi-max-frequency = <24000000>; /* 24 MHz */
+        status = "okay";
+    };
 };
 
-/ {
-	msc_disk0 {
-		status = "okay";
-		compatible = "zephyr,flash-disk";
-		partition = <&external_partition>;
-		disk-name = "SD";
-		/* cache-size == page erase size */
-		cache-size = <4096>;
-	};
-};
+// / {
+// 	msc_disk0 {
+// 		status = "okay";
+// 		compatible = "zephyr,flash-disk";
+// 		partition = <&external_partition>;
+// 		disk-name = "SD";
+// 		/* cache-size == page erase size */
+// 		cache-size = <4096>;
+// 	};
+// };

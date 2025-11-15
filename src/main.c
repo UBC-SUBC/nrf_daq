@@ -67,7 +67,7 @@ LOG_MODULE_REGISTER(main);
 #define SOME_REQUIRED_LEN MAX(sizeof(SOME_FILE_NAME), sizeof(SOME_DIR_NAME))
 
 static int lsdir(const char *path);
-#ifdef CONFIG_FS_SAMPLE_CREATE_SOME_ENTRIES
+
 static bool create_some_entries(const char *base_path)
 {
 	char path[MAX_PATH];
@@ -105,7 +105,6 @@ static bool create_some_entries(const char *base_path)
 	}
 	return true;
 }
-#endif
 
 static const char *disk_mount_pt = DISK_MOUNT_PT;
 
@@ -118,11 +117,11 @@ int main(void)
 		uint32_t block_count;
 		uint32_t block_size;
 
-		if (disk_access_ioctl(disk_pdrv,
-				DISK_IOCTL_CTRL_INIT, NULL) != 0) {
-			LOG_ERR("Storage init ERROR!");
-			break;
-		}
+		// if (disk_access_ioctl(disk_pdrv,
+		// 		DISK_IOCTL_CTRL_INIT, NULL) != 0) {
+		// 	LOG_ERR("Storage init ERROR!");
+		// 	break;
+		// }
 
 		if (disk_access_ioctl(disk_pdrv,
 				DISK_IOCTL_GET_SECTOR_COUNT, &block_count)) {
@@ -141,11 +140,11 @@ int main(void)
 		memory_size_mb = (uint64_t)block_count * block_size;
 		printk("Memory Size(MB) %u\n", (uint32_t)(memory_size_mb >> 20));
 
-		if (disk_access_ioctl(disk_pdrv,
-				DISK_IOCTL_CTRL_DEINIT, NULL) != 0) {
-			LOG_ERR("Storage deinit ERROR!");
-			break;
-		}
+		// if (disk_access_ioctl(disk_pdrv,
+		// 		DISK_IOCTL_CTRL_DEINIT, NULL) != 0) {
+		// 	LOG_ERR("Storage deinit ERROR!");
+		// 	break;
+		// }
 	} while (0);
 
 	mp.mnt_point = disk_mount_pt;
@@ -167,11 +166,9 @@ int main(void)
 		}
 
 		if (lsdir(disk_mount_pt) == 0) {
-#ifdef CONFIG_FS_SAMPLE_CREATE_SOME_ENTRIES
 			if (create_some_entries(disk_mount_pt)) {
 				lsdir(disk_mount_pt);
 			}
-#endif
 		}
 	} else {
 		printk("Error mounting disk.\n");
