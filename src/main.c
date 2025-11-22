@@ -29,7 +29,7 @@ static struct fs_mount_t mp = {
 #define FS_RET_OK FR_OK
 LOG_MODULE_REGISTER(main);
 
-#define MAX_PATH 128
+#define PATH_LENGTH 256;
 #define SOME_FILE_NAME "some.dat"
 #define SOME_DIR_NAME "some"
 #define SOME_REQUIRED_LEN MAX(sizeof(SOME_FILE_NAME), sizeof(SOME_DIR_NAME))
@@ -37,21 +37,48 @@ LOG_MODULE_REGISTER(main);
 static int lsdir(const char *path);
 
 // write a function to create a file at the base_path
+
+	//implement this function to create one file
+	// return 0 if success, -1 if fail
 static int create_new_file(const char *base_path, struct fs_file_t* file)
 {
-	fs_file_t_init(file);
-	
-	// implement this function to create one file
-	// return 0 if success, -1 if fail
-	return 0; 
-}
+	// definitions
+	char path_buffer[PATH_LENGTH];
+	struct fs_file_t file; // not sure 
+	int base_length = strlen(base_path);
+	// no check for overflow because assuming we have enough space
 
+	strcpy(path_buffer,base_path);
+
+	path_buffer[base_length] = '/';
+	base_length++;
+	path_buffer[base_length] = 0;
+
+	strcat(&path_buffer[base_length], SOME_FILE_NAME);
+
+	fs_file_t_init(&file);
+
+	if(fs_open(&file, base_path, FS_O_CREATE) != 0)
+	{
+		return -1; 
+	} 
+	else {
+		return 0; 
+	}
+}
 // write a function to add some data into the file 
 static int add_data_to_file(struct fs_file_t* file, const char *data, size_t data_len)
 {
+	
 	// implement this function to add data into the file
 	// return 0 if success, -1 if fail
-	return 0; 
+
+	if (fs_write(file, data, data_len) < 0 ) {
+		return -1;
+	}
+
+	return 0;
+
 }
 
 // write a function to close a file 
@@ -59,6 +86,10 @@ static int close_file(struct fs_file_t* file)
 {
 	// implement this function to close the file
 	// return 0 if success, -1 if fail
+
+	if (fs_close(file) != 0) {
+		return -1; 
+	}
 	return 0; 
 }
 
