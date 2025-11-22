@@ -13,20 +13,9 @@
 #include <zephyr/storage/disk_access.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/fs/fs.h>
-
-#if defined(CONFIG_FAT_FILESYSTEM_ELM)
-
 #include <ff.h>
 
-/*
- *  Note the fatfs library is able to mount only strings inside _VOLUME_STRS
- *  in ffconf.h
- */
-#if defined(CONFIG_DISK_DRIVER_MMC)
-#define DISK_DRIVE_NAME "SD2"
-#else
 #define DISK_DRIVE_NAME "SD"
-#endif
 
 #define DISK_MOUNT_PT "/"DISK_DRIVE_NAME":"
 
@@ -37,28 +26,7 @@ static struct fs_mount_t mp = {
 	.fs_data = &fat_fs,
 };
 
-#elif defined(CONFIG_FILE_SYSTEM_EXT2)
-
-#include <zephyr/fs/ext2.h>
-
-#define DISK_DRIVE_NAME "SD"
-#define DISK_MOUNT_PT "/ext"
-
-static struct fs_mount_t mp = {
-	.type = FS_EXT2,
-	.flags = FS_MOUNT_FLAG_NO_FORMAT,
-	.storage_dev = (void *)DISK_DRIVE_NAME,
-	.mnt_point = "/ext",
-};
-
-#endif
-
-#if defined(CONFIG_FAT_FILESYSTEM_ELM)
 #define FS_RET_OK FR_OK
-#else
-#define FS_RET_OK 0
-#endif
-
 LOG_MODULE_REGISTER(main);
 
 #define MAX_PATH 128
@@ -69,8 +37,10 @@ LOG_MODULE_REGISTER(main);
 static int lsdir(const char *path);
 
 // write a function to create a file at the base_path
-static int create_new_file(const char *base_pat, struct fs_file_t* file)
+static int create_new_file(const char *base_path, struct fs_file_t* file)
 {
+	fs_file_t_init(file);
+	
 	// implement this function to create one file
 	// return 0 if success, -1 if fail
 	return 0; 
@@ -136,15 +106,30 @@ static const char *disk_mount_pt = DISK_MOUNT_PT;
 
 int main(void)
 {
+	struct fs_file_t file;
+	
 	// open disk
 
 	// mount disk (may be optional)
 
 	// add one file
+	if (create_new_file("SD/new_file.txt", &file) != 0) {
+		LOG_ERR("Failed to create new file");
+		return -1;
+	}
 
 	// write something to that file
+	if (add_data_to_file(&file, "Sample data to write", 20) != 0) {
+		LOG_ERR("Failed to write data to file");
+		close_file(&file);
+		return -1;
+	}
 
 	// close that file
+	if (close_file(&file) != 0) {
+		LOG_ERR("Failed to close file");
+		return -1;
+	}
 
 	// unmount/close disk
 
