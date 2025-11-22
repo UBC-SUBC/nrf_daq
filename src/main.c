@@ -4,6 +4,7 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 
+#include <stdbool.h>
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
@@ -18,6 +19,7 @@
 #define SLEEP_TIME_MS 10000
 #define RECEIVE_BUFF_SIZE 10
 #define RECEIVE_TIMEOUT 100
+#define SENSOR_THRESHOLD 500
 
 #define I2C0_NODE DT_NODELABEL(mlx_90393)
 
@@ -33,6 +35,29 @@ typedef enum mlx90393_resolution {
     MLX90393_RES_19,
 } mlx90393_resolution_t;
 
+static uint32_t detect_rpm_from_reading(int16_t z_sample)
+{
+    static bool was_above_threshold;
+    static uint32_t last_edge_ms;
+
+    bool above = z_sample > SENSOR_THRESHOLD;
+    uint32_t rpm = 0U;
+
+    if (!was_above_threshold && above) {
+        uint32_t now_ms = k_uptime_get_32(); // get time in ms since program started
+        if (last_edge_ms != 0U) {
+            uint32_t period_ms = now_ms - last_edge_ms;
+            if (period_ms > 0U) {
+                rpm = 60000U / period_ms;
+            }
+        }
+        last_edge_ms = now_ms;
+    }
+
+    was_above_threshold = above;
+    return rpm;
+}
+
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
 	switch (evt->type) {
@@ -47,9 +72,9 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 		
 	case UART_RX_RDY:
         printk("Received: %.*s\n", sizeof(rx_buf), rx_buf); 
-        x = (rx_buf[1] << 8 | rx_buf[2]);
-        y = (rx_buf[3] << 8 | rx_buf[4]);
-        z = (rx_buf[5] << 8 | rx_buf[6]);
+        uint16_t x = (rx_buf[1] << 8 | rx_buf[2]);
+        uint16_t y = (rx_buf[3] << 8 | rx_buf[4]);
+        uint16_t z = (rx_buf[5] << 8 | rx_buf[6]);
 
         printk("YES Status byte %d\n", rx_buf[0]);
         printk("x: %d\n", x);
@@ -237,6 +262,11 @@ int main(void)
         // printk("x: %d\n", x);
         // printk("y: %d\n", y);
         // printk("z: %d\n\n", z);
+
+        uint32_t rpm = detect_rpm_from_reading(z);
+        if (rpm > 0U) {
+            printk("RPM: %u\n", rpm);
+        }
 
         ret = uart_tx(uart, read_buf, sizeof(read_buf), SYS_FOREVER_US);
         if (ret) {
