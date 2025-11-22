@@ -35,12 +35,12 @@ typedef enum mlx90393_resolution {
     MLX90393_RES_19,
 } mlx90393_resolution_t;
 
-static uint32_t detect_rpm_from_reading(int16_t z_sample)
+static uint32_t detect_rpm_from_reading(int16_t sample)
 {
     static bool was_above_threshold;
     static uint32_t last_edge_ms;
 
-    bool above = z_sample > SENSOR_THRESHOLD;
+    bool above = sample > SENSOR_THRESHOLD;
     uint32_t rpm = 0U;
 
     if (!was_above_threshold && above) {
