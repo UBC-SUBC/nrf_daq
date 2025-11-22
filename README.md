@@ -17,6 +17,8 @@ Connect the following pins together
 | INT      | P11          |
 | VDD      | VDD          |
 
+*Testing with boughten sensor: MS is CS, VDD on sensor is VIN 
+
 Connect to the terminal VCOM0
 
 A demo application exists at [Melexis Driver for mlx90394](https://github.com/zephyrproject-rtos/zephyr/tree/v4.1.0-rc3/drivers/sensor/melexis)
