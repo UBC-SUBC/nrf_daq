@@ -9,3 +9,4 @@ Uses SPI protocol. The reader is [MEM2052-00-195-00-A](https://gct.co/files/spec
 ### Resources
 [Nordic Semiconductor Example](https://docs.zephyrproject.org/latest/samples/subsys/fs/fs_sample/README.html)
 [Sample Application](https://github.com/zephyrproject-rtos/zephyr/tree/main/samples/subsys/fs/fs_sample)
+[Disk Access Documentation](https://docs.zephyrproject.org/latest/services/storage/disk/access.html)

@@ -68,8 +68,34 @@ LOG_MODULE_REGISTER(main);
 
 static int lsdir(const char *path);
 
+// write a function to create a file at the base_path
+static int create_new_file(const char *base_pat, struct fs_file_t* file)
+{
+	// implement this function to create one file
+	// return 0 if success, -1 if fail
+	return 0; 
+}
+
+// write a function to add some data into the file 
+static int add_data_to_file(struct fs_file_t* file, const char *data, size_t data_len)
+{
+	// implement this function to add data into the file
+	// return 0 if success, -1 if fail
+	return 0; 
+}
+
+// write a function to close a file 
+static int close_file(struct fs_file_t* file)
+{
+	// implement this function to close the file
+	// return 0 if success, -1 if fail
+	return 0; 
+}
+
+// sample code to create one file and one directory
 static bool create_some_entries(const char *base_path)
 {
+	// modify this function to create one file
 	char path[MAX_PATH];
 	struct fs_file_t file;
 	int base = strlen(base_path);
@@ -110,7 +136,21 @@ static const char *disk_mount_pt = DISK_MOUNT_PT;
 
 int main(void)
 {
-	/* raw disk i/o */
+	// open disk
+
+	// mount disk (may be optional)
+
+	// add one file
+
+	// write something to that file
+
+	// close that file
+
+	// unmount/close disk
+
+
+
+	/* sample code */
 	do {
 		static const char *disk_pdrv = DISK_DRIVE_NAME;
 		uint64_t memory_size_mb;
@@ -182,7 +222,7 @@ int main(void)
 	return 0;
 }
 
-/* List dir entry by path
+/* SAMPLE CODE: List dir entry by path
  *
  * @param path Absolute path to list
  *

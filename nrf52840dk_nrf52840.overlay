@@ -10,11 +10,11 @@
  * definition.
  */
 
- &spi2 {
+ &spi1 {
     status = "okay";
-    cs-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>; /* Replace with your chip select pin */
+    cs-gpios = <&gpio0 27 GPIO_ACTIVE_LOW>; /* Replace with your chip select pin */
 
-    sdcard: mmc@0 {
+    sdcard: sdhc@0 {
         compatible = "zephyr,mmc-spi-slot";
         reg = <0>;
         label = "SD";
