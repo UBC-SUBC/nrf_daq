@@ -231,6 +231,42 @@ int main(void)
         printk("Resolution set, status byte: %d\n", ret_val[0]);
     }
 
+    const int calibration_samples = 8;
+    int32_t x_offset = 0;
+    int32_t y_offset = 0;
+    int32_t z_offset = 0;
+
+    for (int i = 0; i < calibration_samples; ++i) {
+        uint8_t sm[1] = {SM_REG};
+        ret = i2c_write_read_dt(&dev_i2c, sm, sizeof(sm), ret_val, sizeof(ret_val));
+        if (ret != 0) {
+            printk("Failed to write/read I2C device address %x at Reg. %x \n",
+                dev_i2c.addr, sm[0]);
+            return -1;
+        }
+
+        k_usleep(SLEEP_TIME_US);
+
+        uint8_t read_buf[7];
+        uint8_t read_reg[1] = {RM_REG};
+        ret = i2c_write_read_dt(&dev_i2c, read_reg, sizeof(read_reg), read_buf, sizeof(read_buf));
+        if (ret != 0) {
+			printk("Failed to write/read I2C device address %x at Reg. %x \n",
+			       dev_i2c.addr, read_reg[0]);
+            return -1;
+		}
+
+        x_offset += (int16_t)((read_buf[1] << 8) | read_buf[2]);
+        y_offset += (int16_t)((read_buf[3] << 8) | read_buf[4]);
+        z_offset += (int16_t)((read_buf[5] << 8) | read_buf[6]);
+
+        k_usleep(SLEEP_TIME_US);
+    }
+
+    x_offset /= calibration_samples;
+    y_offset /= calibration_samples;
+    z_offset /= calibration_samples;
+
     while (1) {        
         // single measurement command
         uint8_t sm[1] = {SM_REG};
@@ -253,9 +289,9 @@ int main(void)
 			       dev_i2c.addr, read_reg[0]);
 		}
 
-        int16_t x = (read_buf[1] << 8) | read_buf[2];
-        int16_t y = (read_buf[3] << 8) | read_buf[4];
-        int16_t z = (read_buf[5] << 8) | read_buf[6];
+        int16_t x = ((read_buf[1] << 8) | read_buf[2]) - (int16_t)x_offset;
+        int16_t y = ((read_buf[3] << 8) | read_buf[4]) - (int16_t)y_offset;
+        int16_t z = ((read_buf[5] << 8) | read_buf[6]) - (int16_t)z_offset;
 
         //Print reading to console  
         // printk("Status byte: %d\n", read_buf[0]);
