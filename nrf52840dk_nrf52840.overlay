@@ -24,7 +24,7 @@
 };
 
 &i2c0 {
-    mysensor: mysensor@4a{
+    bme280: bme280@4a{
         compatible = "i2c-device";
         status = "okay";
         reg = < 0x4a >;

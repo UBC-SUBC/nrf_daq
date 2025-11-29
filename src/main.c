@@ -18,6 +18,7 @@
 #include <ff.h>
 
 #include "filesystem/SD_card/disc_operations.h"
+#include "sensors/bme280/bme280.h"
 
  #define SLEEP_TIME_MS 1000
  
@@ -42,8 +43,15 @@ static const char *disk_mount_pt = DISK_MOUNT_PT;
 
 int main(void)
 {
-	int ret;
+	double temperature_c = 0.0;
+	double temperature_f = 0.0;
 
+	if (setup_bme280()) {
+		printk("BME280 setup failed\n");
+		return -1;
+	}
+
+	/* demo code for setting up I2C device
 	static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C_NODE);
 	if (!device_is_ready(dev_i2c.bus)) {
 		printk("I2C bus %s is not ready!\n", dev_i2c.bus->name);
@@ -57,9 +65,19 @@ int main(void)
 			config[0]);
 		return -1;
 	}
+	*/
 
 	while (1) {
-		/* STEP 10 - Read the temperature from the sensor */
+		if (read_temperature_celsius(&temperature_c)) {
+			printk("Failed to read temperature in Celsius\n");
+			return -1;
+		}
+		if (read_temperature_fahrenheit(&temperature_f)) {
+			printk("Failed to read temperature in Fahrenheit\n");
+			return -1;
+		}
+		
+		/* demo code for reading temperature
 		uint8_t temp_reading[2] = {0};
 		uint8_t sensor_regs[2] = {STTS751_TEMP_LOW_REG, STTS751_TEMP_HIGH_REG};
 		ret = i2c_write_read_dt(&dev_i2c, &sensor_regs[0], 1, &temp_reading[0], 1);
@@ -73,7 +91,6 @@ int main(void)
 				dev_i2c.addr, sensor_regs[1]);
 		}
 
-		/* STEP 11 - Convert the two bytes to a 12-bits */
 		int temp = ((int)temp_reading[1] * 256 + ((int)temp_reading[0] & 0xF0)) / 16;
 		if (temp > 2047) {
 			temp -= 4096;
@@ -82,10 +99,11 @@ int main(void)
 		// Convert to engineering units
 		double cTemp = temp * 0.0625;
 		double fTemp = cTemp * 1.8 + 32;
+		*/
 
 		// Print reading to console
-		printk("Temperature in Celsius : %.2f C \n", cTemp);
-		printk("Temperature in Fahrenheit : %.2f F \n", fTemp);
+		printk("Temperature in Celsius : %.2f C \n", temperature_c);
+		printk("Temperature in Fahrenheit : %.2f F \n", temperature_f);
 		k_msleep(SLEEP_TIME_MS);
 	}
 	// ------ file system -------

@@ -9,4 +9,3 @@ project(nrf_daq)
 
 target_sources(app PRIVATE src/main.c)
 zephyr_include_directories(drivers)
-zephyr_include_directories(${ZEPHYR_BASE}/subsys/fs/fat_fs)
