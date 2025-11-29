@@ -19,20 +19,17 @@
 
 #define DISK_MOUNT_PT "/"DISK_DRIVE_NAME":"
 
+#define FS_RET_OK FR_OK
+LOG_MODULE_REGISTER(main);
+
+#define PATH_LENGTH 256
+
 static FATFS fat_fs;
 /* mounting info */
 static struct fs_mount_t mp = {
 	.type = FS_FATFS,
 	.fs_data = &fat_fs,
 };
-
-#define FS_RET_OK FR_OK
-LOG_MODULE_REGISTER(main);
-
-#define PATH_LENGTH 256;
-#define SOME_FILE_NAME "some.dat"
-#define SOME_DIR_NAME "some"
-#define SOME_REQUIRED_LEN MAX(sizeof(SOME_FILE_NAME), sizeof(SOME_DIR_NAME))
 
 static int lsdir(const char *path);
 
@@ -97,18 +94,28 @@ int main(void)
 	static const char *disk_pdrv = DISK_DRIVE_NAME;
 	
 	// open disk
+	if (disk_access_init(disk_pdrv)) {
+		LOG_ERR("Disk init failed");
+		return -1;
+	}
 
+	// mount disk
+	mp.mnt_point = disk_mount_pt;
+	if (fs_mount(&mp)) {
+		LOG_ERR("Error mounting disk");
+		return -1;
+	}
 
-	// mount disk (may be optional)
+	printk("Mounting disk at %s\n", disk_mount_pt);
+
+	// list all files and directories on the SD card
+	lsdir(disk_mount_pt);
 
 	// add one file
 	if (create_new_file("rotation_data.txt", &file) != 0) {
 		LOG_ERR("Failed to create new file");
 		return -1;
 	}
-
-	DISK_MOUNT_PT + "/rotation_data.txt"
-	"/SD:/rotation_data.txt"
 
 	// write something to that file
 	if (add_data_to_file(&file, "Sample data to write", 20) != 0) {
@@ -123,83 +130,20 @@ int main(void)
 		return -1;
 	}
 
-	// unmount/close disk
-
-
-
-	/* sample code */
-	do {
-		static const char *disk_pdrv = DISK_DRIVE_NAME;
-		uint64_t memory_size_mb;
-		uint32_t block_count;
-		uint32_t block_size;
-
-		// if (disk_access_ioctl(disk_pdrv,
-		// 		DISK_IOCTL_CTRL_INIT, NULL) != 0) {
-		// 	LOG_ERR("Storage init ERROR!");
-		// 	break;
-		// }
-
-		if (disk_access_ioctl(disk_pdrv,
-				DISK_IOCTL_GET_SECTOR_COUNT, &block_count)) {
-			LOG_ERR("Unable to get sector count");
-			break;
-		}
-		LOG_INF("Block count %u", block_count);
-
-		if (disk_access_ioctl(disk_pdrv,
-				DISK_IOCTL_GET_SECTOR_SIZE, &block_size)) {
-			LOG_ERR("Unable to get sector size");
-			break;
-		}
-		printk("Sector size %u\n", block_size);
-
-		memory_size_mb = (uint64_t)block_count * block_size;
-		printk("Memory Size(MB) %u\n", (uint32_t)(memory_size_mb >> 20));
-
-		// if (disk_access_ioctl(disk_pdrv,
-		// 		DISK_IOCTL_CTRL_DEINIT, NULL) != 0) {
-		// 	LOG_ERR("Storage deinit ERROR!");
-		// 	break;
-		// }
-	} while (0);
-
-	mp.mnt_point = disk_mount_pt;
-
-	int res = fs_mount(&mp);
-
-	if (res == FS_RET_OK) {
-		printk("Disk mounted.\n");
-		/* Try to unmount and remount the disk */
-		res = fs_unmount(&mp);
-		if (res != FS_RET_OK) {
-			printk("Error unmounting disk\n");
-			return res;
-		}
-		res = fs_mount(&mp);
-		if (res != FS_RET_OK) {
-			printk("Error remounting disk\n");
-			return res;
-		}
-
-		if (lsdir(disk_mount_pt) == 0) {
-			if (create_some_entries(disk_mount_pt)) {
-				lsdir(disk_mount_pt);
-			}
-		}
-	} else {
-		printk("Error mounting disk.\n");
+	// flush data to disk
+	if (disk_access_ioctl(disk_pdrv,
+			DISK_IOCTL_CTRL_SYNC, NULL) != 0) {
+		LOG_ERR("Storage deinit ERROR!");
+		return -1;
 	}
 
+	// unmount/close disk
 	fs_unmount(&mp);
 
-	while (1) {
-		k_sleep(K_MSEC(1000));
-	}
 	return 0;
 }
 
-/* SAMPLE CODE: List dir entry by path
+/* List dir entry by path
  *
  * @param path Absolute path to list
  *
