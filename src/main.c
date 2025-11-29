@@ -42,21 +42,26 @@ static int create_new_file(const char *base_path, struct fs_file_t* file)
 {
 	// definitions
 	char path_buffer[PATH_LENGTH];
-	struct fs_file_t file; // not sure 
 	int base_length = strlen(base_path);
+	int sdLength = strlen (DISK_MOUNT_PT);
 	// no check for overflow because assuming we have enough space
+	int overflowCheck = base_length + sdLength; 
 
-	strcpy(path_buffer,base_path);
+	if (overflowCheck > PATH_LENGTH){
+		return 1; 			// 1 indicates that the path is too long
+	}
+	
+	strcpy(path_buffer, DISK_MOUNT_PT);
 
-	path_buffer[base_length] = '/';
-	base_length++;
-	path_buffer[base_length] = 0;
+	path_buffer[sdLength] = '/';
+	sdLength++;
+	path_buffer[sdLength] = 0;
 
-	strcat(&path_buffer[base_length], SOME_FILE_NAME);
+	strcat(&path_buffer[sdLength],base_path);
 
-	fs_file_t_init(&file);
+	fs_file_t_init(file);
 
-	if(fs_open(&file, base_path, FS_O_CREATE) != 0)
+	if(fs_open(file, path_buffer, FS_O_CREATE) != 0)
 	{
 		return -1; 
 	} 
