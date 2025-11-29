@@ -36,10 +36,8 @@ LOG_MODULE_REGISTER(main);
 
 static int lsdir(const char *path);
 
-// write a function to create a file at the base_path
-
-	//implement this function to create one file
-	// return 0 if success, -1 if fail
+//implement this function to create one file
+// return 0 if success, -1 if fail
 static int create_new_file(const char *base_path, struct fs_file_t* file)
 {
 	// definitions
@@ -69,10 +67,6 @@ static int create_new_file(const char *base_path, struct fs_file_t* file)
 // write a function to add some data into the file 
 static int add_data_to_file(struct fs_file_t* file, const char *data, size_t data_len)
 {
-	
-	// implement this function to add data into the file
-	// return 0 if success, -1 if fail
-
 	if (fs_write(file, data, data_len) < 0 ) {
 		return -1;
 	}
@@ -84,53 +78,10 @@ static int add_data_to_file(struct fs_file_t* file, const char *data, size_t dat
 // write a function to close a file 
 static int close_file(struct fs_file_t* file)
 {
-	// implement this function to close the file
-	// return 0 if success, -1 if fail
-
 	if (fs_close(file) != 0) {
 		return -1; 
 	}
 	return 0; 
-}
-
-// sample code to create one file and one directory
-static bool create_some_entries(const char *base_path)
-{
-	// modify this function to create one file
-	char path[MAX_PATH];
-	struct fs_file_t file;
-	int base = strlen(base_path);
-
-	fs_file_t_init(&file);
-
-	if (base >= (sizeof(path) - SOME_REQUIRED_LEN)) {
-		LOG_ERR("Not enough concatenation buffer to create file paths");
-		return false;
-	}
-
-	LOG_INF("Creating some dir entries in %s", base_path);
-	strncpy(path, base_path, sizeof(path));
-
-	path[base++] = '/';
-	path[base] = 0;
-	strcat(&path[base], SOME_FILE_NAME);
-
-	if (fs_open(&file, path, FS_O_CREATE) != 0) {
-		LOG_ERR("Failed to create file %s", path);
-		return false;
-	}
-	fs_close(&file);
-
-	path[base] = 0;
-	strcat(&path[base], SOME_DIR_NAME);
-
-	if (fs_mkdir(path) != 0) {
-		LOG_ERR("Failed to create dir %s", path);
-		/* If code gets here, it has at least successes to create the
-		 * file so allow function to return true.
-		 */
-	}
-	return true;
 }
 
 static const char *disk_mount_pt = DISK_MOUNT_PT;
@@ -138,16 +89,21 @@ static const char *disk_mount_pt = DISK_MOUNT_PT;
 int main(void)
 {
 	struct fs_file_t file;
+	static const char *disk_pdrv = DISK_DRIVE_NAME;
 	
 	// open disk
+
 
 	// mount disk (may be optional)
 
 	// add one file
-	if (create_new_file("SD/new_file.txt", &file) != 0) {
+	if (create_new_file("rotation_data.txt", &file) != 0) {
 		LOG_ERR("Failed to create new file");
 		return -1;
 	}
+
+	DISK_MOUNT_PT + "/rotation_data.txt"
+	"/SD:/rotation_data.txt"
 
 	// write something to that file
 	if (add_data_to_file(&file, "Sample data to write", 20) != 0) {
