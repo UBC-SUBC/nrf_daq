@@ -39,7 +39,7 @@ int read_temperature_celsius(double *temperature) {
     uint32_t calc_val1;
     uint32_t calc_val2; 
     uint32_t temp_read = {0}; 
-    uint8_t sensor_register = BME_I2C_ADDRESS; 
+    uint8_t sensor_register = BME_TEMPDATA; 
 
     int readcheck = i2c_write_read_dt(&i2c_dev, &sensor_register, 3, &temp_read, 3);
 
@@ -55,7 +55,7 @@ int read_temperature_celsius(double *temperature) {
     calc_val2 =(uint32_t)((temp_read/16) - ((uint32_t)BME_DIG_T1*2));
     calc_val2 = (((calc_val2 * calc_val2)/ 4096)* ((uint32_t)BME_DIG_T3)) / 16384; 
 
-    uint32_t throwaway = calc_val1 + calc_val2;
+    uint32_t throwaway = calc_val1 + calc_val2;  // might need to globally define this value for other sensor values 
     uint32_t final_temp = (float)((throwaway * 5 +128)/256);
 
     *temperature = final_temp; 
@@ -84,10 +84,40 @@ int read_temperature_fahrenheit(double *temperature) {
  */
 int read_humidity(double *humidity) {
     // finish reading humidity from BME280 over I2C
+    uint32_t var1, var2, var3, var4, var5;  
+    uint16_t humid_read = {0}; 
+    uint8_t sensor_register = BME_HUMIDDATA; 
 
-    *humidity = 10000.0; // placeholder value
+    int readcheck = i2c_write_read_dt(&i2c_dev, &sensor_register, 2, &humid_read, 2);
+
+    if (readcheck != 0) {
+        printk("Humidity unsuccessfully read");
+        return -1;
+    }
+  
+    // might not need - this is humidity calibration for sensor
+
+    var1 = 1; // would normally be var1 = throwaway - ((uint32_t)76800);
+    var2 = (int32_t)(humid_read * 16384);
+    var3 = (int32_t)(((int32_t)BME_DIG_H4) * 1048576);
+    var4 = ((int32_t)BME_DIG_H5) * var1;
+    var5 = (((var2 - var3) - var4) + (int32_t)16384) / 32768;
+    var2 = (var1 * ((int32_t)BME_DIG_H6)) / 1024;
+    var3 = (var1 * ((int32_t)BME_DIG_H3)) / 2048;
+    var4 = ((var2 * (var3 + (int32_t)32768)) / 1024) + (int32_t)2097152;
+    var2 = ((var4 * ((int32_t)BME_DIG_H2)) + 8192) / 16384;
+    var3 = var5 * var2;
+    var4 = ((var3 / 32768) * (var3 / 32768)) / 128;
+    var5 = var3 - ((var4 * ((int32_t)BME_DIG_H1)) / 16);
+    var5 = (var5 < 0 ? 0 : var5);
+    var5 = (var5 > 419430400 ? 419430400 : var5);
+    uint32_t placeholder = (uint32_t)(var5 / 4096);
+
+    uint32_t tempval = placeholder / 1024.0;
+
+    *humidity = tempval // placeholder value
     return 0;
-}
+    }
 
 int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data) {
     int written = snprintf(output_buffer, buffer_size,

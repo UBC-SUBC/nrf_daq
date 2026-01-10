@@ -1,8 +1,18 @@
 #define BME_CONFIG_ADDRESS 0xF5
 #define BME_I2C_ADDRESS 0x77
+#define BME_PRESSUREDATA = 0xF7
+#define BME_TEMPDATA = 0xFA
+#define BME_HUMIDDATA = 0xFD
 #define BME_DIG_T1 0x88
 #define BME_DIG_T2 0x8A
 #define BME_DIG_T3 0x8C
+#define BME_DIG_H1 = 0xA1
+#define BME_DIG_H2 = 0xE1
+#define BME_DIG_H3 = 0xE3
+#define BME_DIG_H4 = 0xE4
+#define BME_DIG_H5 = 0xE5
+#define BME_DIG_H6 = 0xE7
+
 
 typedef struct bme280_data {
     time_t time;
