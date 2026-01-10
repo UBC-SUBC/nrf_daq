@@ -36,7 +36,7 @@ static struct fs_mount_t mp = {
 	.fs_data = &fat_fs,
 };
 
-#ifndef DEBUG_MODE
+#if !DEBUG_MODE
 static const char *disk_mount_pt = DISK_MOUNT_PT;
 #endif
 
@@ -116,7 +116,7 @@ int main(void)
 			return -1;
 		}
 
-	#ifdef DEBUG_MODE
+	#if DEBUG_MODE
 		printk("%s\n", print_buffer);
 	#else
 		// write something to that file
@@ -129,7 +129,7 @@ int main(void)
 		k_msleep(SLEEP_TIME_MS);
 	}
 
-#ifndef DEBUG_MODE
+#if !DEBUG_MODE
 	// close that file
 	if (close_file(&file) != 0) {
 		LOG_ERR("Failed to close file");

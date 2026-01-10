@@ -4,25 +4,22 @@
 
 #include "bme280.h"
 
-#define I2C_NODE                      DT_NODELABEL(i2c0)
-static const struct device *i2c_dev = DEVICE_DT_GET(I2C_NODE);
+#define I2C0_NODE DT_NODELABEL(bme280)
+static const struct i2c_dt_spec i2c_dev = I2C_DT_SPEC_GET(I2C0_NODE);
 
-// TODO: Complete the BME280 setup function
 int setup_bme280() {
-    if(!device_is_ready(i2c_dev)) {
+    if(!device_is_ready(i2c_dev.bus)) {
         printk("I2C device not ready\n");
         return 1;
     }
-
-    // finish the init setups for the BME280
 
     uint8_t config[2] = {BME_CONFIG_ADDRESS, 0x48};
 
     int return_val = i2c_write_dt(&i2c_dev, config, sizeof(config));
     
     if (return_val != 0){
-        printk ("BME not connected")
-        return -1
+        printk ("BME not connected");
+        return -1;
     }
     else {
     printk("BME280 setup complete\n");

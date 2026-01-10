@@ -24,10 +24,12 @@
 };
 
 &i2c0 {
-    bme280: bme280@4a{
+    status = "okay";
+    
+    bme280: bme280@77{
         compatible = "i2c-device";
         status = "okay";
-        reg = < 0x4a >;
+        reg = < 0x77 >;
     };
 };
 
