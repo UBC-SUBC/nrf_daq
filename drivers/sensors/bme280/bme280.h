@@ -4,6 +4,12 @@
 #define BME_DIG_T2 0x8A
 #define BME_DIG_T3 0x8C
 
+typedef struct bme280_data {
+    time_t time;
+    double temperature_c;
+    double temperature_f;
+    double humidity;
+} bme280_data;
 
 /**
  * TODO: Complete the BME280 setup function
@@ -28,4 +34,21 @@ int read_temperature_celsius(double *temperature);
  */
 int read_temperature_fahrenheit(double *temperature);
 
+/**
+ * TODO: Complete the BME280 humidity reading function
+ * 
+ * @param humidity Pointer to store the read humidity
+ * @returns 0 on success, non-zero error code on failure
+ */
+int read_humidity(double *humidity);
 
+/**
+ * Format BME280 data into a JSON string
+ * 
+ * @param output_buffer Buffer to store the formatted string
+ * @param buffer_size Size of the output buffer
+ * @param data Pointer to bme280_data structure containing the data to format
+ * 
+ * @returns 0 on success, -1 on failure (e.g., buffer too small)
+ */
+int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data);

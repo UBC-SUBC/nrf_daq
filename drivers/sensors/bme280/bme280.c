@@ -2,7 +2,9 @@
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/i2c.h>
 
-#define I2C_NODE                DT_NODELABEL(i2c0)
+#include "bme280.h"
+
+#define I2C_NODE                      DT_NODELABEL(i2c0)
 static const struct device *i2c_dev = DEVICE_DT_GET(I2C_NODE);
 
 // TODO: Complete the BME280 setup function
@@ -77,5 +79,27 @@ int read_temperature_fahrenheit(double *temperature) {
         return -1;
     }
     *temperature = celsius * 1.8 + 32;
+    return 0;
+}
+
+/** 
+ * TODO: Complete the BME280 humidity reading function
+ */
+int read_humidity(double *humidity) {
+    // finish reading humidity from BME280 over I2C
+
+    *humidity = 10000.0; // placeholder value
+    return 0;
+}
+
+int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data) {
+    int written = snprintf(output_buffer, buffer_size,
+                        "{\"t\" :%.2lld,\"sensor\":\"temp_humid\",\"temp_c\":%.2f,\"humid\":%.2f}\n",
+                            data->time,
+                            data->temperature_c, data->humidity);
+
+    if (written < 0 || (size_t)written >= buffer_size) {
+        return -1;
+    }
     return 0;
 }

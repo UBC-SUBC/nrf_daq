@@ -2,39 +2,55 @@
 #include <zephyr/device.h>
 #include <zephyr/storage/disk_access.h>
 #include <zephyr/fs/fs.h>
+#include <time.h>
 
 #include "disc_operations.h"
 
-int create_new_file(const char *base_path, struct fs_file_t* file)
+int create_new_file(const char *base_path, struct fs_file_t* file, struct tm* t)
 {
+	if (base_path == NULL || file == NULL) {
+		return -1; // error, invalid arguments
+	}
+	
 	// definitions
 	char path_buffer[PATH_LENGTH];
 	int base_length = strlen(base_path);
-	int sdLength = strlen (DISK_MOUNT_PT);
-	// no check for overflow because assuming we have enough space
-	int overflowCheck = base_length + sdLength; 
+	int sd_length = strlen(DISK_MOUNT_PT);
 
-	if (overflowCheck > PATH_LENGTH){
-		return 1; 			// 1 indicates that the path is too long
+	if (base_length + sd_length + 20 > PATH_LENGTH) { // Adjusted for date and separator
+		return 1; 			// error, 1 indicates that the path is too long
 	}
-	
+
 	strcpy(path_buffer, DISK_MOUNT_PT);
 
-	path_buffer[sdLength] = '/';
-	sdLength++;
-	path_buffer[sdLength] = 0;
+	path_buffer[sd_length] = '/';
+	path_buffer[sd_length + 1] = '\0';
 
-	strcat(&path_buffer[sdLength],base_path);
+	strncat(path_buffer, base_path, PATH_LENGTH - strlen(path_buffer) - 1);
+
+	// Extract the filename from base_path
+	const char *filename = strrchr(base_path, '/');
+	if (filename) {
+		filename++; // Move past the last '/'
+	} else {
+		filename = base_path; // No '/' found, use the entire base_path
+	}
+
+	int path_buffer_length = strlen(path_buffer);
+
+	if (t == NULL) {
+		snprintf(&path_buffer[path_buffer_length], PATH_LENGTH - path_buffer_length, "/%s", filename);
+	} else {
+		snprintf(&path_buffer[path_buffer_length], PATH_LENGTH - path_buffer_length, "/%04d-%02d-%02d-%s",
+			 t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, filename);
+	}
 
 	fs_file_t_init(file);
 
-	if(fs_open(file, path_buffer, FS_O_CREATE) != 0)
-	{
+	if (fs_open(file, path_buffer, FS_O_CREATE) != 0) {
 		return -1; 
 	} 
-	else {
-		return 0; 
-	}
+	return 0; 
 }
 
 int add_data_to_file(struct fs_file_t* file, const char *data, size_t data_len)
