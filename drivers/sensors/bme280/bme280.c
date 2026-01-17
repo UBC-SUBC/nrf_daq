@@ -2,6 +2,7 @@
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/sys/printk.h>
+#include <stdio.h>
 
 #include "bme280.h"
 
@@ -131,3 +132,14 @@ int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data) {
     }
     return 0;
 }
+
+int bme280_print_to_console(bme280_data* data) {
+    char buf[128]; // buf to hold data 
+    if (bme280_print(buf, sizeof(buf), data) != 0) {
+        return -1; // checks if buf fits 
+    }
+    printk("%s", buf);
+    return 0;
+}
+
+
