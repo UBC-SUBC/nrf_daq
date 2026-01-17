@@ -1,6 +1,7 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/i2c.h>
+#include <zephyr/sys/printk.h>
 
 #include "bme280.h"
 
@@ -115,7 +116,7 @@ int read_humidity(double *humidity) {
 
     uint32_t tempval = placeholder / 1024.0;
 
-    *humidity = tempval // placeholder value
+    *humidity = tempval; // placeholder value
     return 0;
     }
 
