@@ -25,8 +25,25 @@ int setup_bme280() {
     }
     else {
     printk("BME280 setup complete\n");
-        return 0;
     }
+
+    uint8_t sensor_id = BME_ID_ADDRESS; 
+    uint8_t ret_id; 
+
+    int ret = i2c_write_read_dt(&i2c_dev, &sensor_id, 1, &ret_id,1);
+
+    if (ret != 0) {
+        printk("Sensor ID Pull Unsuccessful"); 
+        return -1; 
+    }
+    else if (ret_id == BME_ID) {
+        printk("Successfully Pulled Sensor ID - ID: 0x%x\n", &ret_id);
+    }
+    else {
+        printk("Incorrect Sensor ID Pulled - ID: 0x%x\n", &ret_id);
+        return -1;
+    }
+    return 0;
 }
 
 /**
@@ -40,21 +57,23 @@ int read_temperature_celsius(double *temperature) {
     // finish reading temperature from BME280 over I2C
     uint32_t calc_val1;
     uint32_t calc_val2; 
-    uint32_t temp_read = {0}; 
+    uint8_t temp_read[3] = {0}; 
     uint8_t sensor_register = BME_TEMPDATA; 
 
-    int readcheck = i2c_write_read_dt(&i2c_dev, &sensor_register, 3, &temp_read, 3);
+    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_I2C_ADDRESS, BME_TEMPDATA,temp_read,3);
 
     if (readcheck != 0) {
         printk("Temperature unsuccessfully read");
         return -1;
     }
+    uint32_t temp_buff = 0;
 
-    temp_read = temp_read >> 4; 
+    temp_buff = (temp_read [0] << 12 | temp_read [1] << 4 | temp_read [2] >> 4);
+     
 
-    calc_val1 =(uint32_t)((temp_read/8) - ((uint32_t)BME_DIG_T1*2));
+    calc_val1 =(uint32_t)((temp_buff/8) - ((uint32_t)BME_DIG_T1*2));
     calc_val1 = (calc_val1 * ((uint32_t)BME_DIG_T2))/ 2048;
-    calc_val2 =(uint32_t)((temp_read/16) - ((uint32_t)BME_DIG_T1*2));
+    calc_val2 =(uint32_t)((temp_buff/16) - ((uint32_t)BME_DIG_T1*2));
     calc_val2 = (((calc_val2 * calc_val2)/ 4096)* ((uint32_t)BME_DIG_T3)) / 16384; 
 
     uint32_t throwaway = calc_val1 + calc_val2;  // might need to globally define this value for other sensor values 
@@ -63,6 +82,7 @@ int read_temperature_celsius(double *temperature) {
     *temperature = final_temp; 
     return 0; 
 }
+
 
 /**
  * read temperature in Fahrenheit
@@ -87,20 +107,24 @@ int read_temperature_fahrenheit(double *temperature) {
 int read_humidity(double *humidity) {
     // finish reading humidity from BME280 over I2C
     uint32_t var1, var2, var3, var4, var5;  
-    uint16_t humid_read = {0}; 
+    uint8_t humid_read[2] = {0}; 
     uint8_t sensor_register = BME_HUMIDDATA; 
 
-    int readcheck = i2c_write_read_dt(&i2c_dev, &sensor_register, 2, &humid_read, 2);
+    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_I2C_ADDRESS, BME_TEMPDATA, humid_read, 2);
 
     if (readcheck != 0) {
         printk("Humidity unsuccessfully read");
         return -1;
     }
-  
+
+    uint16_t humid_buff = 0;
+
+    humid_buff = (humid_read[0] << 8 | humid_read[1]); 
+    
     // might not need - this is humidity calibration for sensor
 
     var1 = 1; // would normally be var1 = throwaway - ((uint32_t)76800);
-    var2 = (int32_t)(humid_read * 16384);
+    var2 = (int32_t)(humid_buff * 16384);
     var3 = (int32_t)(((int32_t)BME_DIG_H4) * 1048576);
     var4 = ((int32_t)BME_DIG_H5) * var1;
     var5 = (((var2 - var3) - var4) + (int32_t)16384) / 32768;

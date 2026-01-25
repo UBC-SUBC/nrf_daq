@@ -21,7 +21,7 @@
 #include "filesystem/SD_card/disc_operations.h"
 #include "sensors/bme280/bme280.h"
 
-#define DEBUG_MODE 0
+#define DEBUG_MODE 1
 
 #define SLEEP_TIME_MS 1000
 #define PRINT_BUFFER_SIZE 128
