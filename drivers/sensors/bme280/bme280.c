@@ -45,6 +45,29 @@ int setup_bme280() {
     }
     return 0;
 }
+ /** 
+ * @param raw_temp - raw temperature reading
+ * 
+ * @returns corrected temperature 
+*/
+
+static double correct_temp (int raw_temp) {
+    uint32_t calc_val1;
+    uint32_t calc_val2;
+
+    calc_val1 =(uint32_t)((raw_temp/8) - ((uint32_t)BME_DIG_T1*2));
+    calc_val1 = (calc_val1 * ((uint32_t)BME_DIG_T2))/ 2048;
+    calc_val2 =(uint32_t)((raw_temp/16) - ((uint32_t)BME_DIG_T1*2));
+    calc_val2 = (((calc_val2 * calc_val2)/ 4096)* ((uint32_t)BME_DIG_T3)) / 16384; 
+
+    uint32_t throwaway = calc_val1 + calc_val2;   
+    uint32_t final_temp = (float)((throwaway * 5 + 128)/256);
+
+    double corrected_temp = (double)final_temp; 
+
+    return corrected_temp;
+
+}
 
 /**
  * TODO: Complete the BME280 temperature reading function
@@ -55,12 +78,10 @@ int setup_bme280() {
  */
 int read_temperature_celsius(double *temperature) {
     // finish reading temperature from BME280 over I2C
-    uint32_t calc_val1;
-    uint32_t calc_val2; 
     uint8_t temp_read[3] = {0}; 
     uint8_t sensor_register = BME_TEMPDATA; 
 
-    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_I2C_ADDRESS, BME_TEMPDATA,temp_read,3);
+    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_TEMPDATA,temp_read,3);
 
     if (readcheck != 0) {
         printk("Temperature unsuccessfully read");
@@ -68,18 +89,10 @@ int read_temperature_celsius(double *temperature) {
     }
     uint32_t temp_buff = 0;
 
-    temp_buff = (temp_read [0] << 12 | temp_read [1] << 4 | temp_read [2] >> 4);
+    temp_buff = ((uint32_t)temp_read [0] << 12 | (uint32_t)temp_read [1] << 4 | (uint32_t)temp_read [2] >> 4);
      
+    *temperature = correct_temp(temp_buff);
 
-    calc_val1 =(uint32_t)((temp_buff/8) - ((uint32_t)BME_DIG_T1*2));
-    calc_val1 = (calc_val1 * ((uint32_t)BME_DIG_T2))/ 2048;
-    calc_val2 =(uint32_t)((temp_buff/16) - ((uint32_t)BME_DIG_T1*2));
-    calc_val2 = (((calc_val2 * calc_val2)/ 4096)* ((uint32_t)BME_DIG_T3)) / 16384; 
-
-    uint32_t throwaway = calc_val1 + calc_val2;  // might need to globally define this value for other sensor values 
-    uint32_t final_temp = (float)((throwaway * 5 +128)/256);
-
-    *temperature = final_temp; 
     return 0; 
 }
 
@@ -101,27 +114,18 @@ int read_temperature_fahrenheit(double *temperature) {
     return 0;
 }
 
-/** 
- * TODO: Complete the BME280 humidity reading function
+
+/**
+ * Corrects humidity readings with calibration registers 
+ * 
+ * @param humid_buff Stores the humidity data
+ * 
+ * @returns Corrected humidity data according to calibration registers
  */
-int read_humidity(double *humidity) {
-    // finish reading humidity from BME280 over I2C
-    uint32_t var1, var2, var3, var4, var5;  
-    uint8_t humid_read[2] = {0}; 
-    uint8_t sensor_register = BME_HUMIDDATA; 
+static double correct_humid (int humid_buff) {
+    uint32_t var1, var2, var3, var4, var5; 
 
-    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_I2C_ADDRESS, BME_TEMPDATA, humid_read, 2);
-
-    if (readcheck != 0) {
-        printk("Humidity unsuccessfully read");
-        return -1;
-    }
-
-    uint16_t humid_buff = 0;
-
-    humid_buff = (humid_read[0] << 8 | humid_read[1]); 
-    
-    // might not need - this is humidity calibration for sensor
+      // might not need - this is humidity calibration for sensor
 
     var1 = 1; // would normally be var1 = throwaway - ((uint32_t)76800);
     var2 = (int32_t)(humid_buff * 16384);
@@ -141,9 +145,36 @@ int read_humidity(double *humidity) {
 
     uint32_t tempval = placeholder / 1024.0;
 
-    *humidity = tempval; // placeholder value
+    double corrected_humid = (double)tempval; 
+
+    return corrected_humid; 
+} 
+
+
+/** 
+ * TODO: Complete the BME280 humidity reading function
+ */
+int read_humidity(double *humidity) {
+    // finish reading humidity from BME280 over I2C 
+    uint8_t humid_read[2] = {0}; 
+    uint8_t sensor_register = BME_HUMIDDATA; 
+
+    int readcheck = i2c_burst_read_dt(&i2c_dev, BME_HUMIDDATA, humid_read, 2);
+
+    if (readcheck != 0) {
+        printk("Humidity unsuccessfully read");
+        return -1;
+    }
+
+    uint16_t humid_buff = 0;
+
+    humid_buff = (humid_read[0] << 8 | humid_read[1]); 
+  
+    *humidity = correct_humid(humid_buff); // calls the humidity reading adjustment 
+
     return 0;
     }
+
 
 int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data) {
     int written = snprintf(output_buffer, buffer_size,
@@ -157,6 +188,8 @@ int bme280_print(char* output_buffer, size_t buffer_size, bme280_data* data) {
     return 0;
 }
 
+
+// print fcn but not sure if needed 
 int bme280_print_to_console(bme280_data* data) {
     char buf[128]; // buf to hold data 
     if (bme280_print(buf, sizeof(buf), data) != 0) {
