@@ -46,28 +46,71 @@ int setup_bme280() {
     return 0;
 }
  /** 
- * @param raw_temp - raw temperature reading
+ * @param temp_calib_data Ptr to a struct that will contain the temp calib data
  * 
- * @returns corrected temperature 
+ * @returns struct containing calib data from regs
 */
 
-static double correct_temp (int raw_temp) {
-    uint32_t calc_val1;
-    uint32_t calc_val2;
+void temp_calib_data_reg (struct temp_calib_data *ptr) {
+    uint8_t calib_val[6]; 
 
-    calc_val1 =(uint32_t)((raw_temp/8) - ((uint32_t)BME_DIG_T1*2));
-    calc_val1 = (calc_val1 * ((uint32_t)BME_DIG_T2))/ 2048;
-    calc_val2 =(uint32_t)((raw_temp/16) - ((uint32_t)BME_DIG_T1*2));
-    calc_val2 = (((calc_val2 * calc_val2)/ 4096)* ((uint32_t)BME_DIG_T3)) / 16384; 
+    int ret = i2c_burst_read_dt(&i2c_dev, BME_TEMP_CALIB_REG, calib_val, 6);
 
-    uint32_t throwaway = calc_val1 + calc_val2;   
-    uint32_t final_temp = (float)((throwaway * 5 + 128)/256);
+    if (ret != 0) {
+		printk("Failed to retrieve calibration data");
+		return;
+	}
 
-    double corrected_temp = (double)final_temp; 
-
-    return corrected_temp;
+	ptr->dig_t1 = ((uint16_t)calib_val[1]) << 8 | calib_val[0];
+	ptr->dig_t2 = ((uint16_t)calib_val[3]) << 8 | calib_val[2];
+	ptr->dig_t3 = ((uint16_t)calib_val[5]) << 8 | calib_val[4];
 
 }
+
+ /** 
+ * @param humid_calib_data Ptr to a struct that will contain the humid calib data
+ * 
+ * @returns struct containing calib data from regs
+*/
+void humid_calib_data_reg (struct humid_calib_data *ptr) {
+    uint8_t val_h1; 
+
+    int ret1 = i2c_burst_read_dt(&i2c_dev,BME_HUMID_CALIB_REG, val_h1,1);
+
+    ptr->dig_h1 = val_h1;  
+
+    uint8_t vals_hx[7]; 
+
+    int ret2 = i2c_burst_read_dt(&i2c_dev, BME_HUMID_2, vals_hx, 7);
+
+    ptr->dig_h2 = ((uint16_t)vals_hx[0] || (uint16_t)vals_hx[1] << 8 ); 
+    ptr->dig_h3 = vals_hx[2]; 
+    ptr->dig_h4 = ((uint16_t)vals_hx[3] || (uint16_t)vals_hx[4] << 4); 
+    ptr->dig_h5 = ((uint16_t)vals_hx[5] || (uint16_t)vals_hx[6] << 4);
+    ptr->dig_h6 = vals_hx[7]; 
+
+}
+
+/**
+ * 
+ * @param temp_buff Corrects read temperature with calibration data pulled from sensor 
+ * @returns the corrected data to the read temp func
+ */
+ double temp_correction (struct temp_calib_data *data_ptr, uint32_t temp_buff) {
+    int32_t var1;
+    int32_t var2; 
+
+    
+	var1 = (((temp_buff >> 3) - ((int32_t)data_ptr->dig_t1 << 1)) * ((int32_t)data_ptr->dig_t2)) >> 11;
+
+	var2 = (((((temp_buff >> 4) - ((int32_t)data_ptr->dig_t1)) *
+		  ((temp_buff >> 4) - ((int32_t)data_ptr->dig_t1))) >>12) *
+		((int32_t)data_ptr->dig_t3)) >> 14;
+
+    *t_fine = (double)(var1 + var2);
+	return ((var1 + var2) * 5 + 128) >> 8;
+}
+
 
 /**
  * TODO: Complete the BME280 temperature reading function
@@ -78,8 +121,8 @@ static double correct_temp (int raw_temp) {
  */
 int read_temperature_celsius(double *temperature) {
     // finish reading temperature from BME280 over I2C
-    uint8_t temp_read[3] = {0}; 
-    uint8_t sensor_register = BME_TEMPDATA; 
+
+    uint8_t temp_read[3] = {0};
 
     int readcheck = i2c_burst_read_dt(&i2c_dev, BME_TEMPDATA,temp_read,3);
 
@@ -90,8 +133,11 @@ int read_temperature_celsius(double *temperature) {
     uint32_t temp_buff = 0;
 
     temp_buff = ((uint32_t)temp_read [0] << 12 | (uint32_t)temp_read [1] << 4 | (uint32_t)temp_read [2] >> 4);
+    
+    struct temp_calib_data calibdata;
+    temp_calib_data_reg(&calibdata);
      
-    *temperature = correct_temp(temp_buff);
+    *temperature = temp_correction(&calibdata,temp_buff);
 
     return 0; 
 }
@@ -122,42 +168,26 @@ int read_temperature_fahrenheit(double *temperature) {
  * 
  * @returns Corrected humidity data according to calibration registers
  */
-static double correct_humid (int humid_buff) {
-    uint32_t var1, var2, var3, var4, var5; 
+ double humid_correction (struct humid_calib_data *data_ptr,uint16_t humid_buff) {
 
-      // might not need - this is humidity calibration for sensor
+    double h = *t_fine - (double)76800.0;
+    h = (humid_buff - (((double)data_ptr->dig_h4 * 64.0)+ ((double)data_ptr->dig_h5/16384.0)* h))
+    * (((double)data_ptr->dig_h2 * 65536.0)*(1.0 + (((double)data_ptr->dig_h3) / 67108864.0) * h *
+        (1.0 + ((double)data_ptr->dig_h6) / 67108864.0f * h)));
 
-    var1 = 1; // would normally be var1 = throwaway - ((uint32_t)76800);
-    var2 = (int32_t)(humid_buff * 16384);
-    var3 = (int32_t)(((int32_t)BME_DIG_H4) * 1048576);
-    var4 = ((int32_t)BME_DIG_H5) * var1;
-    var5 = (((var2 - var3) - var4) + (int32_t)16384) / 32768;
-    var2 = (var1 * ((int32_t)BME_DIG_H6)) / 1024;
-    var3 = (var1 * ((int32_t)BME_DIG_H3)) / 2048;
-    var4 = ((var2 * (var3 + (int32_t)32768)) / 1024) + (int32_t)2097152;
-    var2 = ((var4 * ((int32_t)BME_DIG_H2)) + 8192) / 16384;
-    var3 = var5 * var2;
-    var4 = ((var3 / 32768) * (var3 / 32768)) / 128;
-    var5 = var3 - ((var4 * ((int32_t)BME_DIG_H1)) / 16);
-    var5 = (var5 < 0 ? 0 : var5);
-    var5 = (var5 > 419430400 ? 419430400 : var5);
-    uint32_t placeholder = (uint32_t)(var5 / 4096);
+    h = h * (1.0 - ((double)data_ptr->dig_h1 * h / 524288.0));
 
-    uint32_t tempval = placeholder / 1024.0;
+    return h; 
 
-    double corrected_humid = (double)tempval; 
-
-    return corrected_humid; 
 } 
-
 
 /** 
  * TODO: Complete the BME280 humidity reading function
  */
 int read_humidity(double *humidity) {
     // finish reading humidity from BME280 over I2C 
+
     uint8_t humid_read[2] = {0}; 
-    uint8_t sensor_register = BME_HUMIDDATA; 
 
     int readcheck = i2c_burst_read_dt(&i2c_dev, BME_HUMIDDATA, humid_read, 2);
 
@@ -168,9 +198,12 @@ int read_humidity(double *humidity) {
 
     uint16_t humid_buff = 0;
 
-    humid_buff = (humid_read[0] << 8 | humid_read[1]); 
+    humid_buff = (humid_read[0] << 8 | humid_read[1]);
+    
+    struct humid_calib_data humiddata;
+    humid_calib_data_reg(&humiddata);
   
-    *humidity = correct_humid(humid_buff); // calls the humidity reading adjustment 
+    *humidity = humid_correction(&humiddata, humid_buff); // calls the humidity reading adjustment 
 
     return 0;
     }
