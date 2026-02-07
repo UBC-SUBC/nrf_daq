@@ -7,6 +7,9 @@
 #include "bme280.h"
 
 #define I2C0_NODE DT_NODELABEL(bme280)
+
+double t_fine = 0.0;
+
 static const struct i2c_dt_spec i2c_dev = I2C_DT_SPEC_GET(I2C0_NODE);
 
 int setup_bme280() {
@@ -107,7 +110,7 @@ void humid_calib_data_reg (struct humid_calib_data *ptr) {
 		  ((temp_buff >> 4) - ((int32_t)data_ptr->dig_t1))) >>12) *
 		((int32_t)data_ptr->dig_t3)) >> 14;
 
-    *t_fine = (double)(var1 + var2);
+    t_fine = (double)(var1 + var2);
 	return ((var1 + var2) * 5 + 128) >> 8;
 }
 
@@ -170,7 +173,7 @@ int read_temperature_fahrenheit(double *temperature) {
  */
  double humid_correction (struct humid_calib_data *data_ptr,uint16_t humid_buff) {
 
-    double h = *t_fine - (double)76800.0;
+    double h = t_fine - (double)76800.0;
     h = (humid_buff - (((double)data_ptr->dig_h4 * 64.0)+ ((double)data_ptr->dig_h5/16384.0)* h))
     * (((double)data_ptr->dig_h2 * 65536.0)*(1.0 + (((double)data_ptr->dig_h3) / 67108864.0) * h *
         (1.0 + ((double)data_ptr->dig_h6) / 67108864.0f * h)));

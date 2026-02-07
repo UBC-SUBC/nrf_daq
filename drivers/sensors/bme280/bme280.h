@@ -9,7 +9,7 @@
 #define BME_ID_ADDRESS 0xD0 
 #define BME_ID 0x60 // correct bme id
 
-extern double* t_fine; 
+ 
 
 typedef struct bme280_data {
     time_t time;
