@@ -8,7 +8,7 @@
 #include <zephyr/sys/byteorder.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/device.h>
-#include <zephyr/drivers/spi.h>
+#include <zephyr/drivers/i2c.h>
 #include <zephyr/drivers/sensor.h>
 #include <time.h>
 
@@ -25,30 +25,13 @@ LOG_MODULE_REGISTER(custom_bme280, CONFIG_SENSOR_LOG_LEVEL);
 int bme280_reg_read(const struct device *dev,
 				  uint8_t reg, uint8_t *data, int size)
 {
-	const struct custom_bme280_config *bus = dev->config;
+	const struct custom_bme280_config *cfg = dev->config;
+	int err;
 
-	uint8_t addr;
-	const struct spi_buf tx_spi_buf 	= {.buf = &addr, .len = 1};
-	const struct spi_buf_set tx_spi_buf_set 	= {.buffers = &tx_spi_buf, .count = 1};
-	struct spi_buf rx_buf[2];
-	const struct spi_buf_set rx_spi_buf_set 	= {.buffers = rx_buf, .count = ARRAY_SIZE(rx_buf)};
-	
-	int i;
-	rx_buf[0].buf = NULL;
-	rx_buf[0].len = 1;
-	rx_buf[1].len = 1;
-
-	for (i = 0; i < size; i++) {
-		int err;
-
-		addr = (reg + i) | 0x80;
-		rx_buf[1].buf = &data[i];
-
-		err = spi_transceive_dt(&bus->spi, &tx_spi_buf_set, &rx_spi_buf_set);
-		if (err) {
-			LOG_DBG("spi_transceivedt() failed, err: %d", err);
-			return err;
-		}
+	err = i2c_burst_read_dt(&cfg->i2c, reg, data, size);
+	if (err) {
+		LOG_DBG("i2c_burst_read_dt() failed, err: %d", err);
+		return err;
 	}
 
 	return 0;
@@ -57,16 +40,12 @@ int bme280_reg_read(const struct device *dev,
 int bme280_reg_write(const struct device *dev, uint8_t reg,
 				   uint8_t value)
 {
+	const struct custom_bme280_config *cfg = dev->config;
 	int err;
-	const struct custom_bme280_config *bus = dev->config;
 
-	uint8_t tx_buf[] = { reg & 0x7F, value};
-	struct spi_buf tx_spi_buf = {.buf = tx_buf, .len = sizeof(tx_buf)};
-	struct spi_buf_set tx_spi_buf_set = {.buffers = &tx_spi_buf, .count = 1};
-	
-	err = spi_write_dt(&bus->spi, &tx_spi_buf_set);
+	err = i2c_reg_write_byte_dt(&cfg->i2c, reg, value);
 	if (err) {
-		LOG_ERR("spi_write_dt() failed, err %d", err);
+		LOG_ERR("i2c_reg_write_byte_dt() failed, err %d", err);
 		return err;
 	}
 	return 0;
@@ -156,9 +135,8 @@ static int custom_bme280_sample_fetch(const struct device *dev,
 {
 	struct custom_bme280_data *data = dev->data;
 
-	uint8_t buf[8];
+	uint8_t buf[NUM_BYTES_ALL_DATA];
 	int32_t adc_press, adc_temp, adc_humidity;
-	int size = 8;
 	int err;
 
 	__ASSERT_NO_MSG(chan == SENSOR_CHAN_ALL);
@@ -168,7 +146,7 @@ static int custom_bme280_sample_fetch(const struct device *dev,
 		return err;
 	}
 
-	err = bme280_reg_read(dev, PRESSMSB, buf, size);
+	err = bme280_reg_read(dev, PRESSMSB, buf, NUM_BYTES_ALL_DATA);
 	if (err < 0) {
 		return err;
 	}
@@ -348,7 +326,7 @@ static int custom_bme280_init(const struct device *dev)
 #define CUSTOM_BME280_DEFINE(inst)												\
 	static struct custom_bme280_data custom_bme280_data_##inst;					\
 	static const struct custom_bme280_config custom_bme280_config_##inst = {	\
-		.spi = SPI_DT_SPEC_INST_GET(inst, SPIOP, 0),							\
+		.i2c = I2C_DT_SPEC_INST_GET(inst),										\
 	};																			\
 																				\
 	DEVICE_DT_INST_DEFINE(inst,													\

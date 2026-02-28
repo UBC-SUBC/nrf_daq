@@ -6,7 +6,7 @@
 #ifndef CUSTOM_BME280_H
 #define CUSTOM_BME280_H
 
-#include <zephyr/drivers/spi.h>
+#include <zephyr/drivers/i2c.h>
 #include <zephyr/drivers/sensor.h>
 #include <time.h>
 
@@ -37,7 +37,7 @@
 #define STATUS_MEASURING 	0x08
 #define STATUS_IM_UPDATE 	0x01
 
-#define SPIOP	SPI_WORD_SET(8) | SPI_TRANSFER_MSB
+#define NUM_BYTES_ALL_DATA. 8
 
 struct custom_bme280_data {
 	/* Compensation parameters */
@@ -72,7 +72,7 @@ struct custom_bme280_data {
 };
 
 struct custom_bme280_config {
-	struct spi_dt_spec spi;
+	struct i2c_dt_spec i2c;
 };
 
 int bme280_print(char *buf, size_t buf_size, time_t time,
