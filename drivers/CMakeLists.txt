@@ -1,0 +1,2 @@
+add_subdirectory_ifdef(CONFIG_FILE_SYSTEM filesystem)
+add_subdirectory_ifdef(CONFIG_SENSOR sensors)
