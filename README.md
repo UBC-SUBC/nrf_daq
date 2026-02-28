@@ -1,34 +1,27 @@
-This is the base repository for the firmware for the various sensors in the electrical system.
+# IMU-Driver and LED System
+### Overview
+Functions for the led strip exist in drivers/led/ws2812/*
 
-## Overview
+Functions for the BNO055 exist in drivers/sensor/bno055/*
 
-The sensors inside the enclosures are:
-- BNO055 IMU (I2C)
-- BME280: Temperature Sensor (I2C)
+To use the led strip, run `setup_led()` after including `led/ws2812/led_driver.h`
 
-The sensors that route to outside the enclosures are:
-- MLX90393-SLQ-ABA-011-RE Hall Effect Sensor (both SPI and I2C possible)
-- [Depth Sensor](https://bluerobotics.com/store/sensors-cameras/sensors/bar30-sensor-r1/)
+To use the BNO055, run `setup_bno055()` after including `sensor/bno055/bno055.h`. This will also calibrate the sensor. 
 
-Other things that interact with the nrf52840dk dev board
-- WS2812B LED strip
-- Switch to turn the power on and off
+`main` contains some sample code to run LEDs and BNO055 integrated together.
 
-## Repository Setup Information
-Each branch of the repository corresponds to a firmware project that is not yet completed. Please refer to the other branches for more detailed documentation. Open a pull-request for a branch to merge into main once the sub-project is complete. Here are the current branches:
-- main: Current functioning code. Once a sub-project is completed, it is merged into this branch. This holds the code that will be ultimately run during competition. 
-- LED_template: This branch contains a template for interfacing with the WS2812 LEDs. 
-- hall-effect-i2c: This branch contains the code for the hall-effect sensor. Since the primary MCU must communicate with the hall effect MCU (see below), this also has the code that must be run on the HF-MCU for communication. 
-- imu-driver: This branch contains the code relating to the IMU. The IMU displays its data using the LEDs, so the code for interfacing with the LEDs also lives on this branch. 
-- SD-card: This branch contains the code for saving data to an SD card. Since it needs data to store, it also has the interface for the temperature sensor. 
-- depth-sensor: This branch is for configuring the depth-sensor.
-- flash-MCU: This branch is for flashing the code of a second MCU using the first one. 
+For background on communication protocols, please refer to these resources:
+- [PROTOCOLS: UART - I2C - SPI - Serial communications #001](https://youtu.be/IyGwvGzrqp8?si=7uvTlQ6fvSE429jO)
+- [Communication protocol in Embedded System | Synchronous & Asynchronous communication](https://youtu.be/bdgCFkc_RXY?si=EliNk__MKra6Cj4J)
 
-## PCB Information
-There are two boards, named Power Board and Control Board. The Power Board draws power from two inputs: USB-A is used to power the microcontroller and sensors, USB-C is used to power the LED lights. The microcontroller and all sensors run on 3.3V. The LED runs on 5V. There is a linear regulator to step the 3.3V up to 5V between the LED and the microcontroller.
 
-### Hall Effect Sensor
-The Hall Effect Sensor board has a microcontroller connected to a MLX90393-SLQ-ABA-011-RE. The microcontroller on the Hall Effect Sensor board communicates with the hall effect sensor using I2C. It can also be configured to use SPI. The two microcontrollers facilitate communication between the Hall Effect Sensor board and the Control Board using differential UART. Here are some resources:
-- [Nordic Semiconductor UART documentation](https://docs.nordicsemi.com/bundle/ps_nrf52840/page/uart.html)
-- [Differential I2C documentation](https://hackaday.com/2017/03/31/an-introduction-to-differential-i²c/)
-- [This is the differential IC we are using](https://www.ti.com/product/SN65LVDS9638/part-details/SN65LVDS9638D)
+### Implementation Details
+The LEDs need 5V as input, but the nRF only outputs signals at 3.3V. Thus, we need a logic level converter. We currently have three logic converters, here are the notes for each:
+- [AK-LVLSHF-TXB-BB](https://www.digikey.ca/en/products/detail/artekit-labs/AK-LVLSHF-TXB-BB/26606451)
+- [TXS01018E 8CHANNEL LEVEL SHIFTER](https://www.digikey.ca/en/products/detail/sparkfun-electronics/19626/16570915)
+- [STEMMA QT 3V TO 5V LEVEL BOOSTER](https://www.digikey.ca/en/products/detail/adafruit-industries-llc/5649/21283813?gclsrc=aw.ds&gad_source=1&gad_campaignid=20282404290&gbraid=0AAAAADrbLlg67z9-GvU_XGVB5ICFdALgx&gclid=Cj0KCQjw9czHBhCyARIsAFZlN8T_QAdYrXcRdhyFg7OYP3w6DAT9MsOGJQKRwBI2ConwPr-M8gSmfjMaAiTmEALw_wcB): This level shifter is used exclusively for stepping up i2c logic. The LEDs do not use i2c to communicate, instead they use a variation of SPI so we do not use this level shifter.
+
+
+### Wiring Diagram
+This diagram shows how to wire the LED strip, BNO055 and nRF52840dk together.
+![Alt text](./images/IMU-LED%20connection.svg)

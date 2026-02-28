@@ -1,0 +1,63 @@
+#include <zephyr/dt-bindings/led/led.h>
+
+#include "nrf52-bindings.h"
+
+&spi1 {
+    compatible = "nordic,nrf-spim";
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+
+        /* SPI */
+        reg = <0>; /* ignored, but necessary for SPI bindings */
+        spi-max-frequency = <SPI_FREQ>;
+
+        /* WS2812 */
+        chain-length = <60>; /* arbitrary; change at will */
+        color-mapping = <LED_COLOR_ID_GREEN
+                 LED_COLOR_ID_RED
+                 LED_COLOR_ID_BLUE>;
+        spi-one-frame = <ONE_FRAME>;
+        spi-zero-frame = <ZERO_FRAME>;
+    };
+};
+&spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 31)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 29)>,
+                <NRF_PSEL(SPIM_MISO, 0, 2)>;
+        };
+    };
+&spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 31)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 29)>,
+                <NRF_PSEL(SPIM_MISO, 0, 2)>;
+            low-power-enable;
+        };
+    };
+
+/ {
+    aliases {
+        led-strip = &led_strip;
+    };
+};
+
+&i2c0 {
+    status ="ok";
+    clock-frequency = <I2C_BITRATE_FAST>;
+
+    bno055@28 {
+		status = "okay";
+		compatible = "bosch,bno055";
+		reg = <0x28>;
+		model = "bno055";
+
+	};
+
+};
+
+
+&uart0 {
+	status = "okay";
+	hw-flow-control;
+};
