@@ -9,17 +9,13 @@
 /* Sample which uses the filesystem API and SDHC driver */
 
 #include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/devicetree.h>
-#include <zephyr/storage/disk_access.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/fs/fs.h>
-#include <zephyr/drivers/i2c.h>
 #include <ff.h>
 #include <time.h>
 
 #include "filesystem/SD_card/disc_operations.h"
-#include "sensors/bme280/bme280.h"
 
 #define DEBUG_MODE 1
 
@@ -28,6 +24,7 @@
 
 LOG_MODULE_REGISTER(main);
 
+#if !DEBUG_MODE
 static FATFS fat_fs;
 
 /* mounting info */
@@ -36,12 +33,52 @@ static struct fs_mount_t mp = {
 	.fs_data = &fat_fs,
 };
 
-#if !DEBUG_MODE
 static const char *disk_mount_pt = DISK_MOUNT_PT;
 #endif
 
+const struct device * dev = DEVICE_DT_GET(DT_NODELABEL(bme280));
+
 int main(void)
 {
+	int err = 0;
+	struct sensor_value temp_val, press_val, hum_val;
+
+	err = device_is_ready(dev);
+	if (!err) {
+		LOG_INF("Error: SPI device is not ready, err: %d", err);
+		return 0;
+	}
+
+	while (1) {
+		/* STEP 17.2 - Continuously read out sensor data using the sensor API calls */
+		err = sensor_sample_fetch(dev);
+		if (err < 0) {
+			LOG_ERR("Could not fetch sample (%d)", err);
+			return 0;
+		}
+
+		if (sensor_channel_get(dev, SENSOR_CHAN_AMBIENT_TEMP, &temp_val)) {
+			LOG_ERR("Could not get sample");
+			return 0;
+		}
+		
+		if (sensor_channel_get(dev, SENSOR_CHAN_PRESS, &press_val)) {
+			LOG_ERR("Could not get sample");
+			return 0;
+		}
+	
+		if (sensor_channel_get(dev, SENSOR_CHAN_HUMIDITY, &hum_val)) {
+			LOG_ERR("Could not get sample");
+			return 0;
+		}
+
+		LOG_INF("Compensated temperature value: %d", temp_val.val1);
+		LOG_INF("Compensated pressure value: %d", press_val.val1);
+		LOG_INF("Compensated humidity value: %d", hum_val.val1);
+		
+		k_sleep(K_MSEC(1000));
+	}
+/*
 	// temperature
 	bme280_data temperature_data = { 0 };
 	char print_buffer[PRINT_BUFFER_SIZE];
@@ -146,5 +183,6 @@ int main(void)
 	// unmount/close disk
 	fs_unmount(&mp);
 #endif
+*/
 	return 0;
 }
