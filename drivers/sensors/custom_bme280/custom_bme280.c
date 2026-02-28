@@ -10,6 +10,8 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/spi.h>
 #include <zephyr/drivers/sensor.h>
+#include <time.h>
+
 #include "custom_bme280.h"
 
 #define DT_DRV_COMPAT zephyr_custom_bme280
@@ -222,6 +224,19 @@ static int custom_bme280_channel_get(const struct device *dev,
 	}
 
 	return 0;
+}
+
+int bme280_print(char *buf, size_t buf_size, time_t time, struct sensor_value *temperature, struct sensor_value *humidity)
+{
+	int written = snprintf(buf, buf_size,
+                        "{\"t\" :%.2lld,\"sensor\":\"temp_humid\",\"temp_c\":%.2f,\"humid\":%.2f}\n",
+                            time,
+                            temperature->val1 + (temperature->val2 / 1000000.0),
+                            humidity->val1 + (humidity->val2 / 1000000.0));
+	if (written < 0 || (size_t)written >= buf_size) {
+        return -1;
+    }
+    return 0;
 }
 
 static const struct sensor_driver_api custom_bme280_api = {

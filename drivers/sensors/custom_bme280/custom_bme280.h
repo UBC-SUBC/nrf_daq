@@ -8,6 +8,7 @@
 
 #include <zephyr/drivers/spi.h>
 #include <zephyr/drivers/sensor.h>
+#include <time.h>
 
 #define DELAY_REG 		10
 #define DELAY_PARAM		50
@@ -73,5 +74,9 @@ struct custom_bme280_data {
 struct custom_bme280_config {
 	struct spi_dt_spec spi;
 };
+
+int bme280_print(char *buf, size_t buf_size, time_t time,
+		 struct sensor_value *temperature,
+		 struct sensor_value *humidity);
 
 #endif /* CUSTOM_BME280_H */

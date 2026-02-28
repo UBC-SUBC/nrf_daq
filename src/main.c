@@ -16,6 +16,7 @@
 #include <time.h>
 
 #include "filesystem/SD_card/disc_operations.h"
+#include "../drivers/sensors/custom_bme280/custom_bme280.h"
 
 #define DEBUG_MODE 1
 
@@ -42,6 +43,45 @@ int main(void)
 {
 	int err = 0;
 	struct sensor_value temp_val, press_val, hum_val;
+	char print_buffer[PRINT_BUFFER_SIZE];
+
+#if DEBUG_MODE
+	LOG_INF("Debug mode enabled. Logging to file");
+#else
+	struct fs_file_t file;
+	static const char *disk_pdrv = DISK_DRIVE_NAME;
+
+	// open disk
+	if (disk_access_init(disk_pdrv)) {
+		LOG_ERR("Disk init failed");
+		return -1;
+	}
+
+	// mount disk
+	mp.mnt_point = disk_mount_pt;
+	if (fs_mount(&mp)) {
+		LOG_ERR("Error mounting disk");
+		return -1;
+	}
+
+	printk("Mounting disk at %s\n", disk_mount_pt);
+
+	// list all files and directories on the SD card
+	lsdir(disk_mount_pt);
+
+	// Get today's date
+	time_t now = time(NULL);
+	struct tm *t = localtime(&now);
+	if (t == NULL) {
+		LOG_ERR("Failed to get local time");
+		return -1;
+	}
+
+	if (create_new_file("data.txt", &file, t) != 0) {
+		LOG_ERR("Failed to create new file");
+		return -1;
+	}
+#endif
 
 	err = device_is_ready(dev);
 	if (!err) {
@@ -77,78 +117,15 @@ int main(void)
 		LOG_INF("Compensated humidity value: %d", hum_val.val1);
 		
 		k_sleep(K_MSEC(1000));
-	}
-/*
-	// temperature
-	bme280_data temperature_data = { 0 };
-	char print_buffer[PRINT_BUFFER_SIZE];
-	
-	// ------ file system -------
-	struct fs_file_t file;
-	static const char *disk_pdrv = DISK_DRIVE_NAME;
 
-	// code begins
-	if (setup_bme280()) {
-		printk("BME280 setup failed\n");
-		return -1;
-	}
-
-#if DEBUG_MODE
-	LOG_INF("Debug mode enabled. Logging to file");
-#else
-	// open disk
-	if (disk_access_init(disk_pdrv)) {
-		LOG_ERR("Disk init failed");
-		return -1;
-	}
-
-	// mount disk
-	mp.mnt_point = disk_mount_pt;
-	if (fs_mount(&mp)) {
-		LOG_ERR("Error mounting disk");
-		return -1;
-	}
-
-	printk("Mounting disk at %s\n", disk_mount_pt);
-
-	// list all files and directories on the SD card
-	lsdir(disk_mount_pt);
-
-	// Get today's date
-	time_t now = time(NULL);
-	struct tm *t = localtime(&now);
-	if (t == NULL) {
-		LOG_ERR("Failed to get local time");
-		return -1;
-	}
-
-	if (create_new_file("data.txt", &file, t) != 0) {
-		LOG_ERR("Failed to create new file");
-		return -1;
-	}
-#endif
-
-	while (1) {
-		if (read_temperature_celsius(&temperature_data.temperature_c)) {
-			LOG_ERR("Failed to read temperature in Celsius\n");
-			return -1;
-		}
-
-		if (read_humidity(&temperature_data.humidity)) {
-			LOG_ERR("Failed to read humidity\n");
-			return -1;
-		}
-
-		// Get current time
 		struct timespec ts;
 		if (clock_gettime(CLOCK_REALTIME, &ts) != 0) {
 			LOG_ERR("Failed to get current time\n");
 			return -1;
 		}
-		temperature_data.time = ts.tv_sec;
 
 		// Print reading to console if in debug, otherwise write to file
-		if (bme280_print(print_buffer, PRINT_BUFFER_SIZE, &temperature_data) != 0) {
+		if (bme280_print(print_buffer, PRINT_BUFFER_SIZE, ts.tv_sec, &temp_val, &hum_val) != 0) {
 			LOG_ERR("Failed to format BME280 data\n");
 			return -1;
 		}
@@ -163,7 +140,6 @@ int main(void)
 			return -1;
 		}
 	#endif
-		k_msleep(SLEEP_TIME_MS);
 	}
 
 #if !DEBUG_MODE
@@ -183,6 +159,6 @@ int main(void)
 	// unmount/close disk
 	fs_unmount(&mp);
 #endif
-*/
+
 	return 0;
 }
