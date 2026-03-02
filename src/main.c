@@ -1,14 +1,25 @@
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/sys/printk.h>
 
+// Depth sensor additions
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/devicetree.h>
+
 #include "sensor/bno055/bno055.h"
 #include "led/ws2812/led_driver.h"
-
+#include "bar30/bar30.h"
 
 #define MOVING_AVERAGE_WINDOW 10  // Samples for smoothing
+
+// Constants for pressure to depth conversion
+#define GRAV 9.80665
+#define WATER_DENSITY 997.0474
+#define ATM_PRESSURE 101500
+
+// Reference to sensor in overlay file
+#define I2C_NODE DT_NODELABEL(mysensor)
 
 int pitch_history[MOVING_AVERAGE_WINDOW] = {0}; 
 int history_index = 0;
@@ -23,6 +34,20 @@ int calculate_moving_average() {
 
 int main(void)
 {
+    static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C_NODE);
+
+    // Check if i2c communication is ready for depth-sensor
+    if (!device_is_ready(dev_i2c.bus)) {
+        printk("I2C bus not ready\n");
+        return -1;
+    }
+  
+    // Check if depth-sensor is initialized and ready
+    if (bar30_init(&dev_i2c) != 0) {
+        printk("Initialization failed\n");
+        return -1;
+    }
+  
     if(setup_led()) {
         printk("Failed to setup LED\n");
         return -1;
@@ -37,8 +62,20 @@ int main(void)
     struct bno055_euler_t euler;
 
     while(1) {
-        read_euler_hrp(&euler);
+      
+        int32_t pressure_pa;
 
+        if (bar30_read_pressure_pa(&dev_i2c, &pressure_pa) == 0) {
+            double depth = (pressure_pa - ATM_PRESSURE) / (GRAV * WATER_DENSITY);
+
+            printk("Pressure: %d Pa\n", pressure_pa);
+            printk("Depth: %.2lf m\n", depth);
+        } else {
+            printk("Read failed\n");
+        }
+      
+        read_euler_hrp(&euler);
+        
         // If values are too big, assume centidegrees
         int corrected_pitch = euler.p;
         if (corrected_pitch > 1000 || corrected_pitch < -1000) {
