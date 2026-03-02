@@ -1,0 +1,15 @@
+
+description: Bosch Gyro Accelerometer
+
+compatible: "bosch,bno055"
+
+include: i2c-device.yaml
+
+properties:
+  model:
+    type: string
+    required: true
+    description: |
+      The sensor model in use
+    enum:
+        - "bno055"

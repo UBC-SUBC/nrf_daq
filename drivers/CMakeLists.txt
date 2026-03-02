@@ -1,1 +1,3 @@
-add_subdirectory(bar30)
+add_subdirectory_ifdef(CONFIG_SENSOR bar30)
+add_subdirectory_ifdef(CONFIG_SENSOR sensor)
+add_subdirectory_ifdef(CONFIG_SENSOR led)
